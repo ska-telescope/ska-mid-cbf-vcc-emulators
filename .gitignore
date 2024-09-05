@@ -1,0 +1,8 @@
+docs/build/*
+build/*
+MANIFEST.*
+.env
+PrivateRules.mak
+
+.cache
+__pycache__
