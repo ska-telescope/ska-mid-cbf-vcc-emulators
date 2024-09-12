@@ -1,0 +1,4141 @@
+{
+    "name": "Intel Agilex F-Tile 400GbE (base)",
+    "mnemonic": "ftile_ethernet_base",
+    "version": "24.2.0",
+    "desc": [
+        "For full documentation refer to the Intel Documentation for the IP core."
+    ],
+    "registers": {
+        "phy_tx_pll_locked": {
+            "name": "PHY_TX_PLL_LOCKED",
+            "addressOffset": "0x110",
+            "desc": [
+                "TX PLL locked ",
+                "TX PLL used by the corresponding physical lane is locked"
+            ],
+            "fields": {
+                "tx_pll_locked": {
+                    "name": "TX_PLL_LOCKED",
+                    "bitOffset": 0,
+                    "bitWidth": 8,
+                    "access": "ro",
+                    "desc": [
+                        "TX PLL Locked ",
+                        "1:TX PLL used by this lane physical lane is locked"
+                    ]
+                }
+            }
+        },
+        "phy_eiofreq_locked": {
+            "name": "PHY_EIOFREQ_LOCKED",
+            "addressOffset": "0x114",
+            "desc": [
+                "RX CDR PLL locked ",
+                "One field per physical lane to indicate whether or not each CDR successfully locks to the incoming data stream. FHT and FGT PMAs share the same register bits."
+            ],
+            "fields": {
+                "eio_freq_lock": {
+                    "name": "EIO_FREQ_LOCK",
+                    "bitOffset": 0,
+                    "bitWidth": 8,
+                    "access": "ro",
+                    "desc": [
+                        "CDR PLL locked ",
+                        "1:Corresponding physical lane's CDR has locked to reference"
+                    ]
+                }
+            }
+        },
+        "pcs_status": {
+            "name": "PCS_STATUS",
+            "addressOffset": "0x118",
+            "desc": [
+                "PCS status Includes the following fields: ",
+                "",
+                "- dskew_status",
+                "- dskew_chng",
+                "- tx_lanes_stable",
+                "- rx_pcs_ready",
+                "- kr_mode",
+                "- kr_fec_mode",
+                ""
+            ],
+            "fields": {
+                "dskew_status": {
+                    "name": "DSKEW_STATUS",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Deskewed status ",
+                        "1:RX EMIB is deskewed ",
+                        "0:RX EMIB is not currently deskewed. Note: There is some latency between this status bit and the actual state ",
+                        "",
+                        "- Not valid for single lane channels (10G/25G) without PTP",
+                        "- Note: This bit is not a sticky bit. Intel recommends using a soft logic replacement for this bit that can be made sticky based on the deskew_done port. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "dskew_chng_0": {
+                    "name": "DSKEW_CHNG_0",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Change in deskewed status ",
+                        "1:RX EMIB went from deskewed to not deskewed, or from not deskewed to deskewed ",
+                        "",
+                        "- Not valid for single lane channels (10G/25G) without PTP",
+                        "- This bit is sticky - use pcs_control.clr_dskew_chng to set this bit back to 0",
+                        "- Resetting the RX datapath, or the entire core will also clear the bit.",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_lanes_stable": {
+                    "name": "TX_LANES_STABLE",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "TX Lanes Stable ",
+                        "1:TX datapath is ready"
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_pcs_ready": {
+                    "name": "RX_PCS_READY",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "RX PCS Ready ",
+                        "1:RX datapath is ready"
+                    ],
+                    "ftype": "boolean"
+                },
+                "kr_mode": {
+                    "name": "KR_MODE",
+                    "bitOffset": 4,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "AN/LT mode ",
+                        "1:Port is currently executing in AN/LT mode"
+                    ],
+                    "ftype": "boolean"
+                },
+                "kr_fec_mode": {
+                    "name": "KR_FEC_MODE",
+                    "bitOffset": 5,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "AN/LT FEC mode ",
+                        "1:AN has negotiated FEC enable mode"
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "pcs_control": {
+            "name": "PCS_CONTROL",
+            "addressOffset": "0x11C",
+            "desc": [
+                "PCS Control Includes the following field: ",
+                "- clr_dskew_chng",
+                ""
+            ],
+            "fields": {
+                "clr_dskew_chng": {
+                    "name": "CLR_DSKEW_CHNG",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Clear EMIB deskew ",
+                        "Not a self clearing bit. You must write 1'b1 and then 1'b0 to clear this bit."
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "clk_tx_khz": {
+            "name": "CLK_TX_KHZ",
+            "addressOffset": "0x128",
+            "desc": [
+                "i_clk_tx Clock Frequency (in kHz)"
+            ],
+            "fields": {
+                "clk_tx_khz": {
+                    "name": "CLK_TX_KHZ",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "i_clk_tx clock frequency in KHz"
+                    ]
+                }
+            }
+        },
+        "clk_rx_khz": {
+            "name": "CLK_RX_KHZ",
+            "addressOffset": "0x12C",
+            "desc": [
+                "i_clk_rx Clock Frequency (in kHz)"
+            ],
+            "fields": {
+                "clk_rx_khz": {
+                    "name": "CLK_RX_KHZ",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "i_clk_rx clock frequency in KHz"
+                    ]
+                }
+            }
+        },
+        "clk_pll_khz": {
+            "name": "CLK_PLL_KHZ",
+            "addressOffset": "0x130",
+            "desc": [
+                "o_clk_pll Clock Frequency (in kHz)"
+            ],
+            "fields": {
+                "clk_pll_khz": {
+                    "name": "CLK_PLL_KHZ",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "o_clk_pll clock frequency in KHz"
+                    ]
+                }
+            }
+        },
+        "clk_tx_div_khz": {
+            "name": "CLK_TX_DIV_KHZ",
+            "addressOffset": "0x134",
+            "desc": [
+                "o_clk_tx_div Clock Frequency (in kHz)"
+            ],
+            "fields": {
+                "clk_tx_div_khz": {
+                    "name": "CLK_TX_DIV_KHZ",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "o_clk_tx_div clock frequency in KHz"
+                    ]
+                }
+            }
+        },
+        "clk_rec_div64_khz": {
+            "name": "CLK_REC_DIV64_KHZ",
+            "addressOffset": "0x138",
+            "desc": [
+                "o_clk_rec_div64 Clock Frequency (in kHz)"
+            ],
+            "fields": {
+                "clk_rec_div64_khz": {
+                    "name": "CLK_REC_DIV64_KHZ",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "o_clk_rec_div64 clock frequency in KHz"
+                    ]
+                }
+            }
+        },
+        "clk_rec_div_khz": {
+            "name": "CLK_REC_DIV_KHZ",
+            "addressOffset": "0x13C",
+            "desc": [
+                "o_clk_rec_div Clock Frequency (in kHz)"
+            ],
+            "fields": {
+                "clk_rec_div_khz": {
+                    "name": "CLK_REC_DIV_KHZ",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "o_clk_rec_div clock frequency in KHz"
+                    ]
+                }
+            }
+        },
+        "ptp_tx_tam_adjust": {
+            "name": "PTP_TX_TAM_ADJUST",
+            "addressOffset": "0x800",
+            "desc": [
+                "Calculated TX TAM Adjustment Value"
+            ],
+            "fields": {
+                "tam_adjust_0": {
+                    "name": "TAM_ADJUST_0",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "rw",
+                    "desc": [
+                        "",
+                        "32 bit of TAM adjustment value in 2's complement format for specific physical lane."
+                    ],
+                    "reset": 0
+                }
+            }
+        },
+        "ptp_rx_tam_adjust": {
+            "name": "PTP_RX_TAM_ADJUST",
+            "addressOffset": "0x804",
+            "desc": [
+                "Calculated RX TAM Adjustment Value"
+            ],
+            "fields": {
+                "tam_adjust_1": {
+                    "name": "TAM_ADJUST_1",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "rw",
+                    "desc": [
+                        "",
+                        "32 bit of TAM adjustment value in 2's complement format for specific physical lane."
+                    ],
+                    "reset": 0
+                }
+            }
+        },
+        "ptp_ref_lane": {
+            "name": "PTP_REF_LANE",
+            "addressOffset": "0x80C",
+            "desc": [
+                "Physical lane that TAM associates with ",
+                "Only applicable to multi-lane designs."
+            ],
+            "fields": {
+                "tx_ref_lane": {
+                    "name": "TX_REF_LANE",
+                    "bitOffset": 0,
+                    "bitWidth": 3,
+                    "access": "rw",
+                    "desc": [
+                        "TX Reference Lane ",
+                        "3 bit number of TX physical lane (any can be reference). ",
+                        "",
+                        "",
+                        "- Resetting TX datapath, or the entire core will clear this bit to 0.",
+                        "",
+                        "See User Guide for calculation details. ",
+                        ""
+                    ],
+                    "reset": "0b000"
+                },
+                "rx_ref_lane": {
+                    "name": "RX_REF_LANE",
+                    "bitOffset": 3,
+                    "bitWidth": 3,
+                    "access": "rw",
+                    "desc": [
+                        "RX Reference Lane ",
+                        "3 bit number of RX physical lane which packet last arrives at. ",
+                        "",
+                        "",
+                        "- rx_pcs_fully_aligned deassertion will clear the bits to 0.",
+                        "- Resetting RX datapath or the entire core will also clear the bits to 0.",
+                        "",
+                        "See User Guide for calculation details. ",
+                        ""
+                    ],
+                    "reset": "0b000"
+                }
+            }
+        },
+        "ptp_dr_cfg": {
+            "name": "PTP_DR_CFG",
+            "addressOffset": "0x810",
+            "desc": [
+                "TX User Configuration Status"
+            ],
+            "fields": {
+                "tx_ehip_preamble_passthrough": {
+                    "name": "TX_EHIP_PREAMBLE_PASSTHROUGH",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "",
+                        "Identical to Ethernet Hard IP TX Preamble Passthrough setting value. ",
+                        "-1: Ethernet Hard IP Preamble Passthrough enabled",
+                        "- 0: Ethernet Hard IP Preamble Passthrough disabled.",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "ptp_tx_user_cfg_status": {
+            "name": "PTP_TX_USER_CFG_STATUS",
+            "addressOffset": "0x814",
+            "desc": [
+                "TX User Configuration Status"
+            ],
+            "fields": {
+                "tx_user_cfg_done": {
+                    "name": "TX_USER_CFG_DONE",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "",
+                        "Indicates user has completed all necessary TX configuration: ",
+                        "1: Configured ",
+                        "0: Not configured yet ",
+                        "TX configuration has programmed TX TAM adjustment to Soft IP. ",
+                        "TX configuration is completed when user has: ",
+                        "- programmed TX reference lane (multi-lane variant only) and TX TAM adjustment to Soft IP ",
+                        "- programmed TX extra latency to Hard IP",
+                        "- programmed TX VL offset to Hard IP (multi-lane variant only)",
+                        "",
+                        "Register value is automatically cleared in the following condition: ",
+                        "- tx_lanes_stable deassertion",
+                        "- Resetting TX datapath or the entire core",
+                        ""
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "ptp_rx_user_cfg_status": {
+            "name": "PTP_RX_USER_CFG_STATUS",
+            "addressOffset": "0x818",
+            "desc": [
+                "RX User Configuration Status"
+            ],
+            "fields": {
+                "rx_user_cfg_done": {
+                    "name": "RX_USER_CFG_DONE",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "",
+                        "Indicates user has completed all necessary RX configuration: ",
+                        "1: Configured 0: Not configured yet ",
+                        "RX configuration has programmed RX TAM adjustment to Soft IP ",
+                        "RX configuration is completed when user has: ",
+                        "- programmed RX reference lane (multi-lane variant only) and RX TAM adjustment to Soft IP ",
+                        "- programmed RX extra latency to Hard IP",
+                        "- programmed RX VL offset to Hard IP (multi-lane variant only)",
+                        "",
+                        "Register value is automatically cleared in the following condition: ",
+                        "- tx_lanes_stable deassertion",
+                        "- Resetting RX datapath or the entire core",
+                        ""
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                },
+                "rx_fec_cw_pos_cfg_done": {
+                    "name": "RX_FEC_CW_POS_CFG_DONE",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "",
+                        "Indicates user has configured Hard IP's RX FEC codeword position register: ",
+                        "1: Configured 0: Not configured yet ",
+                        "",
+                        "Register value will be automatically cleared in the following condition: ",
+                        "- rx_pcs_fully_aligned deassertion",
+                        "- Resetting RX datapath or the entire core",
+                        ""
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "ptp_uim_tam_snapshot": {
+            "name": "PTP_UIM_TAM_SNAPSHOT",
+            "addressOffset": "0x81C",
+            "desc": [
+                "Request TAM snapshot to calculate unit interval (UI) ",
+                "TX and RX TAM snapshot are independent."
+            ],
+            "fields": {
+                "tx_tam_snapshot": {
+                    "name": "TX_TAM_SNAPSHOT",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Set this bit to 1'b1 to request TX TAM snapshot ",
+                        "Asserting this bit generates a single pulse to hardware"
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                },
+                "rx_tam_snapshot": {
+                    "name": "RX_TAM_SNAPSHOT",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Set this bit to 1'b1 to request RX TAM snapshot ",
+                        "Asserting this bit generates a single pulse to hardware"
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "ptp_tx_uim_tam_info0": {
+            "name": "PTP_TX_UIM_TAM_INFO0",
+            "addressOffset": "0x820",
+            "desc": [
+                "Result returned upon TAM snapshot request ",
+                "Consists of TAM partial bits."
+            ],
+            "fields": {
+                "tam_31_0_0": {
+                    "name": "TAM_31_0_0",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "TAM lower bits ",
+                        "bit 31-0 of TAM"
+                    ]
+                }
+            }
+        },
+        "ptp_tx_uim_tam_info1": {
+            "name": "PTP_TX_UIM_TAM_INFO1",
+            "addressOffset": "0x824",
+            "desc": [
+                "Result returned upon TAM snapshot request ",
+                "Consists of TAM partial bits, TAM ID, and TAM valid bit."
+            ],
+            "fields": {
+                "tam_47_32_0": {
+                    "name": "TAM_47_32_0",
+                    "bitOffset": 0,
+                    "bitWidth": 16,
+                    "access": "ro",
+                    "desc": [
+                        "TAM upper bits ",
+                        "bit 47-32 of TAM"
+                    ]
+                },
+                "tam_cnt_0": {
+                    "name": "TAM_CNT_0",
+                    "bitOffset": 16,
+                    "bitWidth": 15,
+                    "access": "ro",
+                    "desc": [
+                        "TAM counter ",
+                        "15 bits of TAM counter"
+                    ]
+                },
+                "tam_valid_0": {
+                    "name": "TAM_VALID_0",
+                    "bitOffset": 31,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "TAM valid ",
+                        "1 bits of TAM valid"
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "ptp_rx_uim_tam_info0": {
+            "name": "PTP_RX_UIM_TAM_INFO0",
+            "addressOffset": "0x828",
+            "desc": [
+                "Result returned upon TAM snapshot request ",
+                "Consists of TAM partial bits."
+            ],
+            "fields": {
+                "tam_31_0_1": {
+                    "name": "TAM_31_0_1",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "TAM lower bits ",
+                        "bit 31-0 of TAM"
+                    ]
+                }
+            }
+        },
+        "ptp_rx_uim_tam_info1": {
+            "name": "PTP_RX_UIM_TAM_INFO1",
+            "addressOffset": "0x82C",
+            "desc": [
+                "Result returned upon TAM snapshot request ",
+                "Consists of TAM partial bits, TAM ID, and TAM valid bit."
+            ],
+            "fields": {
+                "tam_47_32_1": {
+                    "name": "TAM_47_32_1",
+                    "bitOffset": 0,
+                    "bitWidth": 16,
+                    "access": "ro",
+                    "desc": [
+                        "TAM upper bits ",
+                        "bit 47-32 of TAM"
+                    ]
+                },
+                "tam_cnt_1": {
+                    "name": "TAM_CNT_1",
+                    "bitOffset": 16,
+                    "bitWidth": 15,
+                    "access": "ro",
+                    "desc": [
+                        "TAM counter ",
+                        "15 bits of TAM counter"
+                    ]
+                },
+                "tam_valid_1": {
+                    "name": "TAM_VALID_1",
+                    "bitOffset": 31,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "TAM valid ",
+                        "1 bits of TAM valid"
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "ptp_status": {
+            "name": "PTP_STATUS",
+            "addressOffset": "0x830",
+            "desc": [
+                "PTP Status Register"
+            ],
+            "fields": {
+                "tx_ptp_offset_data_valid": {
+                    "name": "TX_PTP_OFFSET_DATA_VALID",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "TX calculation data valid/ready to read ",
+                        "1: valid"
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_ptp_offset_data_valid": {
+                    "name": "RX_PTP_OFFSET_DATA_VALID",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "RX calculation data valid/ready to read ",
+                        "1: valid"
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_ptp_ready": {
+                    "name": "TX_PTP_READY",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "TX PTP is ready ",
+                        "1: ready"
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_ptp_ready": {
+                    "name": "RX_PTP_READY",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "RX PTP is ready ",
+                        "1: ready"
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "ptp_status2": {
+            "name": "PTP_STATUS2",
+            "addressOffset": "0x840",
+            "desc": [
+                "PTP Status2 Register (Internal Use)"
+            ],
+            "fields": {
+                "tx_calc_data_time_valid": {
+                    "name": "TX_CALC_DATA_TIME_VALID",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "TX calculation data 'time' is valid/ready to read ",
+                        "1: valid"
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_calc_data_wiredelay_valid": {
+                    "name": "TX_CALC_DATA_WIREDELAY_VALID",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "TX calculation data 'wire delay' is valid/ready to read ",
+                        "1: valid"
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_calc_data_offset_valid": {
+                    "name": "RX_CALC_DATA_OFFSET_VALID",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "RX calculation data 'time offset' is valid/ready to read ",
+                        "1: valid"
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_calc_data_time_valid": {
+                    "name": "RX_CALC_DATA_TIME_VALID",
+                    "bitOffset": 4,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "RX calculation data 'time' is valid/ready to read ",
+                        "1: valid"
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_calc_data_wiredelay_valid": {
+                    "name": "RX_CALC_DATA_WIREDELAY_VALID",
+                    "bitOffset": 5,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "RX calculation data 'wire delay' is valid/ready to read ",
+                        "1: valid"
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_vl_offset_data_ready": {
+                    "name": "RX_VL_OFFSET_DATA_READY",
+                    "bitOffset": 6,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "(For multilane non-fec variant only)RX VL raw data in EHIP is ready to read ",
+                        "1: ready"
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "ptp_tx_lane_calc_data_constdelay": {
+            "name": "PTP_TX_LANE_CALC_DATA_CONSTDELAY",
+            "addressOffset": "0x8F0",
+            "desc": [
+                "Constant delay value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_constdelay_0": {
+                    "name": "DATA_CONSTDELAY_0",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Constant delay for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane_calc_data_constdelay": {
+            "name": "PTP_RX_LANE_CALC_DATA_CONSTDELAY",
+            "addressOffset": "0x8F4",
+            "desc": [
+                "Constant delay value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_constdelay_1": {
+                    "name": "DATA_CONSTDELAY_1",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Constant delay for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane0_calc_data_offset": {
+            "name": "PTP_TX_LANE0_CALC_DATA_OFFSET",
+            "addressOffset": "0x900",
+            "desc": [
+                "Time offset value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_0": {
+                    "name": "DATA_OFFSET_0",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane0_calc_data_offset": {
+            "name": "PTP_RX_LANE0_CALC_DATA_OFFSET",
+            "addressOffset": "0x904",
+            "desc": [
+                "Time offset value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_1": {
+                    "name": "DATA_OFFSET_1",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane0_calc_data_time": {
+            "name": "PTP_TX_LANE0_CALC_DATA_TIME",
+            "addressOffset": "0x908",
+            "desc": [
+                "Time value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_0": {
+                    "name": "DATA_TIME_0",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane0_calc_data_time": {
+            "name": "PTP_RX_LANE0_CALC_DATA_TIME",
+            "addressOffset": "0x90C",
+            "desc": [
+                "Time value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_1": {
+                    "name": "DATA_TIME_1",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane0_calc_data_wiredelay": {
+            "name": "PTP_TX_LANE0_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x910",
+            "desc": [
+                "Wire delay value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_0": {
+                    "name": "DATA_WIREDELAY_0",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane0_calc_data_wiredelay": {
+            "name": "PTP_RX_LANE0_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x914",
+            "desc": [
+                "Wire delay value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_1": {
+                    "name": "DATA_WIREDELAY_1",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane1_calc_data_offset": {
+            "name": "PTP_TX_LANE1_CALC_DATA_OFFSET",
+            "addressOffset": "0x920",
+            "desc": [
+                "Time offset value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_2": {
+                    "name": "DATA_OFFSET_2",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane1_calc_data_offset": {
+            "name": "PTP_RX_LANE1_CALC_DATA_OFFSET",
+            "addressOffset": "0x924",
+            "desc": [
+                "Time offset value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_3": {
+                    "name": "DATA_OFFSET_3",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane1_calc_data_time": {
+            "name": "PTP_TX_LANE1_CALC_DATA_TIME",
+            "addressOffset": "0x928",
+            "desc": [
+                "Time value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_2": {
+                    "name": "DATA_TIME_2",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane1_calc_data_time": {
+            "name": "PTP_RX_LANE1_CALC_DATA_TIME",
+            "addressOffset": "0x92C",
+            "desc": [
+                "Time value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_3": {
+                    "name": "DATA_TIME_3",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane1_calc_data_wiredelay": {
+            "name": "PTP_TX_LANE1_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x930",
+            "desc": [
+                "Wire delay value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_2": {
+                    "name": "DATA_WIREDELAY_2",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane1_calc_data_wiredelay": {
+            "name": "PTP_RX_LANE1_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x934",
+            "desc": [
+                "Wire delay value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_3": {
+                    "name": "DATA_WIREDELAY_3",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane2_calc_data_offset": {
+            "name": "PTP_TX_LANE2_CALC_DATA_OFFSET",
+            "addressOffset": "0x940",
+            "desc": [
+                "Time offset value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_4": {
+                    "name": "DATA_OFFSET_4",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane2_calc_data_offset": {
+            "name": "PTP_RX_LANE2_CALC_DATA_OFFSET",
+            "addressOffset": "0x944",
+            "desc": [
+                "Time offset value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_5": {
+                    "name": "DATA_OFFSET_5",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane2_calc_data_time": {
+            "name": "PTP_TX_LANE2_CALC_DATA_TIME",
+            "addressOffset": "0x948",
+            "desc": [
+                "Time value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_4": {
+                    "name": "DATA_TIME_4",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane2_calc_data_time": {
+            "name": "PTP_RX_LANE2_CALC_DATA_TIME",
+            "addressOffset": "0x94C",
+            "desc": [
+                "Time value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_5": {
+                    "name": "DATA_TIME_5",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane2_calc_data_wiredelay": {
+            "name": "PTP_TX_LANE2_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x950",
+            "desc": [
+                "Wire delay value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_4": {
+                    "name": "DATA_WIREDELAY_4",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane2_calc_data_wiredelay": {
+            "name": "PTP_RX_LANE2_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x954",
+            "desc": [
+                "Wire delay value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_5": {
+                    "name": "DATA_WIREDELAY_5",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane3_calc_data_offset": {
+            "name": "PTP_TX_LANE3_CALC_DATA_OFFSET",
+            "addressOffset": "0x960",
+            "desc": [
+                "Time offset value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_6": {
+                    "name": "DATA_OFFSET_6",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane3_calc_data_offset": {
+            "name": "PTP_RX_LANE3_CALC_DATA_OFFSET",
+            "addressOffset": "0x964",
+            "desc": [
+                "Time offset value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_7": {
+                    "name": "DATA_OFFSET_7",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane3_calc_data_time": {
+            "name": "PTP_TX_LANE3_CALC_DATA_TIME",
+            "addressOffset": "0x968",
+            "desc": [
+                "Time value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_6": {
+                    "name": "DATA_TIME_6",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane3_calc_data_time": {
+            "name": "PTP_RX_LANE3_CALC_DATA_TIME",
+            "addressOffset": "0x96C",
+            "desc": [
+                "Time value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_7": {
+                    "name": "DATA_TIME_7",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane3_calc_data_wiredelay": {
+            "name": "PTP_TX_LANE3_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x970",
+            "desc": [
+                "Wire delay value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_6": {
+                    "name": "DATA_WIREDELAY_6",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane3_calc_data_wiredelay": {
+            "name": "PTP_RX_LANE3_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x974",
+            "desc": [
+                "Wire delay value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_7": {
+                    "name": "DATA_WIREDELAY_7",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane4_calc_data_offset": {
+            "name": "PTP_TX_LANE4_CALC_DATA_OFFSET",
+            "addressOffset": "0x980",
+            "desc": [
+                "Time offset value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_8": {
+                    "name": "DATA_OFFSET_8",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific TX physical lan0.e"
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane4_calc_data_offset": {
+            "name": "PTP_RX_LANE4_CALC_DATA_OFFSET",
+            "addressOffset": "0x984",
+            "desc": [
+                "Time offset value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_9": {
+                    "name": "DATA_OFFSET_9",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane4_calc_data_time": {
+            "name": "PTP_TX_LANE4_CALC_DATA_TIME",
+            "addressOffset": "0x988",
+            "desc": [
+                "Time value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_8": {
+                    "name": "DATA_TIME_8",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane4_calc_data_time": {
+            "name": "PTP_RX_LANE4_CALC_DATA_TIME",
+            "addressOffset": "0x98C",
+            "desc": [
+                "Time value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_9": {
+                    "name": "DATA_TIME_9",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane4_calc_data_wiredelay": {
+            "name": "PTP_TX_LANE4_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x990",
+            "desc": [
+                "Wire delay value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_8": {
+                    "name": "DATA_WIREDELAY_8",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "> ",
+                        "Wire delay for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane4_calc_data_wiredelay": {
+            "name": "PTP_RX_LANE4_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x994",
+            "desc": [
+                "Wire delay value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_9": {
+                    "name": "DATA_WIREDELAY_9",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane5_calc_data_offset": {
+            "name": "PTP_TX_LANE5_CALC_DATA_OFFSET",
+            "addressOffset": "0x9A0",
+            "desc": [
+                "Time offset value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_10": {
+                    "name": "DATA_OFFSET_10",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane5_calc_data_offset": {
+            "name": "PTP_RX_LANE5_CALC_DATA_OFFSET",
+            "addressOffset": "0x9A4",
+            "desc": [
+                "Time offset value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_11": {
+                    "name": "DATA_OFFSET_11",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane5_calc_data_time": {
+            "name": "PTP_TX_LANE5_CALC_DATA_TIME",
+            "addressOffset": "0x9A8",
+            "desc": [
+                "Time value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_10": {
+                    "name": "DATA_TIME_10",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane5_calc_data_time": {
+            "name": "PTP_RX_LANE5_CALC_DATA_TIME",
+            "addressOffset": "0x9AC",
+            "desc": [
+                "Time value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_11": {
+                    "name": "DATA_TIME_11",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane5_calc_data_wiredelay": {
+            "name": "PTP_TX_LANE5_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x9B0",
+            "desc": [
+                "Wire delay value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_10": {
+                    "name": "DATA_WIREDELAY_10",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane5_calc_data_wiredelay": {
+            "name": "PTP_RX_LANE5_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x9B4",
+            "desc": [
+                "Wire delay value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_11": {
+                    "name": "DATA_WIREDELAY_11",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane6_calc_data_offset": {
+            "name": "PTP_TX_LANE6_CALC_DATA_OFFSET",
+            "addressOffset": "0x9C0",
+            "desc": [
+                "Time offset value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_12": {
+                    "name": "DATA_OFFSET_12",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane6_calc_data_offset": {
+            "name": "PTP_RX_LANE6_CALC_DATA_OFFSET",
+            "addressOffset": "0x9C4",
+            "desc": [
+                "Time offset value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_13": {
+                    "name": "DATA_OFFSET_13",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane6_calc_data_time": {
+            "name": "PTP_TX_LANE6_CALC_DATA_TIME",
+            "addressOffset": "0x9C8",
+            "desc": [
+                "Time value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_12": {
+                    "name": "DATA_TIME_12",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane6_calc_data_time": {
+            "name": "PTP_RX_LANE6_CALC_DATA_TIME",
+            "addressOffset": "0x9CC",
+            "desc": [
+                "Time value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_13": {
+                    "name": "DATA_TIME_13",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane6_calc_data_wiredelay": {
+            "name": "PTP_TX_LANE6_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x9D0",
+            "desc": [
+                "Wire delay value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_12": {
+                    "name": "DATA_WIREDELAY_12",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane6_calc_data_wiredelay": {
+            "name": "PTP_RX_LANE6_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x9D4",
+            "desc": [
+                "Wire delay value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_13": {
+                    "name": "DATA_WIREDELAY_13",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane7_calc_data_offset": {
+            "name": "PTP_TX_LANE7_CALC_DATA_OFFSET",
+            "addressOffset": "0x9E0",
+            "desc": [
+                "Time offset value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_14": {
+                    "name": "DATA_OFFSET_14",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane7_calc_data_offset": {
+            "name": "PTP_RX_LANE7_CALC_DATA_OFFSET",
+            "addressOffset": "0x9E4",
+            "desc": [
+                "Time offset value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_offset_15": {
+                    "name": "DATA_OFFSET_15",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Time offset for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane7_calc_data_time": {
+            "name": "PTP_TX_LANE7_CALC_DATA_TIME",
+            "addressOffset": "0x9E8",
+            "desc": [
+                "Time value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_14": {
+                    "name": "DATA_TIME_14",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane7_calc_data_time": {
+            "name": "PTP_RX_LANE7_CALC_DATA_TIME",
+            "addressOffset": "0x9EC",
+            "desc": [
+                "Time value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_time_15": {
+                    "name": "DATA_TIME_15",
+                    "bitOffset": 0,
+                    "bitWidth": 28,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Marker time for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_tx_lane7_calc_data_wiredelay": {
+            "name": "PTP_TX_LANE7_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x9F0",
+            "desc": [
+                "Wire delay value used in TX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_14": {
+                    "name": "DATA_WIREDELAY_14",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific TX physical lane."
+                    ]
+                }
+            }
+        },
+        "ptp_rx_lane7_calc_data_wiredelay": {
+            "name": "PTP_RX_LANE7_CALC_DATA_WIREDELAY",
+            "addressOffset": "0x9F4",
+            "desc": [
+                "Wire delay value used in RX TAM adjustment calculation"
+            ],
+            "fields": {
+                "data_wiredelay_15": {
+                    "name": "DATA_WIREDELAY_15",
+                    "bitOffset": 0,
+                    "bitWidth": 20,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Wire delay for specific RX physical lane."
+                    ]
+                }
+            }
+        },
+        "rxmac_adapt_dropped_31_0": {
+            "name": "RXMAC_ADAPT_DROPPED_31_0",
+            "addressOffset": "0x140",
+            "desc": [
+                "RX MAC adapter dropped frame counter lower bits"
+            ],
+            "fields": {
+                "rxmac_adapt_dropped_31_0": {
+                    "name": "RXMAC_ADAPT_DROPPED_31_0",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Bits [31:0] of RX MAC adapter dropped frame counter."
+                    ]
+                }
+            }
+        },
+        "rxmac_adapt_dropped_63_32": {
+            "name": "RXMAC_ADAPT_DROPPED_63_32",
+            "addressOffset": "0x144",
+            "desc": [
+                "RX MAC adapter dropped frame counter upper bits"
+            ],
+            "fields": {
+                "rxmac_adapt_dropped_63_32": {
+                    "name": "RXMAC_ADAPT_DROPPED_63_32",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "",
+                        "Bits [63:32] of RXMAC adapter dropped frame counter."
+                    ]
+                }
+            }
+        },
+        "rxmac_adapt_dropped_control": {
+            "name": "RXMAC_ADAPT_DROPPED_CONTROL",
+            "addressOffset": "0x148",
+            "desc": [
+                "RX MAC Adapter Control"
+            ],
+            "fields": {
+                "rxmac_adapt_dropped_snapshot": {
+                    "name": "RXMAC_ADAPT_DROPPED_SNAPSHOT",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "",
+                        "Snapshot RXMAC adapter dropped counter."
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                },
+                "rxmac_adapt_dropped_clear": {
+                    "name": "RXMAC_ADAPT_DROPPED_CLEAR",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "",
+                        "Clear RXMAC adapter dropped counter."
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "cwbin_control_register": {
+            "name": "CWBIN_CONTROL_REGISTER",
+            "addressOffset": "0x400",
+            "desc": [
+                "Soft cwbin control register ",
+                "1 : resets the cwbin module"
+            ],
+            "fields": {
+                "cwbin_control_register": {
+                    "name": "CWBIN_CONTROL_REGISTER",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Soft cwbin control register ",
+                        "1 : resets the cwbin module"
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "cwbin0_A": {
+            "name": "CWBIN0_A",
+            "addressOffset": "0x404",
+            "desc": [
+                "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 0 Errors are accumulated to 32 bit counter Block A"
+            ],
+            "fields": {
+                "cwbin0_a": {
+                    "name": "CWBIN0_A",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 0 Errors are accumulated to 32 bit counter Block A"
+                    ]
+                }
+            }
+        },
+        "cwbin1_A": {
+            "name": "CWBIN1_A",
+            "addressOffset": "0x408",
+            "desc": [
+                "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 1 Errors are accumulated to 32 bit counter Block A"
+            ],
+            "fields": {
+                "cwbin1_a": {
+                    "name": "CWBIN1_A",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 1 Errors are accumulated to 32 bit counter Block A"
+                    ]
+                }
+            }
+        },
+        "cwbin2_A": {
+            "name": "CWBIN2_A",
+            "addressOffset": "0x40C",
+            "desc": [
+                "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 2 Errors are accumulated to 32 bit counter Block A"
+            ],
+            "fields": {
+                "cwbin2_a": {
+                    "name": "CWBIN2_A",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 2 Errors are accumulated to 32 bit counter Block A"
+                    ]
+                }
+            }
+        },
+        "cwbin3_A": {
+            "name": "CWBIN3_A",
+            "addressOffset": "0x410",
+            "desc": [
+                "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 3 Errors are accumulated to 32 bit counter Block A"
+            ],
+            "fields": {
+                "cwbin3_a": {
+                    "name": "CWBIN3_A",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 3 Errors are accumulated to 32 bit counter Block A"
+                    ]
+                }
+            }
+        },
+        "cwbin0_B": {
+            "name": "CWBIN0_B",
+            "addressOffset": "0x414",
+            "desc": [
+                "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 0 Errors are accumulated to 32 bit counter BlockB"
+            ],
+            "fields": {
+                "cwbin0_b": {
+                    "name": "CWBIN0_B",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 0 Errors are accumulated to 32 bit counter BlockB"
+                    ]
+                }
+            }
+        },
+        "cwbin1_B": {
+            "name": "CWBIN1_B",
+            "addressOffset": "0x418",
+            "desc": [
+                "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 1 Errors are accumulated to 32 bit counter Block B"
+            ],
+            "fields": {
+                "cwbin1_b": {
+                    "name": "CWBIN1_B",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 1 Errors are accumulated to 32 bit counter Block B"
+                    ]
+                }
+            }
+        },
+        "cwbin2_B": {
+            "name": "CWBIN2_B",
+            "addressOffset": "0x41C",
+            "desc": [
+                "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 2 Errors are accumulated to 32 bit counter Block B"
+            ],
+            "fields": {
+                "cwbin2_b": {
+                    "name": "CWBIN2_B",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 2 Errors are accumulated to 32 bit counter Block B"
+                    ]
+                }
+            }
+        },
+        "cwbin3_B": {
+            "name": "CWBIN3_B",
+            "addressOffset": "0x420",
+            "desc": [
+                "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 3 Errors are accumulated to 32 bit counter Block B"
+            ],
+            "fields": {
+                "cwbin3_b": {
+                    "name": "CWBIN3_B",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Hard IP rsfec_corr_cwbin_cnt_0_3 - cwbin 3 Errors are accumulated to 32 bit counter Block B"
+                    ]
+                }
+            }
+        },
+        "eth_reset": {
+            "name": "ETH_RESET",
+            "addressOffset": "0x108",
+            "desc": [
+                "IP Soft Reset Register ",
+                "Includes the following: ",
+                "- eio_sys_rst (Soft Global Reset)",
+                "- soft_tx_rst (Soft TX Reset)",
+                "- soft_rx_rst (Soft RX Reset)",
+                "- tx_clear_alarm (Clear TX Reset Alarm)",
+                "- rx_clear_alarm (Clear RX Reset Alarm)",
+                ""
+            ],
+            "fields": {
+                "eio_sys_rst": {
+                    "name": "EIO_SYS_RST",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Soft Global Reset ",
+                        "1: Global Reset (Reset datapath and all CSR registers) ",
+                        ""
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                },
+                "soft_tx_rst": {
+                    "name": "SOFT_TX_RST",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Soft TX Reset ",
+                        "1:Reset the TX datapath"
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                },
+                "soft_rx_rst": {
+                    "name": "SOFT_RX_RST",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Soft RX Reset ",
+                        "1:Reset the RX datapath"
+                    ],
+                    "reset": "0b0",
+                    "ftype": "boolean"
+                },
+                "tx_clear_alarm": {
+                    "name": "TX_CLEAR_ALARM",
+                    "bitOffset": 16,
+                    "bitWidth": 8,
+                    "access": "rw",
+                    "desc": [
+                        "Clear TX Reset Alarm ",
+                        "1:Clear TX Reset Alarm indication for transceiver lane"
+                    ],
+                    "reset": "0x00"
+                },
+                "rx_clear_alarm": {
+                    "name": "RX_CLEAR_ALARM",
+                    "bitOffset": 24,
+                    "bitWidth": 8,
+                    "access": "rw",
+                    "desc": [
+                        "Clear RX reset alarm ",
+                        "1:Clear RX reset alarm indication for transceiver lane"
+                    ],
+                    "reset": "0x00"
+                }
+            }
+        },
+        "eth_reset_status": {
+            "name": "ETH_RESET_STATUS",
+            "addressOffset": "0x10C",
+            "desc": [
+                "IP Reset Status Register. Not sticky bit. Includes the following fields: ",
+                "",
+                "- rst_ack_n",
+                "- tx_rst_ack_n",
+                "- rx_rst_ack_n",
+                "- tx_lane_current_state",
+                "- rx_lane_current_state",
+                "- tx_alarm",
+                "- rx_alarm",
+                ""
+            ],
+            "fields": {
+                "rst_ack_n": {
+                    "name": "RST_ACK_N",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Global reset acknowledge. Active low (hard reset or the global soft reset) ",
+                        "1:Acknowledge the reset completed."
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_rst_ack_n": {
+                    "name": "TX_RST_ACK_N",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "TX Reset acknowledge. Active low (either the hard tx reset or the soft_tx_rst ) ",
+                        "1:Acknowledge the reset completed."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_rst_ack_n": {
+                    "name": "RX_RST_ACK_N",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "RX Reset acknowledge. Active high (either the hard rx reset or the soft_rx_rst ) ",
+                        "1:acknowledge the reset completed."
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_lane_current_state": {
+                    "name": "TX_LANE_CURRENT_STATE",
+                    "bitOffset": 8,
+                    "bitWidth": 3,
+                    "access": "ro",
+                    "desc": [
+                        "TX Lane Current State ",
+                        "Current reset state for TX PMA and datapath: ",
+                        "- [0]: Fully in reset state",
+                        "- [1]: Fully out of reset state (operational)",
+                        "- Reset control initialized (system clock stable)",
+                        "",
+                        "If not fully in reset or out of reset, TX reset is currently transitioning."
+                    ]
+                },
+                "rx_lane_current_state": {
+                    "name": "RX_LANE_CURRENT_STATE",
+                    "bitOffset": 12,
+                    "bitWidth": 3,
+                    "access": "ro",
+                    "desc": [
+                        "RX Lane Current State ",
+                        "Current reset state for RX PMAs and datapath: ",
+                        "- [0]: Fully in reset state",
+                        "- [1]: Fully out of reset state (operational)",
+                        "- Reset control initialized (system clock stable)",
+                        "",
+                        "If not fully in reset or out of reset, RX reset is currently transitioning."
+                    ]
+                },
+                "tx_alarm": {
+                    "name": "TX_ALARM",
+                    "bitOffset": 16,
+                    "bitWidth": 8,
+                    "access": "ro",
+                    "desc": [
+                        "TX Reset Alarm ",
+                        "Indicates an unexpected loss-off-PLL lock caused a change in the TX reset state."
+                    ]
+                },
+                "rx_alarm": {
+                    "name": "RX_ALARM",
+                    "bitOffset": 24,
+                    "bitWidth": 8,
+                    "access": "ro",
+                    "desc": [
+                        "RX Reset Alarm ",
+                        "Indicates an unexpected loss-off-PLL lock caused a change in the RX reset state."
+                    ]
+                }
+            }
+        },
+        "gui_option": {
+            "name": "GUI_OPTION",
+            "addressOffset": "0x100",
+            "desc": [
+                "Device and IP variant. Includes the following fields: ",
+                "",
+                "- device_name",
+                "- tile_name",
+                "- eth_rate",
+                "- anlt_enable",
+                "- modulation_type",
+                "- rsfec_type",
+                "- ptp_enable",
+                "- flow_control_mode",
+                "- client_intf",
+                "- xcvr_type",
+                "- num_lanes",
+                ""
+            ],
+            "fields": {
+                "device_name": {
+                    "name": "DEVICE_NAME",
+                    "bitOffset": 0,
+                    "bitWidth": 2,
+                    "access": "ro",
+                    "desc": [
+                        "Device name ",
+                        "0:Reserved, 1:Intel Agilex."
+                    ]
+                },
+                "tile_name": {
+                    "name": "TILE_NAME",
+                    "bitOffset": 2,
+                    "bitWidth": 3,
+                    "access": "ro",
+                    "desc": [
+                        "Tile name ",
+                        "0-2:Reserved,3:F-tile, 4-7:Reserved"
+                    ]
+                },
+                "eth_rate": {
+                    "name": "ETH_RATE",
+                    "bitOffset": 5,
+                    "bitWidth": 3,
+                    "access": "ro",
+                    "desc": [
+                        "Ethernet rate ",
+                        "0:10G, 1:25G, 2:40G, 3:50G, 4:100G, 5:200G, 6:400G, 7:Reserved"
+                    ]
+                },
+                "anlt_enable": {
+                    "name": "ANLT_ENABLE",
+                    "bitOffset": 8,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Enable AN/LT ",
+                        "0:AN/LT is disabled, 1:AN/LT is enabled"
+                    ],
+                    "ftype": "boolean"
+                },
+                "modulation_type": {
+                    "name": "MODULATION_TYPE",
+                    "bitOffset": 9,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Modulation type ",
+                        "0:NRZ, 1:PAM-4"
+                    ],
+                    "ftype": "boolean"
+                },
+                "rsfec_type": {
+                    "name": "RSFEC_TYPE",
+                    "bitOffset": 10,
+                    "bitWidth": 3,
+                    "access": "ro",
+                    "desc": [
+                        "FEC mode ",
+                        "0:None 1:Firecode (Clause 74), 2:RS(528,514) (Clause 91), 3:RS(544,514) (Clause 134), 4:Ethernet Technology Consortium RS(272,258), 5-7:Reserved"
+                    ]
+                },
+                "ptp_enable": {
+                    "name": "PTP_ENABLE",
+                    "bitOffset": 13,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "1588 PTP Enabled? ",
+                        "0:1588 PTP is disabled, 1:1588 PTP is enabled"
+                    ],
+                    "ftype": "boolean"
+                },
+                "flow_control_mode": {
+                    "name": "FLOW_CONTROL_MODE",
+                    "bitOffset": 14,
+                    "bitWidth": 3,
+                    "access": "ro",
+                    "desc": [
+                        "Flow control mode ",
+                        "0:Disabled, 1:SFC, 2:SFC with no XOFF, 3:PFC, 4:PFC with no XOFF, 5:Both SFC and PFC, 6:Both SFC and PFC wit no XOFF, 7:RX SFC Disabled"
+                    ]
+                },
+                "client_intf": {
+                    "name": "CLIENT_INTF",
+                    "bitOffset": 17,
+                    "bitWidth": 3,
+                    "access": "ro",
+                    "desc": [
+                        "Client interface ",
+                        "0: MAC segemented interface, 1: MAC Avalon Streaming interface, 2: PCS interface, 3: OTN interface, 4: FlexE interface, 5-7:Reserved"
+                    ]
+                },
+                "xcvr_type": {
+                    "name": "XCVR_TYPE",
+                    "bitOffset": 20,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "PMA type ",
+                        "0: FGT, 1: FHT"
+                    ],
+                    "ftype": "boolean"
+                },
+                "num_lanes": {
+                    "name": "NUM_LANES",
+                    "bitOffset": 21,
+                    "bitWidth": 4,
+                    "access": "ro",
+                    "desc": [
+                        "Number of lanes ",
+                        "1: 1 lane, 2: 2 lanes, 4: 4 lanes, 8: 8 lanes"
+                    ]
+                }
+            }
+        },
+        "qhip_scratch": {
+            "name": "QHIP_SCRATCH",
+            "addressOffset": "0x104",
+            "desc": [
+                "Scratch Register"
+            ],
+            "fields": {
+                "scratch": {
+                    "name": "SCRATCH",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "rw",
+                    "desc": [
+                        "",
+                        "32 bits of scratch register space for testing"
+                    ],
+                    "reset": "0x00000000"
+                }
+            }
+        },
+        "link_fault_status": {
+            "name": "LINK_FAULT_STATUS",
+            "addressOffset": "0x120",
+            "desc": [
+                "Link Fault Status ",
+                "Status registers to report Local and Remote Link Faults"
+            ],
+            "fields": {
+                "lfault": {
+                    "name": "LFAULT",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Local Fault detected ",
+                        "1:Ethernet Hard IP detected a local fault"
+                    ],
+                    "ftype": "boolean"
+                },
+                "rfault": {
+                    "name": "RFAULT",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Remote Fault detected ",
+                        "1:Ethernet Hard IP detected a remote fault"
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_sync_counter_1L": {
+            "name": "TX_SYNC_COUNTER_1L",
+            "addressOffset": "0x300",
+            "desc": [
+                "tx_sync_counter_1L ",
+                "TX synchronous counter value. Must be qualified with tx_sync_valid."
+            ],
+            "fields": {
+                "tx_sync_counter_1l": {
+                    "name": "TX_SYNC_COUNTER_1L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_sync_counter_1L ",
+                        "TX synchronous counter value. Must be qualified with tx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "tx_async_counter_1L": {
+            "name": "TX_ASYNC_COUNTER_1L",
+            "addressOffset": "0x304",
+            "desc": [
+                "tx_async_counter_1L ",
+                "TX asynchronous counter value. Must be qualified with tx_async_valid."
+            ],
+            "fields": {
+                "tx_async_counter_1l": {
+                    "name": "TX_ASYNC_COUNTER_1L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_async_counter_1L ",
+                        "TX asynchronous counter value. Must be qualified with tx_async_valid."
+                    ]
+                }
+            }
+        },
+        "rx_sync_counter_1L": {
+            "name": "RX_SYNC_COUNTER_1L",
+            "addressOffset": "0x308",
+            "desc": [
+                "rx_sync_counter_1L ",
+                "RX synchronous counter value. Must be qualified with rx_sync_valid."
+            ],
+            "fields": {
+                "rx_sync_counter_1l": {
+                    "name": "RX_SYNC_COUNTER_1L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_sync_counter_1L ",
+                        "RX synchronous counter value. Must be qualified with rx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "rx_async_counter_1L": {
+            "name": "RX_ASYNC_COUNTER_1L",
+            "addressOffset": "0x30C",
+            "desc": [
+                "rx_async_counter_1L ",
+                "RX asynchronous counter value. Must be qualified with rx_async_valid."
+            ],
+            "fields": {
+                "rx_async_counter_1l": {
+                    "name": "RX_ASYNC_COUNTER_1L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_async_counter_1L ",
+                        "RX asynchronous counter value. Must be qualified with rx_async_valid."
+                    ]
+                }
+            }
+        },
+        "dl_cfg_1L": {
+            "name": "DL_CFG_1L",
+            "addressOffset": "0x310",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+            ],
+            "fields": {
+                "tx_dl_restart_0": {
+                    "name": "TX_DL_RESTART_0",
+                    "bitOffset": 31,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "rx_dl_restart_0": {
+                    "name": "RX_DL_RESTART_0",
+                    "bitOffset": 30,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "tx_measure_valid_0": {
+                    "name": "TX_MEASURE_VALID_0",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_measure_valid_0": {
+                    "name": "RX_MEASURE_VALID_0",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_dl_delay_1L": {
+            "name": "TX_DL_DELAY_1L",
+            "addressOffset": "0x314",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                ""
+            ],
+            "fields": {
+                "tx_dl_delay_1l": {
+                    "name": "TX_DL_DELAY_1L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "rx_dl_delay_1L": {
+            "name": "RX_DL_DELAY_1L",
+            "addressOffset": "0x318",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                ""
+            ],
+            "fields": {
+                "rx_dl_delay_1l": {
+                    "name": "RX_DL_DELAY_1L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "dl_status_1L": {
+            "name": "DL_STATUS_1L",
+            "addressOffset": "0x31C",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                ""
+            ],
+            "fields": {
+                "tx_sync_valid_0": {
+                    "name": "TX_SYNC_VALID_0",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_async_valid_0": {
+                    "name": "TX_ASYNC_VALID_0",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_sync_valid_0": {
+                    "name": "RX_SYNC_VALID_0",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_async_valid_0": {
+                    "name": "RX_ASYNC_VALID_0",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether RX asynchronous counter values are valid: - 0: Invalid - 1: Valid ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_sync_counter_2L": {
+            "name": "TX_SYNC_COUNTER_2L",
+            "addressOffset": "0x320",
+            "desc": [
+                "tx_sync_counter_1L ",
+                "TX synchronous counter value. Must be qualified with tx_sync_valid."
+            ],
+            "fields": {
+                "tx_sync_counter_2l": {
+                    "name": "TX_SYNC_COUNTER_2L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_sync_counter_1L ",
+                        "TX synchronous counter value. Must be qualified with tx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "tx_async_counter_2L": {
+            "name": "TX_ASYNC_COUNTER_2L",
+            "addressOffset": "0x324",
+            "desc": [
+                "tx_async_counter_1L ",
+                "TX asynchronous counter value. Must be qualified with tx_async_valid."
+            ],
+            "fields": {
+                "tx_async_counter_2l": {
+                    "name": "TX_ASYNC_COUNTER_2L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_async_counter_1L ",
+                        "TX asynchronous counter value. Must be qualified with tx_async_valid."
+                    ]
+                }
+            }
+        },
+        "rx_sync_counter_2L": {
+            "name": "RX_SYNC_COUNTER_2L",
+            "addressOffset": "0x328",
+            "desc": [
+                "rx_sync_counter_1L ",
+                "RX synchronous counter value. Must be qualified with rx_sync_valid."
+            ],
+            "fields": {
+                "rx_sync_counter_2l": {
+                    "name": "RX_SYNC_COUNTER_2L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_sync_counter_1L ",
+                        "RX synchronous counter value. Must be qualified with rx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "rx_async_counter_2L": {
+            "name": "RX_ASYNC_COUNTER_2L",
+            "addressOffset": "0x32C",
+            "desc": [
+                "rx_async_counter_1L ",
+                "RX asynchronous counter value. Must be qualified with rx_async_valid."
+            ],
+            "fields": {
+                "rx_async_counter_2l": {
+                    "name": "RX_ASYNC_COUNTER_2L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_async_counter_1L ",
+                        "RX asynchronous counter value. Must be qualified with rx_async_valid."
+                    ]
+                }
+            }
+        },
+        "dl_cfg_2L": {
+            "name": "DL_CFG_2L",
+            "addressOffset": "0x330",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+            ],
+            "fields": {
+                "tx_dl_restart_1": {
+                    "name": "TX_DL_RESTART_1",
+                    "bitOffset": 31,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "rx_dl_restart_1": {
+                    "name": "RX_DL_RESTART_1",
+                    "bitOffset": 30,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "tx_measure_valid_1": {
+                    "name": "TX_MEASURE_VALID_1",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_measure_valid_1": {
+                    "name": "RX_MEASURE_VALID_1",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_dl_delay_2L": {
+            "name": "TX_DL_DELAY_2L",
+            "addressOffset": "0x334",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                ""
+            ],
+            "fields": {
+                "tx_dl_delay_2l": {
+                    "name": "TX_DL_DELAY_2L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "rx_dl_delay_2L": {
+            "name": "RX_DL_DELAY_2L",
+            "addressOffset": "0x338",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                ""
+            ],
+            "fields": {
+                "rx_dl_delay_2l": {
+                    "name": "RX_DL_DELAY_2L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "dl_status_2L": {
+            "name": "DL_STATUS_2L",
+            "addressOffset": "0x33C",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "."
+            ],
+            "fields": {
+                "tx_sync_valid_1": {
+                    "name": "TX_SYNC_VALID_1",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_async_valid_1": {
+                    "name": "TX_ASYNC_VALID_1",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_sync_valid_1": {
+                    "name": "RX_SYNC_VALID_1",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_async_valid_1": {
+                    "name": "RX_ASYNC_VALID_1",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether RX asynchronous counter values are valid: - 0: Invalid - 1: Valid ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_sync_counter_3L": {
+            "name": "TX_SYNC_COUNTER_3L",
+            "addressOffset": "0x340",
+            "desc": [
+                "tx_sync_counter_1L ",
+                "TX synchronous counter value. Must be qualified with tx_sync_valid."
+            ],
+            "fields": {
+                "tx_sync_counter_3l": {
+                    "name": "TX_SYNC_COUNTER_3L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_sync_counter_1L ",
+                        "TX synchronous counter value. Must be qualified with tx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "tx_async_counter_3L": {
+            "name": "TX_ASYNC_COUNTER_3L",
+            "addressOffset": "0x344",
+            "desc": [
+                "tx_async_counter_1L ",
+                "TX asynchronous counter value. Must be qualified with tx_async_valid."
+            ],
+            "fields": {
+                "tx_async_counter_3l": {
+                    "name": "TX_ASYNC_COUNTER_3L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_async_counter_1L ",
+                        "TX asynchronous counter value. Must be qualified with tx_async_valid."
+                    ]
+                }
+            }
+        },
+        "rx_sync_counter_3L": {
+            "name": "RX_SYNC_COUNTER_3L",
+            "addressOffset": "0x348",
+            "desc": [
+                "rx_sync_counter_1L ",
+                "RX synchronous counter value. Must be qualified with rx_sync_valid."
+            ],
+            "fields": {
+                "rx_sync_counter_3l": {
+                    "name": "RX_SYNC_COUNTER_3L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_sync_counter_1L ",
+                        "RX synchronous counter value. Must be qualified with rx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "rx_async_counter_3L": {
+            "name": "RX_ASYNC_COUNTER_3L",
+            "addressOffset": "0x34C",
+            "desc": [
+                "rx_async_counter_1L ",
+                "RX asynchronous counter value. Must be qualified with rx_async_valid."
+            ],
+            "fields": {
+                "rx_async_counter_3l": {
+                    "name": "RX_ASYNC_COUNTER_3L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_async_counter_1L ",
+                        "RX asynchronous counter value. Must be qualified with rx_async_valid."
+                    ]
+                }
+            }
+        },
+        "dl_cfg_3L": {
+            "name": "DL_CFG_3L",
+            "addressOffset": "0x350",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                ""
+            ],
+            "fields": {
+                "tx_dl_restart_2": {
+                    "name": "TX_DL_RESTART_2",
+                    "bitOffset": 31,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "rx_dl_restart_2": {
+                    "name": "RX_DL_RESTART_2",
+                    "bitOffset": 30,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "tx_measure_valid_2": {
+                    "name": "TX_MEASURE_VALID_2",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_measure_valid_2": {
+                    "name": "RX_MEASURE_VALID_2",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_dl_delay_3L": {
+            "name": "TX_DL_DELAY_3L",
+            "addressOffset": "0x354",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                ""
+            ],
+            "fields": {
+                "tx_dl_delay_3l": {
+                    "name": "TX_DL_DELAY_3L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "rx_dl_delay_3L": {
+            "name": "RX_DL_DELAY_3L",
+            "addressOffset": "0x358",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                ""
+            ],
+            "fields": {
+                "rx_dl_delay_3l": {
+                    "name": "RX_DL_DELAY_3L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "dl_status_3L": {
+            "name": "DL_STATUS_3L",
+            "addressOffset": "0x35C",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                ""
+            ],
+            "fields": {
+                "tx_sync_valid_2": {
+                    "name": "TX_SYNC_VALID_2",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "."
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_async_valid_2": {
+                    "name": "TX_ASYNC_VALID_2",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_sync_valid_2": {
+                    "name": "RX_SYNC_VALID_2",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_async_valid_2": {
+                    "name": "RX_ASYNC_VALID_2",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether RX asynchronous counter values are valid: - 0: Invalid - 1: Valid ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_sync_counter_4L": {
+            "name": "TX_SYNC_COUNTER_4L",
+            "addressOffset": "0x360",
+            "desc": [
+                "tx_sync_counter_1L ",
+                "TX synchronous counter value. Must be qualified with tx_sync_valid."
+            ],
+            "fields": {
+                "tx_sync_counter_4l": {
+                    "name": "TX_SYNC_COUNTER_4L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_sync_counter_1L ",
+                        "TX synchronous counter value. Must be qualified with tx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "tx_async_counter_4L": {
+            "name": "TX_ASYNC_COUNTER_4L",
+            "addressOffset": "0x364",
+            "desc": [
+                "tx_async_counter_1L ",
+                "TX asynchronous counter value. Must be qualified with tx_async_valid."
+            ],
+            "fields": {
+                "tx_async_counter_4l": {
+                    "name": "TX_ASYNC_COUNTER_4L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_async_counter_1L ",
+                        "TX asynchronous counter value. Must be qualified with tx_async_valid."
+                    ]
+                }
+            }
+        },
+        "rx_sync_counter_4L": {
+            "name": "RX_SYNC_COUNTER_4L",
+            "addressOffset": "0x368",
+            "desc": [
+                "rx_sync_counter_1L ",
+                "RX synchronous counter value. Must be qualified with rx_sync_valid."
+            ],
+            "fields": {
+                "rx_sync_counter_4l": {
+                    "name": "RX_SYNC_COUNTER_4L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_sync_counter_1L ",
+                        "RX synchronous counter value. Must be qualified with rx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "rx_async_counter_4L": {
+            "name": "RX_ASYNC_COUNTER_4L",
+            "addressOffset": "0x36C",
+            "desc": [
+                "rx_async_counter_1L ",
+                "RX asynchronous counter value. Must be qualified with rx_async_valid."
+            ],
+            "fields": {
+                "rx_async_counter_4l": {
+                    "name": "RX_ASYNC_COUNTER_4L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_async_counter_1L ",
+                        "RX asynchronous counter value. Must be qualified with rx_async_valid."
+                    ]
+                }
+            }
+        },
+        "dl_cfg_4L": {
+            "name": "DL_CFG_4L",
+            "addressOffset": "0x370",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+            ],
+            "fields": {
+                "tx_dl_restart_3": {
+                    "name": "TX_DL_RESTART_3",
+                    "bitOffset": 31,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "rx_dl_restart_3": {
+                    "name": "RX_DL_RESTART_3",
+                    "bitOffset": 30,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "tx_measure_valid_3": {
+                    "name": "TX_MEASURE_VALID_3",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_measure_valid_3": {
+                    "name": "RX_MEASURE_VALID_3",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_dl_delay_4L": {
+            "name": "TX_DL_DELAY_4L",
+            "addressOffset": "0x374",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+            ],
+            "fields": {
+                "tx_dl_delay_4l": {
+                    "name": "TX_DL_DELAY_4L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "rx_dl_delay_4L": {
+            "name": "RX_DL_DELAY_4L",
+            "addressOffset": "0x378",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+            ],
+            "fields": {
+                "rx_dl_delay_4l": {
+                    "name": "RX_DL_DELAY_4L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "dl_status_4L": {
+            "name": "DL_STATUS_4L",
+            "addressOffset": "0x37C",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+            ],
+            "fields": {
+                "tx_sync_valid_3": {
+                    "name": "TX_SYNC_VALID_3",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_async_valid_3": {
+                    "name": "TX_ASYNC_VALID_3",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_sync_valid_3": {
+                    "name": "RX_SYNC_VALID_3",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_async_valid_3": {
+                    "name": "RX_ASYNC_VALID_3",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether RX asynchronous counter values are valid: - 0: Invalid - 1: Valid ",
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted."
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_sync_counter_5L": {
+            "name": "TX_SYNC_COUNTER_5L",
+            "addressOffset": "0x380",
+            "desc": [
+                "tx_sync_counter_1L ",
+                "TX synchronous counter value. Must be qualified with tx_sync_valid."
+            ],
+            "fields": {
+                "tx_sync_counter_5l": {
+                    "name": "TX_SYNC_COUNTER_5L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_sync_counter_1L ",
+                        "TX synchronous counter value. Must be qualified with tx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "tx_async_counter_5L": {
+            "name": "TX_ASYNC_COUNTER_5L",
+            "addressOffset": "0x384",
+            "desc": [
+                "tx_async_counter_1L ",
+                "TX asynchronous counter value. Must be qualified with tx_async_valid."
+            ],
+            "fields": {
+                "tx_async_counter_5l": {
+                    "name": "TX_ASYNC_COUNTER_5L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_async_counter_1L ",
+                        "TX asynchronous counter value. Must be qualified with tx_async_valid."
+                    ]
+                }
+            }
+        },
+        "rx_sync_counter_5L": {
+            "name": "RX_SYNC_COUNTER_5L",
+            "addressOffset": "0x388",
+            "desc": [
+                "rx_sync_counter_1L ",
+                "RX synchronous counter value. Must be qualified with rx_sync_valid."
+            ],
+            "fields": {
+                "rx_sync_counter_5l": {
+                    "name": "RX_SYNC_COUNTER_5L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_sync_counter_1L ",
+                        "RX synchronous counter value. Must be qualified with rx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "rx_async_counter_5L": {
+            "name": "RX_ASYNC_COUNTER_5L",
+            "addressOffset": "0x38C",
+            "desc": [
+                "rx_async_counter_1L ",
+                "RX asynchronous counter value. Must be qualified with rx_async_valid."
+            ],
+            "fields": {
+                "rx_async_counter_5l": {
+                    "name": "RX_ASYNC_COUNTER_5L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_async_counter_1L ",
+                        "RX asynchronous counter value. Must be qualified with rx_async_valid."
+                    ]
+                }
+            }
+        },
+        "dl_cfg_5L": {
+            "name": "DL_CFG_5L",
+            "addressOffset": "0x390",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+            ],
+            "fields": {
+                "tx_dl_restart_4": {
+                    "name": "TX_DL_RESTART_4",
+                    "bitOffset": 31,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "rx_dl_restart_4": {
+                    "name": "RX_DL_RESTART_4",
+                    "bitOffset": 30,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "tx_measure_valid_4": {
+                    "name": "TX_MEASURE_VALID_4",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_measure_valid_4": {
+                    "name": "RX_MEASURE_VALID_4",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted. ",
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted."
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_dl_delay_5L": {
+            "name": "TX_DL_DELAY_5L",
+            "addressOffset": "0x394",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+            ],
+            "fields": {
+                "tx_dl_delay_5l": {
+                    "name": "TX_DL_DELAY_5L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+                    ]
+                }
+            }
+        },
+        "rx_dl_delay_5L": {
+            "name": "RX_DL_DELAY_5L",
+            "addressOffset": "0x398",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+            ],
+            "fields": {
+                "rx_dl_delay_5l": {
+                    "name": "RX_DL_DELAY_5L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+                    ]
+                }
+            }
+        },
+        "dl_status_5L": {
+            "name": "DL_STATUS_5L",
+            "addressOffset": "0x39C",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+            ],
+            "fields": {
+                "tx_sync_valid_4": {
+                    "name": "TX_SYNC_VALID_4",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_async_valid_4": {
+                    "name": "TX_ASYNC_VALID_4",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_sync_valid_4": {
+                    "name": "RX_SYNC_VALID_4",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_async_valid_4": {
+                    "name": "RX_ASYNC_VALID_4",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether RX asynchronous counter values are valid: - 0: Invalid - 1: Valid ",
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted."
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_sync_counter_6L": {
+            "name": "TX_SYNC_COUNTER_6L",
+            "addressOffset": "0x3A0",
+            "desc": [
+                "tx_sync_counter_1L ",
+                "TX synchronous counter value. Must be qualified with tx_sync_valid."
+            ],
+            "fields": {
+                "tx_sync_counter_6l": {
+                    "name": "TX_SYNC_COUNTER_6L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_sync_counter_1L ",
+                        "TX synchronous counter value. Must be qualified with tx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "tx_async_counter_6L": {
+            "name": "TX_ASYNC_COUNTER_6L",
+            "addressOffset": "0x3A4",
+            "desc": [
+                "tx_async_counter_1L ",
+                "TX asynchronous counter value. Must be qualified with tx_async_valid."
+            ],
+            "fields": {
+                "tx_async_counter_6l": {
+                    "name": "TX_ASYNC_COUNTER_6L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_async_counter_1L ",
+                        "TX asynchronous counter value. Must be qualified with tx_async_valid."
+                    ]
+                }
+            }
+        },
+        "rx_sync_counter_6L": {
+            "name": "RX_SYNC_COUNTER_6L",
+            "addressOffset": "0x3A8",
+            "desc": [
+                "rx_sync_counter_1L ",
+                "RX synchronous counter value. Must be qualified with rx_sync_valid."
+            ],
+            "fields": {
+                "rx_sync_counter_6l": {
+                    "name": "RX_SYNC_COUNTER_6L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_sync_counter_1L ",
+                        "RX synchronous counter value. Must be qualified with rx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "rx_async_counter_6L": {
+            "name": "RX_ASYNC_COUNTER_6L",
+            "addressOffset": "0x3AC",
+            "desc": [
+                "rx_async_counter_1L ",
+                "RX asynchronous counter value. Must be qualified with rx_async_valid."
+            ],
+            "fields": {
+                "rx_async_counter_6l": {
+                    "name": "RX_ASYNC_COUNTER_6L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_async_counter_1L ",
+                        "RX asynchronous counter value. Must be qualified with rx_async_valid."
+                    ]
+                }
+            }
+        },
+        "dl_cfg_6L": {
+            "name": "DL_CFG_6L",
+            "addressOffset": "0x3B0",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+            ],
+            "fields": {
+                "tx_dl_restart_5": {
+                    "name": "TX_DL_RESTART_5",
+                    "bitOffset": 31,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "rx_dl_restart_5": {
+                    "name": "RX_DL_RESTART_5",
+                    "bitOffset": 30,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "tx_measure_valid_5": {
+                    "name": "TX_MEASURE_VALID_5",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_measure_valid_5": {
+                    "name": "RX_MEASURE_VALID_5",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted. ",
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted."
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_dl_delay_6L": {
+            "name": "TX_DL_DELAY_6L",
+            "addressOffset": "0x3B4",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+            ],
+            "fields": {
+                "tx_dl_delay_6l": {
+                    "name": "TX_DL_DELAY_6L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+                    ]
+                }
+            }
+        },
+        "rx_dl_delay_6L": {
+            "name": "RX_DL_DELAY_6L",
+            "addressOffset": "0x3B8",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+            ],
+            "fields": {
+                "rx_dl_delay_6l": {
+                    "name": "RX_DL_DELAY_6L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+                    ]
+                }
+            }
+        },
+        "dl_status_6L": {
+            "name": "DL_STATUS_6L",
+            "addressOffset": "0x3BC",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+            ],
+            "fields": {
+                "tx_sync_valid_5": {
+                    "name": "TX_SYNC_VALID_5",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_async_valid_5": {
+                    "name": "TX_ASYNC_VALID_5",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_sync_valid_5": {
+                    "name": "RX_SYNC_VALID_5",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_async_valid_5": {
+                    "name": "RX_ASYNC_VALID_5",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether RX asynchronous counter values are valid: - 0: Invalid - 1: Valid ",
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted."
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_sync_counter_7L": {
+            "name": "TX_SYNC_COUNTER_7L",
+            "addressOffset": "0x3C0",
+            "desc": [
+                "tx_sync_counter_1L ",
+                "TX synchronous counter value. Must be qualified with tx_sync_valid."
+            ],
+            "fields": {
+                "tx_sync_counter_7l": {
+                    "name": "TX_SYNC_COUNTER_7L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_sync_counter_1L ",
+                        "TX synchronous counter value. Must be qualified with tx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "tx_async_counter_7L": {
+            "name": "TX_ASYNC_COUNTER_7L",
+            "addressOffset": "0x3C4",
+            "desc": [
+                "tx_async_counter_1L ",
+                "TX asynchronous counter value. Must be qualified with tx_async_valid."
+            ],
+            "fields": {
+                "tx_async_counter_7l": {
+                    "name": "TX_ASYNC_COUNTER_7L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_async_counter_1L ",
+                        "TX asynchronous counter value. Must be qualified with tx_async_valid."
+                    ]
+                }
+            }
+        },
+        "rx_sync_counter_7L": {
+            "name": "RX_SYNC_COUNTER_7L",
+            "addressOffset": "0x3C8",
+            "desc": [
+                "rx_sync_counter_1L ",
+                "RX synchronous counter value. Must be qualified with rx_sync_valid."
+            ],
+            "fields": {
+                "rx_sync_counter_7l": {
+                    "name": "RX_SYNC_COUNTER_7L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_sync_counter_1L ",
+                        "RX synchronous counter value. Must be qualified with rx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "rx_async_counter_7L": {
+            "name": "RX_ASYNC_COUNTER_7L",
+            "addressOffset": "0x3CC",
+            "desc": [
+                "rx_async_counter_1L ",
+                "RX asynchronous counter value. Must be qualified with rx_async_valid."
+            ],
+            "fields": {
+                "rx_async_counter_7l": {
+                    "name": "RX_ASYNC_COUNTER_7L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_async_counter_1L ",
+                        "RX asynchronous counter value. Must be qualified with rx_async_valid."
+                    ]
+                }
+            }
+        },
+        "dl_cfg_7L": {
+            "name": "DL_CFG_7L",
+            "addressOffset": "0x3D0",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+            ],
+            "fields": {
+                "tx_dl_restart_6": {
+                    "name": "TX_DL_RESTART_6",
+                    "bitOffset": 31,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "rx_dl_restart_6": {
+                    "name": "RX_DL_RESTART_6",
+                    "bitOffset": 30,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "tx_measure_valid_6": {
+                    "name": "TX_MEASURE_VALID_6",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_measure_valid_6": {
+                    "name": "RX_MEASURE_VALID_6",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_dl_delay_7L": {
+            "name": "TX_DL_DELAY_7L",
+            "addressOffset": "0x3D4",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+            ],
+            "fields": {
+                "tx_dl_delay_7l": {
+                    "name": "TX_DL_DELAY_7L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "rx_dl_delay_7L": {
+            "name": "RX_DL_DELAY_7L",
+            "addressOffset": "0x3D8",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+            ],
+            "fields": {
+                "rx_dl_delay_7l": {
+                    "name": "RX_DL_DELAY_7L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "dl_status_7L": {
+            "name": "DL_STATUS_7L",
+            "addressOffset": "0x3DC",
+            "desc": [
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+            ],
+            "fields": {
+                "tx_sync_valid_6": {
+                    "name": "TX_SYNC_VALID_6",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_async_valid_6": {
+                    "name": "TX_ASYNC_VALID_6",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_sync_valid_6": {
+                    "name": "RX_SYNC_VALID_6",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_async_valid_6": {
+                    "name": "RX_ASYNC_VALID_6",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether RX asynchronous counter values are valid: - 0: Invalid - 1: Valid ",
+                        "."
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_sync_counter_8L": {
+            "name": "TX_SYNC_COUNTER_8L",
+            "addressOffset": "0x3E0",
+            "desc": [
+                "tx_sync_counter_1L ",
+                "TX synchronous counter value. Must be qualified with tx_sync_valid."
+            ],
+            "fields": {
+                "tx_sync_counter_8l": {
+                    "name": "TX_SYNC_COUNTER_8L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_sync_counter_1L ",
+                        "TX synchronous counter value. Must be qualified with tx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "tx_async_counter_8L": {
+            "name": "TX_ASYNC_COUNTER_8L",
+            "addressOffset": "0x3E4",
+            "desc": [
+                "tx_async_counter_1L ",
+                "TX asynchronous counter value. Must be qualified with tx_async_valid."
+            ],
+            "fields": {
+                "tx_async_counter_8l": {
+                    "name": "TX_ASYNC_COUNTER_8L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "tx_async_counter_1L ",
+                        "TX asynchronous counter value. Must be qualified with tx_async_valid."
+                    ]
+                }
+            }
+        },
+        "rx_sync_counter_8L": {
+            "name": "RX_SYNC_COUNTER_8L",
+            "addressOffset": "0x3E8",
+            "desc": [
+                "rx_sync_counter_1L ",
+                "RX synchronous counter value. Must be qualified with rx_sync_valid."
+            ],
+            "fields": {
+                "rx_sync_counter_8l": {
+                    "name": "RX_SYNC_COUNTER_8L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_sync_counter_1L ",
+                        "RX synchronous counter value. Must be qualified with rx_sync_valid."
+                    ]
+                }
+            }
+        },
+        "rx_async_counter_8L": {
+            "name": "RX_ASYNC_COUNTER_8L",
+            "addressOffset": "0x3EC",
+            "desc": [
+                "rx_async_counter_1L ",
+                "RX asynchronous counter value. Must be qualified with rx_async_valid."
+            ],
+            "fields": {
+                "rx_async_counter_8l": {
+                    "name": "RX_ASYNC_COUNTER_8L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "rx_async_counter_1L ",
+                        "RX asynchronous counter value. Must be qualified with rx_async_valid."
+                    ]
+                }
+            }
+        },
+        "dl_cfg_8L": {
+            "name": "DL_CFG_8L",
+            "addressOffset": "0x3F0",
+            "desc": [
+                "Deterministic Latency Configuration ",
+                "Deterministic Latency Configuration"
+            ],
+            "fields": {
+                "tx_dl_restart_7": {
+                    "name": "TX_DL_RESTART_7",
+                    "bitOffset": 31,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "rx_dl_restart_7": {
+                    "name": "RX_DL_RESTART_7",
+                    "bitOffset": 30,
+                    "bitWidth": 1,
+                    "access": "rw",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        ""
+                    ],
+                    "reset": 0,
+                    "ftype": "boolean"
+                },
+                "tx_measure_valid_7": {
+                    "name": "TX_MEASURE_VALID_7",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        "."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_measure_valid_7": {
+                    "name": "RX_MEASURE_VALID_7",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted. ",
+                        ""
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        },
+        "tx_dl_delay_8L": {
+            "name": "TX_DL_DELAY_8L",
+            "addressOffset": "0x3F4",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+            ],
+            "fields": {
+                "tx_dl_delay_8l": {
+                    "name": "TX_DL_DELAY_8L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        ""
+                    ]
+                }
+            }
+        },
+        "rx_dl_delay_8L": {
+            "name": "RX_DL_DELAY_8L",
+            "addressOffset": "0x3F8",
+            "desc": [
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+            ],
+            "fields": {
+                "rx_dl_delay_8l": {
+                    "name": "RX_DL_DELAY_8L",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid. ",
+                        "Indicates DL measurement values in fixed-point format for TX datapath latency (in sampling_clk cycle). Must be qualified with tx_measure_valid."
+                    ]
+                }
+            }
+        },
+        "dl_status_8L": {
+            "name": "DL_STATUS_8L",
+            "addressOffset": "0x3FC",
+            "desc": [
+                "Deterministic Latency Configuration ",
+                "Deterministic Latency Configuration"
+            ],
+            "fields": {
+                "tx_sync_valid_7": {
+                    "name": "TX_SYNC_VALID_7",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow TX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "ftype": "boolean"
+                },
+                "tx_async_valid_7": {
+                    "name": "TX_ASYNC_VALID_7",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled. ",
+                        "Issues a reset to allow RX deterministic latency (DL) measurements to be retaken. - 0: Reset disabled - 1: Reset enabled."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_sync_valid_7": {
+                    "name": "RX_SYNC_VALID_7",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. ",
+                        "Indicates whether the TX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid."
+                    ],
+                    "ftype": "boolean"
+                },
+                "rx_async_valid_7": {
+                    "name": "RX_ASYNC_VALID_7",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "access": "ro",
+                    "desc": [
+                        "Indicates whether RX asynchronous counter values are valid: - 0: Invalid - 1: Valid ",
+                        "Indicates whether the RX deterministic latency (DL) measurement values are valid - 0: Invalid ; 1: Valid. Note: If block_lock is deasserted, this register is deasserted."
+                    ],
+                    "ftype": "boolean"
+                }
+            }
+        }
+    }
+}
