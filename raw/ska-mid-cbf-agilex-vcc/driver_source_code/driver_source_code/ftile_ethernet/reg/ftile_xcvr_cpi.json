@@ -1,0 +1,144 @@
+{
+    "name": "ftile_xcvr_cpi",
+    "desc": "F-Tile Transceiver Attribute Access",
+    "version": "1.0.0",
+    "registers": {
+        "cfg_link_mng_cpi": {
+            "name": "cfg_link_mng_cpi",
+            "addressOffset": "0x3C",
+            "desc": "See F-Tile PHY User Guide, FGT Attribute Access Method, for usage examples. This register maps to 0x9003C in the transceiver.",
+            "fields": {
+                "cfg_link_mng_cpi_opcode": {
+                    "name": "cfg_link_mng_cpi_opcode",
+                    "desc": "Opcode field. See F-Tile PHY User Guide for values.",
+                    "bitOffset": 0,
+                    "bitWidth": 8,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "cfg_link_mng_cpi_lane_number": {
+                    "name": "cfg_link_mng_cpi_lane_number",
+                    "desc": "Physical lane number (0-3). Read fgt_lane_number to discover this value.",
+                    "bitOffset": 8,
+                    "bitWidth": 4,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "cfg_link_mng_cpi_set_get": {
+                    "name": "cfg_link_mng_cpi_set_get",
+                    "desc": ["Logic 0 - Get parameters",
+                             "Logic 1 - Set parameters"],
+                    "bitOffset": 13,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "cfg_link_mng_cpi_reset": {
+                    "name": "cfg_link_mng_cpi_reset",
+                    "desc": ["Logic 0 - Not in reset.",
+                             "Logic 1 - In reset."],
+                    "bitOffset": 14,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "cfg_link_mng_cpi_service_req": {
+                    "name": "cfg_link_mng_cpi_service_req",
+                    "desc": ["Logic 0 - No request.",
+                             "Logic 1 - Service requested."],
+                    "bitOffset": 15,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "cfg_link_mng_cpi_data": {
+                    "name": "cfg_link_mng_cpi_data",
+                    "desc": "Data field. See F-Tile PHY User Guide for values.",
+                    "bitOffset": 16,
+                    "bitWidth": 16,
+                    "reset": 0,
+                    "access": "rw"
+                }
+            }
+        },
+        "cfg_phy_cpi": {
+            "name": "cfg_phy_cpi",
+            "addressOffset": "0x40",
+            "desc": "See F-Tile PHY User Guide, FGT Attribute Access Method, for usage examples. This register maps to 0x90040 in the transceiver.",
+            "fields": {
+                "cfg_phy_cpi_opcode": {
+                    "name": "cfg_phy_cpi_opcode",
+                    "desc": "Opcode field. See F-Tile PHY User Guide for values.",
+                    "bitOffset": 0,
+                    "bitWidth": 8,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "cfg_phy_cpi_lane_number": {
+                    "name": "cfg_phy_cpi_lane_number",
+                    "desc": "Physical lane number (0-3). Read fgt_lane_number to discover this value.",
+                    "bitOffset": 8,
+                    "bitWidth": 4,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "cfg_phy_cpi_set_get": {
+                    "name": "cfg_phy_cpi_set_get",
+                    "desc": ["Logic 0 - Get parameters",
+                             "Logic 1 - Set parameters"],
+                    "bitOffset": 13,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "cfg_phy_cpi_reset": {
+                    "name": "cfg_phy_cpi_reset",
+                    "desc": ["Logic 0 - Not in reset.",
+                             "Logic 1 - In reset."],
+                    "bitOffset": 14,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "cfg_phy_cpi_service_req": {
+                    "name": "cfg_phy_cpi_service_req",
+                    "desc": ["Logic 0 - No request.",
+                             "Logic 1 - Service requested."],
+                    "bitOffset": 15,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "cfg_phy_cpi_data": {
+                    "name": "cfg_phy_cpi_data",
+                    "desc": "Data field. See F-Tile PHY User Guide for values.",
+                    "bitOffset": 16,
+                    "bitWidth": 16,
+                    "reset": 0,
+                    "access": "rw"
+                }
+            }
+        },
+        "fgt_quad_lane_number": {
+            "name": "fgt_quad_lane_number",
+            "addressOffset": "0x7C",
+            "desc": "See F-Tile PHY User Guide, FGT Attribute Access Method, for usage examples. This register maps to 0xFFFFC in the transceiver.",
+            "fields": {
+                "fgt_lane_number": {
+                    "name": "fgt_lane_number",
+                    "desc": "FGT Lane Number (0-3)",
+                    "bitOffset": 0,
+                    "bitWidth": 2,
+                    "access": "ro"
+                },
+                "fgt_quad_number": {
+                    "name": "fgt_quad_number",
+                    "desc": "FGT Quad Number (0-3)",
+                    "bitOffset": 2,
+                    "bitWidth": 2,
+                    "access": "ro"
+                }
+            }
+        }
+    }
+}
