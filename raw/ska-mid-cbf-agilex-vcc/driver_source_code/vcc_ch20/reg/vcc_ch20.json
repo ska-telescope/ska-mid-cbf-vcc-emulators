@@ -1,0 +1,95 @@
+{
+    "name": "Very Coarse Channelizer - 20 Channel Version",
+    "desc": [
+        "The firmware block for the 'The Very Coarse Channelizer - 20 Channel Version'.",
+        "The configuration registers set the number of frames between PPS markers and",
+        "scaling the Frequency-Slices (FSs) before the final quantization."
+    ],
+    "mnemonic": "vcc_ch20",
+    "version": "1.0.0",
+    "author": "T. Gunaratne",
+    "email": "Thushara.Gunaratne@nrc-cnrc.gc.ca",
+    "date": "2021-01-14",
+    "referenceDocumentTitle": "None",
+    "referenceDocument": "None",
+    "parameters": {
+        "channels_out": {
+            "name": "Number of output channels",
+            "desc": "Number of output channels configured in the firmware for this instance.",
+            "ftype": "natural"
+        },
+        "polarisations": {
+            "name": "Number of polarisations",
+            "desc": "Number of polarisations configured in the firmware for this instance.",
+            "ftype": "natural"
+        },
+        "input_frame_size": {
+            "name": "Size of input frame",
+            "desc": "Size of input frame configured in the firmware for this instance.",
+            "ftype": "natural"
+        }
+    },
+    "registers": {
+        "config_pps_frame_count": {
+            "name": "Config PPS Frame Count",
+            "desc": [
+                "This register specifies the expected number of data-frames between PPS markers.",
+                "For vcc_ch20, a data-frames of 18 consecutive samples.",
+                "The pulse-per-second (PPS) marks the start sample of each 1 second.",
+                "There is an expected number of data-frames between PPS, which is different for each DISH.",
+                "If the count of data-frames does not match this register then the output samples are RFI flagged."
+            ],
+            "addressOffset": "0x0",
+            "fields": {
+                "frame_count": {
+                    "name": "Frame Count",
+                    "desc": "The number of data-frames between PPS markers.",
+                    "ftype": "natural",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "reset": 220000000,
+                    "access": "rw"
+                }
+            }
+        },
+        "config_fs_sft_scl": {
+            "name": "Config Frequency Slice Scaling",
+            "desc": [
+                "The VCC channeliser implementation has an internal gain of approximately 0.944*sqrt(20) = 4.222.",
+                "To correct for this we apply a scaling factor at the output. The scaling factor is split into two components:",
+                "1. SFT, a shift-right factor that divides by a power of two, for a gain adjustment of 1/2**SFT, and",
+                "2. SCL, a scale factor that multiplies the result with a value between 1 and 0.",
+                "For unity gain, we must correct the output by 1/4.222 = 0.2369 which can be decomposed into two terms, 1/4 * 4/4.222,",
+                "Therefore, from the first term, 1/4 = 1/(2**SFT) => SFT = 2, and",
+                "subsequently from the second term, 4/4.222 = 2**SFT/4.222 = 0.9475, and converting to a 16 bit unsigned value, SCL = 0.9475*65536 = 62094.",
+                "These are the default values for the registers.",
+                "",
+                "There are 20 repeats of this register.",
+                "Entries  0-9  correspond to polarization 0,",
+                "Entries 10-19 correspond to polarization 1."
+            ],
+            "addressOffset": "0x4",
+            "repeat": 20,
+            "fields": {
+                "fs_sft": {
+                    "name": "Frequency Slice Shift Right",
+                    "desc": "The scaling factor 1/(2**FS_SFT).",
+                    "ftype": "natural",
+                    "bitOffset": 0,
+                    "bitWidth": 4,
+                    "reset": 2,
+                    "access": "rw"
+                },
+                "fs_scl": {
+                    "name": "Frequency Slice Scale",
+                    "desc": "The fractional scaling factor FS_SCL/65536.",
+                    "ftype": "natural",
+                    "bitOffset": 4,
+                    "bitWidth": 16,
+                    "reset": 62094,
+                    "access": "rw"
+                }
+            }
+        }
+    }
+}
