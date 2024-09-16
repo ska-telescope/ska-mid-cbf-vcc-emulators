@@ -1,0 +1,59 @@
+{
+    "name": "circuit switch register set",
+    "mnemonic": "circuit_switch",
+    "desc": [
+        "The parameterized circuit switch IP block allows customized circuit switches",
+        "1. Register configurable connections between input ports and output ports",
+        "2. Allows duplication of input data to multiple output ports"
+    ],
+    "version": "2.0.0",
+    "author": "William Kamp",
+    "email": "will@kamputed.com",
+    "date": "2023-06-20",
+    "registers": {
+        "number_of_ports": {
+            "name": "Number of Ports",
+            "desc": "Actual numbers of ports as configured in the firmware.",
+            "addressOffset": "0x0",
+            "fields": {
+                "number_of_inputs": {
+                    "name": "Number of Input Ports",
+                    "desc": "Number of input ports configured in the firmware for this instance.",
+                    "ftype": "natural",
+                    "access": "ro",
+                    "bitOffset": 0,
+                    "bitWidth": 8
+                },
+                "number_of_outputs": {
+                    "name": "Number of Output Ports",
+                    "desc": "Number of output ports configured in the firmware for this instance.",
+                    "ftype": "natural",
+                    "access": "ro",
+                    "bitOffset": 8,
+                    "bitWidth": 8
+                }
+            }
+        },
+        "input_sel": {
+            "name": "Input Select",
+            "desc": "Select the input source for this output port. Output port according to the register's index (address).",
+            "addressOffset": "0x04",
+            "repeat": 31,
+            "fields": {
+                "input_select": {
+                    "name": "input select",
+                    "desc": [
+                        "Select input from [0 : number_of_inputs - 1] as the source for this output port.",
+                        "To disconnect this port write the value of number_of_inputs.",
+                        "If this output port does not exist, i.e. index >= number_of_outputs, will always read 0xFF."
+                    ],
+                    "ftype": "natural",
+                    "access": "rw",
+                    "bitOffset": 0,
+                    "bitWidth": 8,
+                    "reset" : "0xFF"
+                }
+            }
+        }
+    }
+}
