@@ -21,6 +21,11 @@ public:
     }
 };
 
+class PyLoggerPublicist : public Logger {
+public:
+    using Logger::log_message;
+};
+
 FPGA_DRIVER_PYBIND_MODULE_DECLARATION(fpga_driver_base, m) {
 
     py::enum_<LogLevel>(m, "LogLevel")
@@ -51,6 +56,6 @@ FPGA_DRIVER_PYBIND_MODULE_DECLARATION(fpga_driver_base, m) {
       .def("pass", &Logger::pass, py::arg("msg"))
       .def("debug", &Logger::debug, py::arg("msg"))
       .def("trace", &Logger::trace, py::arg("msg"))
-      .def("log_message", &PyLogger::log_message, py::arg("severity"), py::arg("msg"));
+      .def("log_message", &PyLoggerPublicist::log_message, py::arg("severity"), py::arg("msg"));
 
 }
