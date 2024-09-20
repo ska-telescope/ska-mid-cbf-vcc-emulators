@@ -20,6 +20,8 @@ git submodule update
 
    To generate the bitstream files if not already acquired, create a workspace using the `fpga_tools/fpga_build/new_workspace.py` script (e.g. using base `agilex_m_vcc_base` and persona `vcc_processing`). Within the workspace, run both `fpga_tools/fpga_build/driver_modules_compiler.py` and `fpga_tools/fpga_build/emulator_bundler.py` to generate .tar.gz files containing the driver_source_code and emulator_source_code folders, respectively, which contain the files that should be copied into this repository.
 
+   It is expected that the exposed Pybind11 module names match the driver names in the DeTrI JSON specification, as they will be dynamically imported based on that JSON (i.e. if the driver name in the JSON is `vcc_ch20` [or numbered like `vcc_ch20_1`, `vcc_ch20_2`], then the exposed module should also be called `vcc_ch20`).
+
    The expected directory structure is (e.g.):
    ```text
    raw
