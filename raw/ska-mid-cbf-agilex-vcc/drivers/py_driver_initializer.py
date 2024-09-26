@@ -1,5 +1,5 @@
 import logging
-from py_drivers import drivers, pybind_module_name
+from .py_drivers import drivers, pybind_module_name
 
 class Py_Driver_Initializer:
     def __init__(self, instance_name: str, memory_map_file: str, logger: logging.Logger):
@@ -17,7 +17,7 @@ class Py_Driver_Initializer:
         """
 
         self.instance_name = instance_name
-        self.memory_map_file = memory_map_file or "/dev/mem/"
+        self.memory_map_file = memory_map_file
         self.pybind_module_name = pybind_module_name
         self.drivers = drivers
         self.driver_instance = self.drivers.get(self.instance_name, "")
@@ -35,9 +35,9 @@ class Py_Driver_Initializer:
         logger.info(f"Instantiating instance '{self.instance_name}' of driver {self.driver_submodule_name}")
 
         # Import the base submodule, and the driver submodule, from the master pybind module:
-        base_submodule = __import__(f"{self.pybind_module_name}.fpga_driver_base", fromlist=[None])
+        base_submodule = __import__(f".{self.pybind_module_name}.fpga_driver_base", fromlist=[None])
         self.base_submodule = base_submodule
-        self.driver_submodule = __import__(f"{self.pybind_module_name}.{self.driver_submodule_name}", fromlist=[None])
+        self.driver_submodule = __import__(f".{self.pybind_module_name}.{self.driver_submodule_name}", fromlist=[None])
 
         # Setup CLogger to redirect log messages from C++ to python
         class CLogger(base_submodule.Logger):
@@ -88,18 +88,28 @@ class Py_Driver_Initializer:
             )
             self.params[regset_id] = self.driver_submodule.param_t(**regset_info["parameters"])
 
-        # Instantiate the driver (check if there are parameters, as these will be needed for the constructor if so)
-        if self.params:
-            self.driver = self.driver_submodule.driver(self.params["csr"], self.regsets, self.c_logger)
+        # Instantiate the driver:
+        # TODO: firmware team to figure out how to pass a map of params to c++ constructor, mirroring the ability to pass
+        # a map of multiple regsets as key-value pairs. This is because parameters are associated with the register set(s), 
+        # not the instance, and multiple register sets (theoretically) means multiple sets of parameters.
+        # We should get to a point where we can just do:
+        # self.driver = self.driver_submodule.driver(self.params, self.regsets, self.c_logger)
+
+        # Until then, this script instantiates a driver with its 'csr' regset, or its first (or only) regset, or default params.
+        if 'csr' in self.params:
+            instantiation_params = self.params['csr']
+        elif self.params:
+            instantiation_params = next(iter(self.params.values()))
         else:
-            self.driver = self.driver_submodule.driver(self.driver_submodule.param_t(), self.regsets, self.c_logger)
+            instantiation_params = self.driver_submodule.param_t()
+
+        self.driver = self.driver_submodule.driver(instantiation_params, self.regsets, self.c_logger)
 
 # Example usage:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger(__name__)    
+    logger = logging.getLogger(__name__)
 
-    # instantiate a vcc_ch20 driver, passing in the common logger:
     vcc_ch20 = Py_Driver_Initializer(
         instance_name="vcc_ch20",  
         memory_map_file="/dev/mem",
