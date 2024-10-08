@@ -1,6 +1,6 @@
 {
-  "id": "vcc",
-  "version": "0.0.1",
+  "id": "vcc_processing",
+  "version": "0.0.7",
   "ip_blocks": [
     {
       "id": "dish",
@@ -13,7 +13,7 @@
     {
       "id": "ethernet_200g",
       "display_name": "200Gb Ethernet MAC",
-      "type": "ethernet_200g_r4",
+      "type": "ethernet_mac",
       "downstream_block_ids": [
         "packet_validation"
       ],
@@ -52,7 +52,7 @@
     {
       "id": "b123vcc",
       "display_name": "B123VCC-OSPPFB Channeliser",
-      "type": "vcc_ch20",
+      "type": "b123vcc_osppfb_channeliser",
       "downstream_block_ids": [
         "fs_selection_26_2_1"
       ]
@@ -60,19 +60,15 @@
     {
       "id": "fs_selection_26_2_1",
       "display_name": "Frequency Slice Selection 26 x 2:1 MUX",
-      "type": "vcc_fs_selection",
+      "type": "frequency_slice_selection",
       "downstream_block_ids": [
-        "fs_selection_26_6"
-      ],
-      "constants": {
-        "num_inputs": 52,
-        "num_outputs": 26
-      }
+        "circuit_switch_26_6"
+      ]
     },
     {
-      "id": "fs_selection_26_6",
-      "display_name": "Frequency Slice Selection 26:6 MUX",
-      "type": "vcc_fs_selection",
+      "id": "circuit_switch_26_6",
+      "display_name": "Circuit Switch 26:6 MUX",
+      "type": "circuit_switch",
       "downstream_block_ids": [],
       "constants": {
         "num_inputs": 26,
@@ -82,3 +78,4 @@
   ],
   "first": "dish"
 }
+

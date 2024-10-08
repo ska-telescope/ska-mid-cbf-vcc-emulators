@@ -65,7 +65,7 @@ class Logger {
             log_message(LogLevel::Trace, "TRACE: " + msg);
         };
 
-    protected:
+    private:
 
         virtual void log_message(LogLevel severity, std::string msg) {
             if (log_level_ >= severity) {
