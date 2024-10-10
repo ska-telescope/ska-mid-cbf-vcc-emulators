@@ -6,7 +6,7 @@ void init_fpga_driver_base_submodule(py::module &);
 void init_circuit_switch_submodule(py::module &);
 void init_vcc_ch20_submodule(py::module &);
 
-PYBIND11_MODULE(talon_dx_agilex_m_vcc_base_vcc_processing, m) {
+PYBIND11_MODULE(bittware_ia860m_ska_vcc_base_ska_vcc_persona, m) {
    py::module ftile_ethernet_module = m.def_submodule("ftile_ethernet", "ftile_ethernet module");
    init_ftile_ethernet_submodule(ftile_ethernet_module);
 

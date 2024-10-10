@@ -17,7 +17,7 @@ all: do-nothing
 
 generate-register-structs:
 	@for reg_json in $(wildcard ../reg/*.json); do \
-		python3 $(REGDEF_PATH)/RenderModule/cppStructGen.py $$reg_json -o src; \
+		python3 -m RenderModule.cppStructGen $$reg_json -o src; \
 	done
 
 standalone: generate-register-structs $(SHARED_OBJ)

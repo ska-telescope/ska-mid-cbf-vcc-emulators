@@ -72,7 +72,7 @@
     {
       "id": "fs_selection_26_6",
       "display_name": "Frequency Slice Selection 26:6 MUX",
-      "type": "vcc_fs_selection",
+      "type": "circuit_switch",
       "downstream_block_ids": [],
       "constants": {
         "num_inputs": 26,
