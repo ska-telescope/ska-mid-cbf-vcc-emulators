@@ -1,6 +1,6 @@
 {
-  "id": "vcc",
-  "version": "0.0.1",
+  "id": "vcc_processing",
+  "version": "0.0.7",
   "ip_blocks": [
     {
       "id": "dish",
@@ -13,7 +13,7 @@
     {
       "id": "ethernet_200g",
       "display_name": "200Gb Ethernet MAC",
-      "type": "ethernet_200g_r4",
+      "type": "ftile_ethernet",
       "downstream_block_ids": [
         "packet_validation"
       ],
@@ -44,7 +44,7 @@
     {
       "id": "wideband_frequency_shifter",
       "display_name": "Wideband Frequency Shifter",
-      "type": "wideband_frequency_shifter",
+      "type": "frequency_shifter",
       "downstream_block_ids": [
         "b123vcc"
       ]
@@ -59,20 +59,14 @@
     },
     {
       "id": "fs_selection_26_2_1",
-      "display_name": "Frequency Slice Selection 26 x 2:1 MUX",
+      "display_name": "Frequency Slice Selection 26 x 2:1",
       "type": "vcc_fs_selection",
-      "downstream_block_ids": [
-        "fs_selection_26_6"
-      ],
-      "constants": {
-        "num_inputs": 52,
-        "num_outputs": 26
-      }
+      "downstream_block_ids": []
     },
     {
-      "id": "fs_selection_26_6",
-      "display_name": "Frequency Slice Selection 26:6 MUX",
-      "type": "vcc_fs_selection",
+      "id": "circuit_switch_26_6",
+      "display_name": "Circuit Switch 26:6 MUX",
+      "type": "circuit_switch",
       "downstream_block_ids": [],
       "constants": {
         "num_inputs": 26,

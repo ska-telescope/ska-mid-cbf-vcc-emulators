@@ -14,8 +14,7 @@ class EmulatorApi(BaseEmulatorApi):
 
     @BaseEmulatorApi.route(HttpMethod.POST)
     def configure(
-        self: Self,
-        config: BodyParam[dict[str, Any]]
+        self: Self, config: BodyParam[dict[str, Any]]
     ) -> InternalRestResponse:
         """Configure the Wideband Input Buffer.
 
@@ -31,26 +30,35 @@ class EmulatorApi(BaseEmulatorApi):
                 jsonschema.validate(config, config_schema)
             except Exception as e:
                 self.module.log_error(e)
-                self.module.trigger_if_allowed(WidebandInputBufferTransitionTrigger.FAIL_CONFIGURING)
+                self.module.trigger_if_allowed(
+                    WidebandInputBufferTransitionTrigger.FAIL_CONFIGURING
+                )
                 return InternalRestResponse.bad_request(
-                    f'Configuration schema validation failed: {str(e)}'
+                    f"Configuration schema validation failed: {str(e)}"
                 )
 
-            if (expected_sample_rate := config.get('expected_sample_rate', None)) is not None:
+            if (
+                expected_sample_rate := config.get("expected_sample_rate", None)
+            ) is not None:
                 self.ip_block.expected_sample_rate = expected_sample_rate
-            if (nd_sec := config.get('noise_diode_transition_holdoff_seconds', None)) is not None:
+            if (
+                nd_sec := config.get("noise_diode_transition_holdoff_seconds", None)
+            ) is not None:
                 self.ip_block.noise_diode_transition_holdoff_seconds = nd_sec
+            if (
+                expected_dish_band := config.get("expected_dish_band", None)
+            ) is not None:
+                self.ip_block.expected_dish_band = expected_dish_band
 
             self.module.trigger(WidebandInputBufferTransitionTrigger.FINISH_CONFIGURING)
             return InternalRestResponse.ok()
         return InternalRestResponse.internal_server_error(
-            f'Cannot configure the Wideband Input Buffer while in state {self.module.get_state()}.'
+            f"Cannot configure the Wideband Input Buffer while in state {self.module.get_state()}."
         )
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
     def deconfigure(
-        self: Self,
-        config: BodyParam[dict[str, Any]]
+        self: Self, config: BodyParam[dict[str, Any]]
     ) -> InternalRestResponse:
         """Deconfigure the Wideband Input Buffer (does nothing).
 
@@ -84,7 +92,7 @@ class EmulatorApi(BaseEmulatorApi):
             return InternalRestResponse.ok()
 
         return InternalRestResponse.conflict(
-            f'Cannot start the Wideband Input Buffer while in state {self.module.get_state()}.'
+            f"Cannot start the Wideband Input Buffer while in state {self.module.get_state()}."
         )
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -99,14 +107,11 @@ class EmulatorApi(BaseEmulatorApi):
             return InternalRestResponse.ok()
 
         return InternalRestResponse.conflict(
-            f'Cannot stop the Wideband Input Buffer while in state {self.module.get_state()}.'
+            f"Cannot stop the Wideband Input Buffer while in state {self.module.get_state()}."
         )
 
     @BaseEmulatorApi.route(http_method=HttpMethod.GET)
-    def status(
-        self: Self,
-        clear: QueryParam[bool] = False
-    ) -> InternalRestResponse:
+    def status(self: Self, clear: QueryParam[bool] = False) -> InternalRestResponse:
         """Update and get the status of the Wideband Input Buffer.
 
         Args:
@@ -117,10 +122,16 @@ class EmulatorApi(BaseEmulatorApi):
         """
         try:
             status = {
-                'buffer_underflowed': self.ip_block.buffer_underflowed,
-                'buffer_overflowed': self.ip_block.buffer_overflowed,
-                'loss_of_signal_seconds': self.ip_block.loss_of_signal_seconds,
-                'band_id': self.ip_block.band_id
+                "buffer_underflowed": self.ip_block.buffer_underflowed,
+                "buffer_overflowed": self.ip_block.buffer_overflowed,
+                "loss_of_signal": self.ip_block.loss_of_signal,
+                "error": self.ip_block.error,
+                "loss_of_signal_seconds": self.ip_block.loss_of_signal_seconds,
+                "meta_band_id": self.ip_block.meta_band_id,
+                "meta_dish_id": self.ip_block.meta_dish_id,
+                "rx_sample_rate": self.ip_block.rx_sample_rate,
+                "meta_transport_sample_rate_lsw": self.ip_block.meta_transport_sample_rate_lsw,
+                "meta_transport_sample_rate_msw": self.ip_block.meta_transport_sample_rate_msw,
             }
 
             if clear:

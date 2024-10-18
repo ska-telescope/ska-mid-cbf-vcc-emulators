@@ -13,8 +13,7 @@ class EmulatorApi(BaseEmulatorApi):
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
     def configure(
-        self: Self,
-        config: BodyParam[dict[str, Any]]
+        self: Self, config: BodyParam[dict[str, Any]]
     ) -> InternalRestResponse:
         """Configure the Frequency Slice Selection block.
 
@@ -25,20 +24,20 @@ class EmulatorApi(BaseEmulatorApi):
             :obj:`InternalRestResponse` the response.
         """
         try:
-            jsonschema.validate(config, config_schema(self.ip_block.num_inputs, self.ip_block.num_outputs))
+            jsonschema.validate(config, config_schema)
         except Exception as e:
             self.module.log_error(e)
             return InternalRestResponse.bad_request(
-                f'Configuration schema validation failed: {str(e)}'
+                f"Configuration schema validation failed: {str(e)}"
             )
 
-        self.ip_block.connections[config.get('output', 0)] = config.get('input', 0)
+        self.band_select = config.get("band_select", -1)
+        self.band_start_channel = config.get("band_start_channel", [-1, -1])
         return InternalRestResponse.ok()
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
     def deconfigure(
-        self: Self,
-        config: BodyParam[dict[str, Any]]
+        self: Self, config: BodyParam[dict[str, Any]]
     ) -> InternalRestResponse:
         """Deconfigure the Frequency Slice Selection block.
 
@@ -49,14 +48,15 @@ class EmulatorApi(BaseEmulatorApi):
             :obj:`InternalRestResponse` the response.
         """
         try:
-            jsonschema.validate(config, config_schema(self.ip_block.num_inputs, self.ip_block.num_outputs))
+            jsonschema.validate(config, config_schema)
         except Exception as e:
             self.module.log_error(e)
             return InternalRestResponse.bad_request(
-                f'Configuration schema validation failed: {str(e)}'
+                f"Configuration schema validation failed: {str(e)}"
             )
 
-        self.ip_block.connections[config.get('output', 0)] = -1
+        self.band_select = config.get("band_select", -1)
+        self.band_start_channel = config.get("band_start_channel", [-1, -1])
         return InternalRestResponse.ok()
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -66,8 +66,8 @@ class EmulatorApi(BaseEmulatorApi):
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        self.ip_block.connections = [-1] * self.ip_block.num_outputs
-
+        self.band_select = -1
+        self.band_start_channel = [-1, -1]
         return InternalRestResponse.ok()
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -89,10 +89,7 @@ class EmulatorApi(BaseEmulatorApi):
         return InternalRestResponse.ok()
 
     @BaseEmulatorApi.route(http_method=HttpMethod.GET)
-    def status(
-        self: Self,
-        clear: QueryParam[bool] = False
-    ) -> InternalRestResponse:
+    def status(self: Self, clear: QueryParam[bool] = False) -> InternalRestResponse:
         """Update and get the status of the Frequency Slice Selection block.
 
         Args:
@@ -103,9 +100,8 @@ class EmulatorApi(BaseEmulatorApi):
         """
         try:
             status = {
-                'num_inputs': self.ip_block.num_inputs,
-                'num_outputs': self.ip_block.num_outputs,
-                'connected': [{'output': i, 'input': self.ip_block.connections[i]} for i in range(self.ip_block.num_outputs)]
+                "band_select": self.band_select,
+                "band_start_channel": self.band_start_channel,
             }
 
             if clear:
