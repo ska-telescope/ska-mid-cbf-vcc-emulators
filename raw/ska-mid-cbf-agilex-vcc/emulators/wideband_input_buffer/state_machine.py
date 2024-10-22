@@ -122,6 +122,11 @@ class EmulatorStateMachine(FiniteStateMachine):
                 'trigger': WidebandInputBufferTransitionTrigger.START
             },
             {
+                'source': WidebandInputBufferState.ENABLED,
+                'dest': WidebandInputBufferState.DISABLING,
+                'trigger': WidebandInputBufferTransitionTrigger.STOP
+            },
+            {
                 'source': WidebandInputBufferState.ENABLING,
                 'dest': WidebandInputBufferState.READY,
                 'trigger': WidebandInputBufferTransitionTrigger.STOP

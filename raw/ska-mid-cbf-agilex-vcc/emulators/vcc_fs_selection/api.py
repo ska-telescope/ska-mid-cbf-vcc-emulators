@@ -31,8 +31,8 @@ class EmulatorApi(BaseEmulatorApi):
                 f"Configuration schema validation failed: {str(e)}"
             )
 
-        self.band_select = config.get("band_select", -1)
-        self.band_start_channel = config.get("band_start_channel", [-1, -1])
+        self.ip_block.band_select = config.get("band_select", -1)
+        self.ip_block.band_start_channel = config.get("band_start_channel", [-1, -1])
         return InternalRestResponse.ok()
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -55,8 +55,8 @@ class EmulatorApi(BaseEmulatorApi):
                 f"Configuration schema validation failed: {str(e)}"
             )
 
-        self.band_select = config.get("band_select", -1)
-        self.band_start_channel = config.get("band_start_channel", [-1, -1])
+        self.ip_block.band_select = config.get("band_select", -1)
+        self.ip_block.band_start_channel = config.get("band_start_channel", [-1, -1])
         return InternalRestResponse.ok()
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -66,8 +66,8 @@ class EmulatorApi(BaseEmulatorApi):
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        self.band_select = -1
-        self.band_start_channel = [-1, -1]
+        self.ip_block.band_select = -1
+        self.ip_block.band_start_channel = [-1, -1]
         return InternalRestResponse.ok()
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -100,8 +100,8 @@ class EmulatorApi(BaseEmulatorApi):
         """
         try:
             status = {
-                "band_select": self.band_select,
-                "band_start_channel": self.band_start_channel,
+                "band_select": self.ip_block.band_select,
+                "band_start_channel": self.ip_block.band_start_channel,
             }
 
             if clear:
