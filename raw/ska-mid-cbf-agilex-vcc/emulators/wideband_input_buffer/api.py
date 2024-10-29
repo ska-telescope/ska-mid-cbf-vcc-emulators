@@ -2,7 +2,13 @@ from typing import Any, Self
 
 import jsonschema
 
-from ska_mid_cbf_emulators.common import BaseEmulatorApi, BodyParam, HttpMethod, InternalRestResponse, QueryParam
+from ska_mid_cbf_emulators.common import (
+    BaseEmulatorApi,
+    BodyParam,
+    HttpMethod,
+    InternalRestResponse,
+    QueryParam,
+)
 
 from .config_schema import config_schema
 from .ip_block import EmulatorIPBlock
@@ -130,8 +136,7 @@ class EmulatorApi(BaseEmulatorApi):
                 "meta_band_id": self.ip_block.meta_band_id,
                 "meta_dish_id": self.ip_block.meta_dish_id,
                 "rx_sample_rate": self.ip_block.rx_sample_rate,
-                "meta_transport_sample_rate_lsw": self.ip_block.meta_transport_sample_rate_lsw,
-                "meta_transport_sample_rate_msw": self.ip_block.meta_transport_sample_rate_msw,
+                "meta_transport_sample_rate": self.ip_block.meta_transport_sample_rate,
             }
 
             if clear:

@@ -18,7 +18,6 @@ class EmulatorIPBlock:
         self.error: bool = False
         self.loss_of_signal_seconds: int = 0
         self.meta_band_id: int = 1
-        self.meta_dish_id: int = 0
+        self.meta_dish_id: int = 1
         self.rx_sample_rate: int = 0
-        self.meta_transport_sample_rate_lsw: int = 0
-        self.meta_transport_sample_rate_msw: int = 0
+        self.meta_transport_sample_rate: int = 0
