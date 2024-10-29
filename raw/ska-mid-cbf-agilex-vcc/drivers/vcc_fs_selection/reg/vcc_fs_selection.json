@@ -1,0 +1,72 @@
+{
+    "name": "vcc_fs_selection",
+    "desc": "Provides VCC frequency slice selection control.",
+    "version": "1.0.0",
+    "registers": {
+        "scratch": {
+            "name": "scratch",
+            "addressOffset": "0x00",
+            "width": 32,
+            "fields": {
+                "data": {
+                    "name": "data",
+                    "desc": "Scratch Data Register",
+                    "bitOffset": 0,
+                    "bitWidth": 32,
+                    "reset": 0,
+                    "access": "rw"
+                }
+            }
+        },
+        "vcc_fs_selection_register": {
+            "name": "vcc_fs_selection_register",
+            "desc": [
+                "VCC Frequency Slice (FS) selection 26 x 2:1 multiplexor—it selects FS' from three VCC channelizers:",
+                "1. B123VCC-OSPPFB channelizer",
+                "2. B45VCC-OSPPFB channelizer 1",
+                "3. B45VCC-OSPPFB channelizer 2."
+            ],
+            "addressOffset": "0x04",
+            "width": 32,
+            "fields": {
+                "fs_1_26_select": {
+                    "name": "FS 1-26 Select",
+                    "desc": [
+                        "FS 1-26 Select Register:",
+                            "Bit 25     FS 26 Select    0: B45.2 FS 2,    1: B45.2 FS 15",
+                            "Bit 24     FS 25 Select    0: B45.2 FS 1,    1: B45.2 FS 14",
+                            "Bit 23     FS 24 Select    0: B45.2 FS 13,   1: B45.2 FS 13",
+                            "Bit 22     FS 23 Select    0: B45.2 FS 12,   1: B45.2 FS 12",
+                            "Bit 21     FS 22 Select    0: B45.2 FS 11,   1: B45.2 FS 11",
+                            "Bit 20     FS 21 Select    0: B45.2 FS 10,   1: B45.2 FS 10",
+                            "Bit 19     FS 20 Select    0: B45.2 FS 9,    1: B45.2 FS 9",
+                            "Bit 18     FS 19 Select    0: B45.2 FS 8,    1: B45.2 FS 8",
+                            "Bit 17     FS 18 Select    0: B45.2 FS 7,    1: B123 FS 10",
+                            "Bit 16     FS 17 Select    0: B45.2 FS 6,    1: B123 FS 9",
+                            "Bit 15     FS 16 Select    0: B45.2 FS 5,    1: B123 FS 8",
+                            "Bit 14     FS 15 Select    0: B45.2 FS 4,    1: B123 FS 7",
+                            "Bit 13     FS 14 Select    0: B45.2 FS 3,    1: B123 FS 6",
+                            "Bit 12     FS 13 Select    0: B45.1 FS 13,   1: B123 FS 5",
+                            "Bit 11     FS 12 Select    0: B45.1 FS 12,   1: B123 FS 4",
+                            "Bit 10     FS 11 Select    0: B45.1 FS 11,   1: B123 FS 3",
+                            "Bit 9      FS 10 Select    0: B45.1 FS 10,   1: B123 FS 2",
+                            "Bit 8      FS 9  Select    0: B45.1 FS 9,    1: B123 FS 1",
+                            "Bit 7      FS 8  Select    0: B45.1 FS 8,    1: B45.1 FS 8",
+                            "Bit 6      FS 7  Select    0: B45.1 FS 7,    1: B45.1 FS 7",
+                            "Bit 5      FS 6  Select    0: B45.1 FS 6,    1: B45.1 FS 6",
+                            "Bit 4      FS 5  Select    0: B45.1 FS 5,    1: B45.1 FS 5",
+                            "Bit 3      FS 4  Select    0: B45.1 FS 4,    1: B45.1 FS 4",
+                            "Bit 2      FS 3  Select    0: B45.1 FS 3,    1: B45.1 FS 3",
+                            "Bit 1      FS 2  Select    0: B45.1 FS 2,    1: B45.1 FS 15",
+                            "Bit 0      FS 1  Select    0: B45.1 FS 1,    1: B45.1 FS 14"
+                       ],
+                    "bitOffset": 0,
+                    "bitWidth": 26,
+                    "ftype": "natural",
+                    "reset": 0,
+                    "access": "rw"
+                }
+            }
+        }
+    }
+}

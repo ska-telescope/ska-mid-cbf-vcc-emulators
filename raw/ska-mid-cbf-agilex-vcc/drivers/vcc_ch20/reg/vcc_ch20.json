@@ -12,21 +12,21 @@
     "date": "2021-01-14",
     "referenceDocumentTitle": "None",
     "referenceDocument": "None",
-    "parameters": {
-        "channels_out": {
-            "name": "Number of output channels",
-            "desc": "Number of output channels configured in the firmware for this instance.",
+    "parameters" : {
+        "frame_size": {
+            "name": "Input Frame Size",
+            "desc": "The number of parallel samples input each cycle.",
             "ftype": "natural"
         },
-        "polarisations": {
-            "name": "Number of polarisations",
-            "desc": "Number of polarisations configured in the firmware for this instance.",
-            "ftype": "natural"
+        "channels" : {
+            "name": "Output Channels",
+            "desc": "The number of complex channels at the output.",
+            "ftype" : "natural"
         },
-        "input_frame_size": {
-            "name": "Size of input frame",
-            "desc": "Size of input frame configured in the firmware for this instance.",
-            "ftype": "natural"
+        "polarisations" : {
+            "name": "Polarisations",
+            "desc": "Number of polarisations at input and output.",
+            "ftype" : "natural"
         }
     },
     "registers": {

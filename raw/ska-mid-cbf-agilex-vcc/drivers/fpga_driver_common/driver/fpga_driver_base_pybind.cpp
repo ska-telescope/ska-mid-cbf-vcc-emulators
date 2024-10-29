@@ -39,7 +39,8 @@ FPGA_DRIVER_PYBIND_MODULE_DECLARATION(fpga_driver_base, m) {
 
     py::class_<RegisterSetInfo>(m, "RegisterSetInfo")
         .def(py::init<>())
-        .def(py::init<std::string, u_int32_t, u_int32_t, std::string>())
+        .def(py::init<std::string, u_int32_t, u_int32_t, std::string>(),
+            py::arg("dev_file"), py::arg("address"), py::arg("depth"), py::arg("version"))
         .def_readwrite("dev_file", &RegisterSetInfo::dev_file)
         .def_readwrite("address", &RegisterSetInfo::address)
         .def_readwrite("depth", &RegisterSetInfo::depth)

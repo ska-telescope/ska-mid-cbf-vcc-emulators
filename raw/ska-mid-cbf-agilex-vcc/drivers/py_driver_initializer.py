@@ -1,5 +1,9 @@
 import logging
-from .py_drivers import drivers, pybind_module_name
+import sys
+import os
+
+sys.path.append(os.path.join(os.path.dirname(__file__)))
+from py_drivers import drivers, pybind_module_name
 
 class Py_Driver_Initializer:
     def __init__(self, instance_name: str, memory_map_file: str, logger: logging.Logger):
@@ -35,9 +39,9 @@ class Py_Driver_Initializer:
         logger.info(f"Instantiating instance '{self.instance_name}' of driver {self.driver_submodule_name}")
 
         # Import the base submodule, and the driver submodule, from the master pybind module:
-        base_submodule = __import__(f".{self.pybind_module_name}.fpga_driver_base", fromlist=[None])
+        base_submodule = __import__(f"{self.pybind_module_name}.fpga_driver_base", fromlist=[None])
         self.base_submodule = base_submodule
-        self.driver_submodule = __import__(f".{self.pybind_module_name}.{self.driver_submodule_name}", fromlist=[None])
+        self.driver_submodule = __import__(f"{self.pybind_module_name}.{self.driver_submodule_name}", fromlist=[None])
 
         # Setup CLogger to redirect log messages from C++ to python
         class CLogger(base_submodule.Logger):
@@ -86,7 +90,8 @@ class Py_Driver_Initializer:
                 depth=regset_info["firmware_depth"],
                 version=regset_info["regdef"]["version"]
             )
-            self.params[regset_id] = self.driver_submodule.param_t(**regset_info["parameters"])
+            if regset_info.get("parameters"):
+                self.params[regset_id] = self.driver_submodule.param_t(**regset_info["parameters"])
 
         # Instantiate the driver:
         # TODO: firmware team to figure out how to pass a map of params to c++ constructor, mirroring the ability to pass
