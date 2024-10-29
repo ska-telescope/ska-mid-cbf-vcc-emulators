@@ -111,10 +111,13 @@ namespace fpga_driver {
         bool    ready;
     };
 
+    struct ftile_ethernet_param_t {
+    };
+
     class ftile_ethernet_driver : public fpga_driver::Base<ftile_ethernet_config, ftile_ethernet_status> 
     {
         public:
-            ftile_ethernet_driver(RegisterSetInfos &regset, Logger &logger) 
+            ftile_ethernet_driver(ftile_ethernet_param_t &params, RegisterSetInfos &regset, Logger &logger) 
             : fpga_driver::Base<ftile_ethernet_config, ftile_ethernet_status>(regset, logger)
             {
                 // Number of lanes is available in the base register set. 

@@ -25,17 +25,17 @@ namespace fpga_driver {
         std::vector<circuit_switch_config_t> connected;
     };
 
-    class CircuitSwitch : public fpga_driver::Base<circuit_switch_config_t, circuit_switch_status_t>
+    class Circuit_Switch_Driver : public fpga_driver::Base<circuit_switch_config_t, circuit_switch_status_t>
     {
         public:
-            CircuitSwitch (circuit_switch_param_t &params, RegisterSetInfos &regset, Logger &logger) 
+            Circuit_Switch_Driver (circuit_switch_param_t &params, RegisterSetInfos &regset, Logger &logger) 
             : Base<circuit_switch_config_t,circuit_switch_status_t>(regset, logger), params_(params) {
                 log->info("Constructing...");
                 RegisterMap<circuit_switch_regset::circuit_switch_reg_t> *reg_map = new RegisterMap<circuit_switch_regset::circuit_switch_reg_t>(get_regset_info("csr", circuit_switch_regset::version));
                 csr = reg_map->regs();
             };
 
-            ~CircuitSwitch () {
+            ~Circuit_Switch_Driver () {
                 log->info("Destructor...");
                 csr.reset();
             };

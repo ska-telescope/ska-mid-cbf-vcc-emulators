@@ -69,11 +69,13 @@ py::class_<ftile_ethernet_status>(m, "ftile_ethernet_status")
 .def_readwrite("ready", &ftile_ethernet_status::ready)
 ;
 
+py::class_<ftile_ethernet_param_t>(m, "param_t")
+.def(py::init<>());
 
 
 
     py::class_<ftile_ethernet_driver>(m, "ftile_ethernet_driver")
-        .def(py::init<RegisterSetInfos&, fpga_driver::Logger&>())
+        .def(py::init<ftile_ethernet_param_t&, RegisterSetInfos&, fpga_driver::Logger&>())
         .def("get_default_config", &ftile_ethernet_driver::get_default_config)
         .def("recover", &ftile_ethernet_driver::recover)
         .def("configure",   &ftile_ethernet_driver::configure)

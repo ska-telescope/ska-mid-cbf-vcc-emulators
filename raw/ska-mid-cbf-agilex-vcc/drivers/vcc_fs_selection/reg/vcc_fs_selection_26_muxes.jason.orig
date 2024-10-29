@@ -1,0 +1,255 @@
+{
+    "name": "VCC FS Selection",
+    "desc": "VCC Stream Selection Muxes",
+    "mnemonic": "vcc_fs_selection",
+    "version": "1.0.0",
+    "registers": {
+        "vcc_fs_selection_register": {
+            "name": "vcc_fs_selection_register",
+            "desc": [
+                "VCC frequency slice (FS) selection 26 x 2:1 multiplexor—it selects FS' from three VCC channelizers:",
+                "1. B123VCC-OSPPFB channelizer",
+                "2. B45VCC-OSPPFB channelizer 1",
+                "3. B45VCC-OSPPFB channelizer 2."
+            ],
+            "addressOffset": "0x0",
+            "width": 32,
+            "fields": {
+                "fs_select_26": {
+                    "name": "FS Select 26",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 2, 1: B45.2 FS 15",
+                    "ftype": "boolean",
+                    "bitOffset": 25,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_25": {
+                    "name": "FS Select 25",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 1, 1: B45.2 FS 14",
+                    "ftype": "boolean",
+                    "bitOffset": 24,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_24": {
+                    "name": "FS Select 24",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 13, 1: B45.2 FS 13",
+                    "ftype": "boolean",
+                    "bitOffset": 23,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_23": {
+                    "name": "FS Select 23",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 12, 1: B45.2 FS 12",
+                    "ftype": "boolean",
+                    "bitOffset": 22,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_22": {
+                    "name": "FS Select 22",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 11, 1: B45.2 FS 11",
+                    "ftype": "boolean",
+                    "bitOffset": 21,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_21": {
+                    "name": "FS Select 21",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 10, 1: B45.2 FS 10",
+                    "ftype": "boolean",
+                    "bitOffset": 20,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_20": {
+                    "name": "FS Select 20",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 9, 1: B45.2 FS 9",
+                    "ftype": "boolean",
+                    "bitOffset": 19,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_19": {
+                    "name": "FS Select 19",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 8, 1: B45.2 FS 8",
+                    "ftype": "boolean",
+                    "bitOffset": 18,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_18": {
+                    "name": "FS Select 18",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 7, 1: B123 FS 10",
+                    "ftype": "boolean",
+                    "bitOffset": 17,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_17": {
+                    "name": "FS Select 17",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 6, 1: B123 FS 9",
+                    "ftype": "boolean",
+                    "bitOffset": 16,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_16": {
+                    "name": "FS Select 16",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 5, 1: B123 FS 8",
+                    "ftype": "boolean",
+                    "bitOffset": 15,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_15": {
+                    "name": "FS Select 15",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 4, 1: B123 FS 7",
+                    "ftype": "boolean",
+                    "bitOffset": 14,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_14": {
+                    "name": "FS Select 14",
+                    "desc": "FS 2:1 mux — 0: B45.2 FS 3, 1: B123 FS 6",
+                    "ftype": "boolean",
+                    "bitOffset": 13,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_13": {
+                    "name": "FS Select 13",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 13, 1: B123 FS 5",
+                    "ftype": "boolean",
+                    "bitOffset": 12,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_12": {
+                    "name": "FS Select 12",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 12, 1: B123 FS 4",
+                    "ftype": "boolean",
+                    "bitOffset": 11,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_11": {
+                    "name": "FS Select 11",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 11, 1: B123 FS 3",
+                    "ftype": "boolean",
+                    "bitOffset": 10,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_10": {
+                    "name": "FS Select 10",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 10, 1: B123 FS 2",
+                    "ftype": "boolean",
+                    "bitOffset": 9,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_9": {
+                    "name": "FS Select 9",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 9, 1: B123 FS 1",
+                    "ftype": "boolean",
+                    "bitOffset": 8,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_8": {
+                    "name": "FS Select 8",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 8, 1: B45.1 FS 8",
+                    "ftype": "boolean",
+                    "bitOffset": 7,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_7": {
+                    "name": "FS Select 7",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 7, 1: B45.1 FS 7",
+                    "ftype": "boolean",
+                    "bitOffset": 6,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_6": {
+                    "name": "FS Select 6",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 6, 1: B45.1 FS 6",
+                    "ftype": "boolean",
+                    "bitOffset": 5,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_5": {
+                    "name": "FS Select 5",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 5, 1: B45.1 FS 5",
+                    "ftype": "boolean",
+                    "bitOffset": 4,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_4": {
+                    "name": "FS Select 4",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 4, 1: B45.1 FS 4",
+                    "ftype": "boolean",
+                    "bitOffset": 3,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_3": {
+                    "name": "FS Select 3",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 3, 1: B45.1 FS 3",
+                    "ftype": "boolean",
+                    "bitOffset": 2,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_2": {
+                    "name": "FS Select 2",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 2, 1: B45.1 FS 15",
+                    "ftype": "boolean",
+                    "bitOffset": 1,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                },
+                "fs_select_1": {
+                    "name": "FS Select 1",
+                    "desc": "FS 2:1 mux — 0: B45.1 FS 1, 1: B45.1 FS 14",
+                    "ftype": "boolean",
+                    "bitOffset": 0,
+                    "bitWidth": 1,
+                    "reset": 0,
+                    "access": "rw"
+                }
+            }
+        }
+    }
+}

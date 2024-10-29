@@ -8,7 +8,7 @@
 
 #ifdef STANDALONE
 #define FPGA_DRIVER_PYBIND_MODULE_DECLARATION(block_name, module_name) \
-PYBIND11_MODULE(block_name, module_name) 
+PYBIND11_MODULE(block_name, module_name)
 #else
 #define FPGA_DRIVER_PYBIND_MODULE_DECLARATION(block_name, module_name) \
 void init_##block_name##_submodule(py::module &module_name)

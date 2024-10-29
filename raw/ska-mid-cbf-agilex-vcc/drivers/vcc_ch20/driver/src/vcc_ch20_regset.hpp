@@ -66,9 +66,9 @@
 
         struct vcc_ch20_fpga_parameters
         {
-            std::uint32_t channels_out; /*!< Number of output channels configured in the firmware for this instance. */
-            std::uint32_t polarisations; /*!< Number of polarisations configured in the firmware for this instance. */
-            std::uint32_t input_frame_size; /*!< Size of input frame configured in the firmware for this instance. */
+            std::uint32_t frame_size; /*!< The number of parallel samples input each cycle. */
+            std::uint32_t channels; /*!< The number of complex channels at the output. */
+            std::uint32_t polarisations; /*!< Number of polarisations at input and output. */
         };
 
 
