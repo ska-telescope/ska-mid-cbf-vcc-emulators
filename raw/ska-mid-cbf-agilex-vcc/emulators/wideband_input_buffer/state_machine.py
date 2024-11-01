@@ -97,7 +97,7 @@ class EmulatorStateMachine(FiniteStateMachine):
     def _transitions(self) -> list[dict[str, Any]]:
         return [
             {
-                'source': WidebandInputBufferState.RESET,
+                'source': [WidebandInputBufferState.RESET, WidebandInputBufferState.READY],
                 'dest': WidebandInputBufferState.CONFIGURING,
                 'trigger': WidebandInputBufferTransitionTrigger.CONFIGURE
             },
