@@ -20,4 +20,4 @@ class EmulatorIPBlock:
         self.meta_band_id: int = 1
         self.meta_dish_id: int = 1
         self.rx_sample_rate: int = 0
-        self.meta_transport_sample_rate: int = 0
+        self.meta_transport_sample_rate: int = 3_960_000_000
