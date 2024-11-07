@@ -10,7 +10,7 @@ from ska_mid_cbf_emulators.common import (
     QueryParam,
 )
 
-from .config_schema import config_schema
+from .schemas import config_schema
 from .ip_block import EmulatorIPBlock
 from .state_machine import WidebandInputBufferTransitionTrigger
 
