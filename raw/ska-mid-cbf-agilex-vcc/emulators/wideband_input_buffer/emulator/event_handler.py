@@ -1,5 +1,5 @@
 import jsonschema
-from ska_mid_cbf_emulators.common import BaseEvent, BaseSubcontroller, EventSeverity, ProcessingEventSubType, PulseEventSubType
+from ska_mid_cbf_emulators.common import BaseEvent, BaseSubcontroller, EventSeverity, ManualEventSubType, PulseEventSubType
 
 from .state_machine import WidebandInputBufferTransitionTrigger
 from .ip_block import EmulatorIPBlock
@@ -31,14 +31,14 @@ def handle_event(subcontroller: BaseSubcontroller, event: BaseEvent, **kwargs) -
         case PulseEventSubType.ERROR:
             subcontroller.log_debug(f'{event.subtype} implementation TBD')
 
-        # ProcessingEvent types
-        case ProcessingEventSubType.GENERAL:
+        # ManualEvent types
+        case ManualEventSubType.GENERAL:
             subcontroller.log_debug(f'{event.subtype} implementation TBD')
 
-        case ProcessingEventSubType.UPDATE_SELF:
+        case ManualEventSubType.UPDATE_SELF:
             subcontroller.log_debug(f'{event.subtype} implementation TBD')
 
-        case ProcessingEventSubType.INJECTION:
+        case ManualEventSubType.INJECTION:
             injection_type = event.value.get('injection_type')
             try:
                 if injection_type is not None:
