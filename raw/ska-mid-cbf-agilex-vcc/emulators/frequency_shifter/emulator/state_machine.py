@@ -5,7 +5,7 @@ from ska_mid_cbf_emulators.common import BaseState, BaseTransitionTrigger, Finit
 
 
 class WidebandFrequencyShifterState(BaseState):
-    """Enum containing possible states for the Wideband Frequency Shifter module.
+    """Enum containing possible states for the Wideband Frequency Shifter IP block emulator.
 
     Implements :obj:`BaseState`.
     """
@@ -18,7 +18,7 @@ class WidebandFrequencyShifterState(BaseState):
 
 
 class WidebandFrequencyShifterTransitionTrigger(BaseTransitionTrigger):
-    """Enum containing transitions for the Wideband Frequency Shifter module.
+    """Enum containing transitions for the Wideband Frequency Shifter IP block emulator.
 
     Implements :obj:`BaseTransitionTrigger`.
     """
@@ -28,7 +28,7 @@ class WidebandFrequencyShifterTransitionTrigger(BaseTransitionTrigger):
 
 
 class EmulatorStateMachine(FiniteStateMachine):
-    """State machine for the Wideband Frequency Shifter module.
+    """State machine for the Wideband Frequency Shifter IP block emulator.
 
     Implements :obj:`FiniteStateMachine`.
     """

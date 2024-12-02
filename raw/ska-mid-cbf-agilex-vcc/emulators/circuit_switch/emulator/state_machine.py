@@ -5,7 +5,7 @@ from ska_mid_cbf_emulators.common import BaseState, BaseTransitionTrigger, Finit
 
 
 class CircuitSwitchState(BaseState):
-    """Enum containing possible states for the Circuit Switch module.
+    """Enum containing possible states for the Circuit Switch IP block emulator.
 
     Implements :obj:`BaseState`.
     """
@@ -18,7 +18,7 @@ class CircuitSwitchState(BaseState):
 
 
 class CircuitSwitchTransitionTrigger(BaseTransitionTrigger):
-    """Enum containing transitions for the Circuit Switch module.
+    """Enum containing transitions for the Circuit Switch IP block emulator.
 
     Implements :obj:`BaseTransitionTrigger`.
     """
@@ -28,7 +28,7 @@ class CircuitSwitchTransitionTrigger(BaseTransitionTrigger):
 
 
 class EmulatorStateMachine(FiniteStateMachine):
-    """State machine for the Circuit Switch module.
+    """State machine for the Circuit Switch IP block emulator.
 
     Implements :obj:`FiniteStateMachine`.
     """

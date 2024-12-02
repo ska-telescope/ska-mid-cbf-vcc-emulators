@@ -12,7 +12,7 @@
     },
     {
       "id": "ethernet_200g",
-      "display_name": "200Gb Ethernet MAC",
+      "display_name": "200Gb Ethernet",
       "type": "ftile_ethernet",
       "downstream_block_ids": [
         "packet_validation"

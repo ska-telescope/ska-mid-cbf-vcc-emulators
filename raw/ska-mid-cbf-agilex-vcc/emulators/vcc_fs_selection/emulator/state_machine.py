@@ -5,7 +5,7 @@ from ska_mid_cbf_emulators.common import BaseState, BaseTransitionTrigger, Finit
 
 
 class FrequencySliceSelectionState(BaseState):
-    """Enum containing possible states for the Frequency Slice Selection module.
+    """Enum containing possible states for the Frequency Slice Selection IP block emulator.
 
     Implements :obj:`BaseState`.
     """
@@ -18,7 +18,7 @@ class FrequencySliceSelectionState(BaseState):
 
 
 class FrequencySliceSelectionTransitionTrigger(BaseTransitionTrigger):
-    """Enum containing transitions for the Frequency Slice Selection module.
+    """Enum containing transitions for the Frequency Slice Selection IP block emulator.
 
     Implements :obj:`BaseTransitionTrigger`.
     """
@@ -28,7 +28,7 @@ class FrequencySliceSelectionTransitionTrigger(BaseTransitionTrigger):
 
 
 class EmulatorStateMachine(FiniteStateMachine):
-    """State machine for the Frequency Slice Selection module.
+    """State machine for the Frequency Slice Selection IP block emulator.
 
     Implements :obj:`FiniteStateMachine`.
     """
