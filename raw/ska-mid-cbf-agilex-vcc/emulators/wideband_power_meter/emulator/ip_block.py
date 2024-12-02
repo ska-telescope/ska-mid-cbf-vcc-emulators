@@ -3,7 +3,7 @@ import numpy as np
 
 
 class EmulatorIPBlock:
-    """IP block simulation for the Ethernet MAC."""
+    """IP block simulation for the Wideband Power Meter."""
 
     def __init__(self: Self) -> None:
         # const defaults

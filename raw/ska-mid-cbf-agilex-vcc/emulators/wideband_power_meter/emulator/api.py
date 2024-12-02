@@ -21,7 +21,7 @@ class EmulatorApi(BaseEmulatorApi):
     def configure(
         self: Self, config: BodyParam[dict[str, Any]]
     ) -> InternalRestResponse:
-        """Configure the Wideband Frequency Shifter.
+        """Configure the Wideband Power Meter.
 
         Args:
             config (:obj:`dict[str, Any]`): Config object
@@ -46,7 +46,7 @@ class EmulatorApi(BaseEmulatorApi):
     def deconfigure(
         self: Self, config: BodyParam[dict[str, Any]]
     ) -> InternalRestResponse:
-        """Deconfigure the Wideband Frequency Shifter.
+        """Deconfigure the Wideband Power Meter.
 
         Args:
             config (:obj:`dict[str, Any]`): Config object
@@ -58,7 +58,7 @@ class EmulatorApi(BaseEmulatorApi):
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
     def recover(self: Self) -> InternalRestResponse:
-        """Recover the Wideband Frequency Shifter.
+        """Recover the Wideband Power Meter.
 
         Returns:
             :obj:`InternalRestResponse` the response.
@@ -67,7 +67,7 @@ class EmulatorApi(BaseEmulatorApi):
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
     def start(self: Self) -> InternalRestResponse:
-        """Start the Wideband Frequency Shifter (does nothing).
+        """Start the Wideband Power Meter (does nothing).
 
         Returns:
             :obj:`InternalRestResponse` the response.
@@ -76,7 +76,7 @@ class EmulatorApi(BaseEmulatorApi):
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
     def stop(self: Self) -> InternalRestResponse:
-        """Stop the Wideband Frequency Shifter (does nothing).
+        """Stop the Wideband Power Meter (does nothing).
 
         Returns:
             :obj:`InternalRestResponse` the response.
@@ -85,7 +85,7 @@ class EmulatorApi(BaseEmulatorApi):
 
     @BaseEmulatorApi.route(http_method=HttpMethod.GET)
     def status(self: Self, clear: QueryParam[bool] = False) -> InternalRestResponse:
-        """Update and get the status of the Wideband Frequency Shifter.
+        """Update and get the status of the Wideband Power Meter.
 
         Args:
             clear (:obj:`bool`): set to True to clear the counters. Default False.

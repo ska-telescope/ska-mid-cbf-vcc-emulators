@@ -1,1 +1,1 @@
-"""IP emulator for the Wideband Frequency Shifter"""
+"""IP emulator for the Wideband Power Meter"""
