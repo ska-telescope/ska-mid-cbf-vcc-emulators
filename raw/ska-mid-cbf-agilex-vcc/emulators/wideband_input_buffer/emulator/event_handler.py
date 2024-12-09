@@ -1,73 +1,84 @@
+from typing import Self, override
 import jsonschema
-from ska_mid_cbf_emulators.common import BaseEvent, BaseSubcontroller, EventSeverity, ManualEventSubType, PulseEventSubType
+from ska_mid_cbf_emulators.common import BaseEventHandler, EventSeverity, ManualEvent, ManualEventSubType, SignalUpdateEventList
 
 from .state_machine import WidebandInputBufferTransitionTrigger
-from .ip_block import EmulatorIPBlock
 from .schemas import injection_schemas
 
 
-def handle_event(subcontroller: BaseSubcontroller, event: BaseEvent, **kwargs) -> None:
-    """Handle an incoming event.
+class EmulatorEventHandler(BaseEventHandler):
 
-    Args:
-        subcontroller (:obj:`BaseSubcontroller`): The subcontroller handling this event.
-        event (:obj:`BaseEvent`): The event to handle.
-        **kwargs: Arbitrary keyword arguments.
-    """
-    ip_block: EmulatorIPBlock = subcontroller.ip_block
-    subcontroller.log_trace(f'WIB event callback called for {event}')
+    @override
+    def handle_signal_update_events(self: Self, event_list: SignalUpdateEventList, **kwargs) -> SignalUpdateEventList:
+        """Handle an incoming Signal Update event list.
 
-    match event.subtype:
+        Args:
+            event_list (:obj:`SignalUpdateEventList`): The signal update event list to handle.
+            **kwargs: Arbitrary keyword arguments.
 
-        # PulseEvent types
-        case PulseEventSubType.PULSE:
-            if event.value.get('packet_rate') is None:
-                return
-            subcontroller.trigger_if_allowed(
-                WidebandInputBufferTransitionTrigger.RECEIVE_PULSE,
-                packet_rate=float(event.value.get('packet_rate'))
-            )
+        Returns:
+            :obj:`SignalUpdateEventList` The signal update event list to send to the next block.
+        """
+        self.log_trace(f'Wideband Input Buffer Signal Update event handler called for {event_list}')
 
-        case PulseEventSubType.ERROR:
-            subcontroller.log_debug(f'{event.subtype} implementation TBD')
+        # TODO: temporary, don't know how multiple inputs (band 5) will actually be handled here
+        min_packet_rate = min(*event_list.events, key=lambda e: float(e.value.get('packet_rate', 0)))
 
-        # ManualEvent types
-        case ManualEventSubType.GENERAL:
-            subcontroller.log_debug(f'{event.subtype} implementation TBD')
+        self.subcontroller.trigger_if_allowed(
+            WidebandInputBufferTransitionTrigger.RECEIVE_PULSE,
+            packet_rate=min_packet_rate
+        )
+        return event_list
 
-        case ManualEventSubType.UPDATE_SELF:
-            subcontroller.log_debug(f'{event.subtype} implementation TBD')
+    @override
+    def handle_manual_event(self: Self, event: ManualEvent, **kwargs) -> None | list[ManualEvent]:
+        """Handle an incoming manual event.
 
-        case ManualEventSubType.INJECTION:
-            injection_type = event.value.get('injection_type')
-            try:
-                if injection_type is not None:
-                    if injection_schemas.get(injection_type) is not None:
-                        jsonschema.validate(event.value, injection_schemas[injection_type])
+        Args:
+            event (:obj:`ManualEvent`): The manual event to handle.
+            **kwargs: Arbitrary keyword arguments.
 
-                    match injection_type:
-                        case 'force_register_value':
-                            if hasattr(ip_block, event.value['register_name']):
-                                setattr(ip_block, event.value['register_name'], event.value['register_value'])
-                            else:
-                                subcontroller.log_error(f'No register found with name `{event.value['register_name']}`.')
+        Returns:
+            :obj:`None | list[ManualEvent]` Optionally, a list of one or more new manual events \
+                to automatically forward downstream.
+        """
+        self.log_trace(f'Wideband Input Buffer manual event handler called for {event}')
 
-                        case 'power_cycle':
-                            subcontroller.trigger_if_allowed(
-                                WidebandInputBufferTransitionTrigger.RESET
+        match event.subtype:
+
+            case ManualEventSubType.GENERAL:
+                self.log_debug(f'{event.subtype} implementation TBD')
+
+            case ManualEventSubType.INJECTION:
+                injection_type = event.value.get('injection_type')
+                try:
+                    if injection_type is not None:
+                        if injection_schemas.get(injection_type) is not None:
+                            jsonschema.validate(event.value, injection_schemas[injection_type])
+
+                        match injection_type:
+                            case 'force_register_value':
+                                if hasattr(self.ip_block, event.value['register_name']):
+                                    setattr(self.ip_block, event.value['register_name'], event.value['register_value'])
+                                else:
+                                    self.log_error(f'No register found with name `{event.value['register_name']}`.')
+
+                            case 'power_cycle':
+                                self.subcontroller.trigger_if_allowed(
+                                    WidebandInputBufferTransitionTrigger.RESET
+                                )
+
+                            case _:
+                                self.subcontroller.log_warning(f'injection_type not implemented for WIB: {injection_type}')
+
+                        if event.severity == EventSeverity.FATAL_ERROR:
+                            self.subcontroller.trigger_if_allowed(
+                                WidebandInputBufferTransitionTrigger.CRITICAL_FAULT
                             )
+                    else:
+                        self.log_error(f'Injected event with value `{event.value}` missing required injection_type.')
+                except jsonschema.ValidationError as e:
+                    self.log_error(f'Injected event value failed schema validation: {str(e)}')
 
-                        case _:
-                            subcontroller.log_warning(f'injection_type not implemented for WIB: {injection_type}')
-
-                    if event.severity == EventSeverity.FATAL_ERROR:
-                        subcontroller.trigger_if_allowed(
-                            WidebandInputBufferTransitionTrigger.CRITICAL_FAULT
-                        )
-                else:
-                    subcontroller.log_error(f'Injected event with value `{event.value}` missing required injection_type.')
-            except jsonschema.ValidationError as e:
-                subcontroller.log_error(f'Injected event value failed schema validation: {str(e)}')
-
-        case _:
-            subcontroller.log_debug(f'Unhandled event type: {event.subtype}')
+            case _:
+                self.log_debug(f'Unhandled event type {event.subtype}')

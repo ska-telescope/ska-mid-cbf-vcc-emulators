@@ -1,26 +1,10 @@
 from typing import Self, override
-from ska_mid_cbf_emulators.common import EventSeverity, ManualEventSubType, SignalUpdateEventList, ManualEvent, BaseEventHandler
+from ska_mid_cbf_emulators.common import EventSeverity, ManualEventSubType, ManualEvent, BaseEventHandler
 
 from .state_machine import PacketValidationTransitionTrigger
 
 
 class EmulatorEventHandler(BaseEventHandler):
-
-
-    @override
-    def handle_signal_update_events(self: Self, event_list: SignalUpdateEventList, **kwargs) -> SignalUpdateEventList:
-        """Handle an incoming Signal Update event list.
-
-        Args:
-            event_list (:obj:`SignalUpdateEventList`): The signal update event list to handle.
-            **kwargs: Arbitrary keyword arguments.
-
-        Returns:
-            :obj:`SignalUpdateEventList` The signal update event list to send to the next block.
-        """
-        self.log_trace(f'Packet Validation Signal Update event handler called for {event_list}')
-        return event_list
-
 
     @override
     def handle_manual_event(self: Self, event: ManualEvent, **kwargs) -> None | list[ManualEvent]:
@@ -31,7 +15,8 @@ class EmulatorEventHandler(BaseEventHandler):
             **kwargs: Arbitrary keyword arguments.
 
         Returns:
-            :obj:`None | list[ManualEvent]` Optionally, a list of one or more new manual events to automatically forward downstream.
+            :obj:`None | list[ManualEvent]` Optionally, a list of one or more new manual events \
+                to automatically forward downstream.
         """
         self.log_trace(f'Packet Validation manual event handler called for {event}')
 

@@ -15,7 +15,8 @@
       "display_name": "200Gb Ethernet",
       "type": "ftile_ethernet",
       "downstream_block_ids": [
-        "packet_validation"
+        "packet_validation_a",
+        "packet_validation_b"
       ],
       "constants": {
         "num_fibres": 4,
@@ -23,14 +24,33 @@
       }
     },
     {
-      "id": "packet_validation",
-      "display_name": "Packet Validation",
+      "id": "packet_validation_a",
+      "display_name": "Packet Validation A",
       "type": "packet_validation",
       "downstream_block_ids": [
+        "wideband_input_buffer"
       ],
       "constants": {
         "expected_ethertype": 65261
       }
+    },
+    {
+      "id": "packet_validation_b",
+      "display_name": "Packet Validation B",
+      "type": "packet_validation",
+      "downstream_block_ids": [
+        "wideband_input_buffer"
+      ],
+      "constants": {
+        "expected_ethertype": 65261
+      }
+    },
+    {
+      "id": "wideband_input_buffer",
+      "display_name": "Wideband Input Buffer",
+      "type": "wideband_input_buffer",
+      "downstream_block_ids": [
+      ]
     }
   ],
   "first": "dish"
