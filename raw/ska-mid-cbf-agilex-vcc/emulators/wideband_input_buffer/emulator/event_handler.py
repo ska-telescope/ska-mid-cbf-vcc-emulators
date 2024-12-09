@@ -28,6 +28,10 @@ class EmulatorEventHandler(BaseEventHandler):
             WidebandInputBufferTransitionTrigger.RECEIVE_PULSE,
             packet_rate=min_packet_rate
         )
+
+        if len(event_list) > 1:
+            event_list.events = event_list.events[:1]
+
         return event_list
 
     @override
