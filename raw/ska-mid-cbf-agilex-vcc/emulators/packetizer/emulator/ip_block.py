@@ -9,6 +9,6 @@ class EmulatorIPBlock:
         # const defaults
 
         # variables
-        vid: np.uint16  # VLAN identifier, for unique VLAN identification.
-        vcc_id: np.uint16  # Influences the Source MAC address.
-        fs_id: np.uint16  # Frequency slice identifier.
+        vid: int = 0  # VLAN identifier, for unique VLAN identification.
+        vcc_id: int = 0  # Influences the Source MAC address.
+        fs_id: int = 0  # Frequency slice identifier.

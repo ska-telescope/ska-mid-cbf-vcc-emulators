@@ -95,8 +95,8 @@ class EmulatorApi(BaseEmulatorApi):
         """
         try:
             status = {
-                "mac_source_register": 0,
-                "vid_register": 0,
+                "mac_source_register": self.ip_block.vcc_id,
+                "vid_register": self.ip_block.vid,
                 "flags_register": 0,
                 "psn_register": 0,
                 "packet_count_register": 0,
