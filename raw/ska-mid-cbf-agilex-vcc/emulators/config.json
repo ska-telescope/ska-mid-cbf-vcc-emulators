@@ -31,13 +31,29 @@
       "id": "wideband_input_buffer",
       "display_name": "Wideband Input Buffer",
       "type": "wideband_input_buffer",
-      "downstream_block_ids": ["b123_wideband_power_meter"]
+      "downstream_block_ids": [
+        "b123_wideband_power_meter",
+        "b45a_wideband_power_meter",
+        "b5b_wideband_power_meter"
+      ]
     },
     {
       "id": "b123_wideband_power_meter",
       "display_name": "Band123 Wideband Power Meter",
       "type": "wideband_power_meter",
       "downstream_block_ids": ["wideband_frequency_shifter"]
+    },
+    {
+      "id": "b45a_wideband_power_meter",
+      "display_name": "Band45a Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": []
+    },
+    {
+      "id": "b5b_wideband_power_meter",
+      "display_name": "Band5b Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": []
     },
     {
       "id": "wideband_frequency_shifter",
