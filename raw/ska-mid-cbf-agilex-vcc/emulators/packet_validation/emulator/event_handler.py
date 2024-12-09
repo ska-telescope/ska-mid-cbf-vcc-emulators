@@ -18,7 +18,7 @@ class EmulatorEventHandler(BaseEventHandler):
         Returns:
             :obj:`SignalUpdateEventList` The signal update event list to send to the next block.
         """
-        self.subcontroller.log_trace(f'Packet Validation Signal Update event handler called for {event_list}')
+        self.log_trace(f'Packet Validation Signal Update event handler called for {event_list}')
         return event_list
 
 
@@ -33,12 +33,12 @@ class EmulatorEventHandler(BaseEventHandler):
         Returns:
             :obj:`None | list[ManualEvent]` Optionally, a list of one or more new manual events to automatically forward downstream.
         """
-        self.subcontroller.log_trace(f'Packet Validation manual event handler called for {event}')
+        self.log_trace(f'Packet Validation manual event handler called for {event}')
 
         match event.subtype:
 
             case ManualEventSubType.GENERAL:
-                self.subcontroller.log_debug(f'{event.subtype} implementation TBD')
+                self.log_debug(f'{event.subtype} implementation TBD')
 
             case ManualEventSubType.INJECTION:
                 if event.severity == EventSeverity.FATAL_ERROR:
@@ -47,4 +47,4 @@ class EmulatorEventHandler(BaseEventHandler):
                     )
 
             case _:
-                self.subcontroller.log_debug(f'Unhandled event type {event.subtype}')
+                self.log_debug(f'Unhandled event type {event.subtype}')

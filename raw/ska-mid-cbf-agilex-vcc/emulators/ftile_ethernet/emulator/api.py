@@ -65,6 +65,7 @@ class EmulatorApi(BaseEmulatorApi):
         """
         if self.subcontroller.may_trigger(EthernetTransitionTrigger.START):
             self.subcontroller.trigger(EthernetTransitionTrigger.START)
+            self.subcontroller.force_signal_update()
             return InternalRestResponse.ok()
 
         return InternalRestResponse.conflict(

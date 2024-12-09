@@ -18,12 +18,12 @@ class EmulatorEventHandler(BaseEventHandler):
         Returns:
             :obj:`None | list[ManualEvent]` Optionally, a list of one or more new manual events to automatically forward downstream.
         """
-        self.subcontroller.log_trace(f'F-tile Ethernet manual event handler called for {event}')
+        self.log_trace(f'F-tile Ethernet manual event handler called for {event}')
 
         match event.subtype:
 
             case ManualEventSubType.GENERAL:
-                self.subcontroller.log_debug(f'{event.subtype} implementation TBD')
+                self.log_debug(f'{event.subtype} implementation TBD')
 
             case ManualEventSubType.INJECTION:
                 if event.value.get('badness') is not None:
@@ -38,4 +38,4 @@ class EmulatorEventHandler(BaseEventHandler):
                     )
 
             case _:
-                self.subcontroller.log_debug(f'Unhandled event type {event.subtype}')
+                self.log_debug(f'Unhandled event type {event.subtype}')
