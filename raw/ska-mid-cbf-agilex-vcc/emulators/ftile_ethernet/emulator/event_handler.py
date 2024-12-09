@@ -1,50 +1,41 @@
-from ska_mid_cbf_emulators.common import BaseEvent, BaseSubcontroller, EventSeverity, ManualEventSubType, PulseEventSubType
+from typing import Self, override
+from ska_mid_cbf_emulators.common import EventSeverity, ManualEventSubType, ManualEvent, BaseEventHandler
 
 from .state_machine import EthernetTransitionTrigger
 
 
-def handle_event(subcontroller: BaseSubcontroller, event: BaseEvent, **kwargs) -> None:
-    """Handle an incoming event.
+class EmulatorEventHandler(BaseEventHandler):
 
-    Args:
-        subcontroller (:obj:`BaseSubcontroller`): The subcontroller handling this event.
-        event (:obj:`BaseEvent`): The event to handle.
-        **kwargs: Arbitrary keyword arguments.
-    """
-    subcontroller.log_trace(f'F-tile Ethernet event callback called for {event}')
 
-    match event.subtype:
+    @override
+    def handle_manual_event(self: Self, event: ManualEvent, **kwargs) -> None | list[ManualEvent]:
+        """Handle an incoming manual event.
 
-        # PulseEvent types
-        case PulseEventSubType.PULSE:
-            if event.value.get('packet_rate') is None:
-                return
-            subcontroller.trigger_if_allowed(
-                EthernetTransitionTrigger.RECEIVE_PULSE,
-                packet_rate=float(event.value.get('packet_rate'))
-            )
+        Args:
+            event (:obj:`ManualEvent`): The manual event to handle.
+            **kwargs: Arbitrary keyword arguments.
 
-        case PulseEventSubType.ERROR:
-            subcontroller.log_debug(f'{event.subtype} implementation TBD')
+        Returns:
+            :obj:`None | list[ManualEvent]` Optionally, a list of one or more new manual events to automatically forward downstream.
+        """
+        self.subcontroller.log_trace(f'F-tile Ethernet manual event handler called for {event}')
 
-        # ManualEvent types
-        case ManualEventSubType.GENERAL:
-            subcontroller.log_debug(f'{event.subtype} implementation TBD')
+        match event.subtype:
 
-        case ManualEventSubType.UPDATE_SELF:
-            subcontroller.log_debug(f'{event.subtype} implementation TBD')
+            case ManualEventSubType.GENERAL:
+                self.subcontroller.log_debug(f'{event.subtype} implementation TBD')
 
-        case ManualEventSubType.INJECTION:
-            if event.value.get('badness') is not None:
-                subcontroller.trigger_if_allowed(
-                    EthernetTransitionTrigger.UPDATE_BADNESS,
-                    badness=float(event.value.get('badness'))
-                )
+            case ManualEventSubType.INJECTION:
+                if event.value.get('badness') is not None:
+                    self.subcontroller.trigger_if_allowed(
+                        EthernetTransitionTrigger.UPDATE_BADNESS,
+                        badness=float(event.value.get('badness'))
+                    )
 
-            if event.severity == EventSeverity.FATAL_ERROR:
-                subcontroller.trigger_if_allowed(
-                    EthernetTransitionTrigger.CRITICAL_FAULT
-                )
+                if event.severity == EventSeverity.FATAL_ERROR:
+                    self.subcontroller.trigger_if_allowed(
+                        EthernetTransitionTrigger.CRITICAL_FAULT
+                    )
 
-        case _:
-            subcontroller.log_debug(f'Unhandled event type {event.subtype}')
+            case _:
+                self.subcontroller.log_debug(f'Unhandled event type {event.subtype}')

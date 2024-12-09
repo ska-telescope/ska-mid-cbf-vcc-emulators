@@ -1,44 +1,50 @@
-from ska_mid_cbf_emulators.common import BaseEvent, BaseSubcontroller, EventSeverity, ManualEventSubType, PulseEventSubType
+from typing import Self, override
+from ska_mid_cbf_emulators.common import EventSeverity, ManualEventSubType, SignalUpdateEventList, ManualEvent, BaseEventHandler
 
 from .state_machine import PacketValidationTransitionTrigger
 
 
-def handle_event(subcontroller: BaseSubcontroller, event: BaseEvent, **kwargs) -> None:
-    """Handle an incoming event.
+class EmulatorEventHandler(BaseEventHandler):
 
-    Args:
-        subcontroller (:obj:`BaseSubcontroller`): The subcontroller handling this event.
-        event (:obj:`BaseEvent`): The event to handle.
-        **kwargs: Arbitrary keyword arguments.
-    """
-    subcontroller.log_trace(f'Packet Validation event callback called for {event}')
 
-    match event.subtype:
+    @override
+    def handle_signal_update_events(self: Self, event_list: SignalUpdateEventList, **kwargs) -> SignalUpdateEventList:
+        """Handle an incoming Signal Update event list.
 
-        # PulseEvent types
-        case PulseEventSubType.PULSE:
-            if event.value.get('packet_rate') is None:
-                return
-            subcontroller.trigger_if_allowed(
-                PacketValidationTransitionTrigger.RECEIVE_PULSE,
-                packet_rate=float(event.value.get('packet_rate'))
-            )
+        Args:
+            event_list (:obj:`SignalUpdateEventList`): The signal update event list to handle.
+            **kwargs: Arbitrary keyword arguments.
 
-        case PulseEventSubType.ERROR:
-            subcontroller.log_debug(f'{event.subtype} implementation TBD')
+        Returns:
+            :obj:`SignalUpdateEventList` The signal update event list to send to the next block.
+        """
+        self.subcontroller.log_trace(f'Packet Validation Signal Update event handler called for {event_list}')
+        return event_list
 
-        # ManualEvent types
-        case ManualEventSubType.GENERAL:
-            subcontroller.log_debug(f'{event.subtype} implementation TBD')
 
-        case ManualEventSubType.UPDATE_SELF:
-            subcontroller.log_debug(f'{event.subtype} implementation TBD')
+    @override
+    def handle_manual_event(self: Self, event: ManualEvent, **kwargs) -> None | list[ManualEvent]:
+        """Handle an incoming manual event.
 
-        case ManualEventSubType.INJECTION:
-            if event.severity == EventSeverity.FATAL_ERROR:
-                subcontroller.trigger_if_allowed(
-                    PacketValidationTransitionTrigger.CRITICAL_FAULT
-                )
+        Args:
+            event (:obj:`ManualEvent`): The manual event to handle.
+            **kwargs: Arbitrary keyword arguments.
 
-        case _:
-            subcontroller.log_debug(f'Unhandled event type {event.subtype}')
+        Returns:
+            :obj:`None | list[ManualEvent]` Optionally, a list of one or more new manual events to automatically forward downstream.
+        """
+        self.subcontroller.log_trace(f'Packet Validation manual event handler called for {event}')
+
+        match event.subtype:
+
+            case ManualEventSubType.GENERAL:
+                self.subcontroller.log_debug(f'{event.subtype} implementation TBD')
+
+            case ManualEventSubType.INJECTION:
+                if event.severity == EventSeverity.FATAL_ERROR:
+                    self.subcontroller.trigger_if_allowed(
+                        PacketValidationTransitionTrigger.CRITICAL_FAULT
+                    )
+
+            case _:
+                self.subcontroller.log_debug(f'Unhandled event type {event.subtype}')
