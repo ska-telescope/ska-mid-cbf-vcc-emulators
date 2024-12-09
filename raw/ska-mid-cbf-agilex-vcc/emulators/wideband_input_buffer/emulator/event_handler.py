@@ -1,12 +1,27 @@
 from typing import Self, override
 import jsonschema
-from ska_mid_cbf_emulators.common import BaseEventHandler, EventSeverity, ManualEvent, ManualEventSubType, SignalUpdateEventList
+from ska_mid_cbf_emulators.common import BaseEventHandler, EventSeverity, ManualEvent, ManualEventSubType, PulseEvent, SignalUpdateEventList
 
 from .state_machine import WidebandInputBufferTransitionTrigger
 from .schemas import injection_schemas
 
 
 class EmulatorEventHandler(BaseEventHandler):
+
+    @override
+    def handle_pulse_event(self: Self, event: PulseEvent, **kwargs) -> None:
+        """Handle an incoming pulse event.
+
+        Args:
+            event (:obj:`PulseEvent`): The event to handle.
+            **kwargs: Arbitrary keyword arguments.
+        """
+        self.log_trace(f'Wideband Input Buffer Pulse event handler called for {event}')
+
+        self.subcontroller.trigger_if_allowed(
+            WidebandInputBufferTransitionTrigger.RECEIVE_PULSE,
+            packet_rate=getattr(self, 'packet_rate', 0)
+        )
 
     @override
     def handle_signal_update_events(self: Self, event_list: SignalUpdateEventList, **kwargs) -> SignalUpdateEventList:
@@ -22,12 +37,7 @@ class EmulatorEventHandler(BaseEventHandler):
         self.log_trace(f'Wideband Input Buffer Signal Update event handler called for {event_list}')
 
         # TODO: temporary, don't know how multiple inputs (band 5) will actually be handled here
-        min_packet_rate = min(*event_list.events, key=lambda e: float(e.value.get('packet_rate', 0)))
-
-        self.subcontroller.trigger_if_allowed(
-            WidebandInputBufferTransitionTrigger.RECEIVE_PULSE,
-            packet_rate=min_packet_rate
-        )
+        self.packet_rate = min(*event_list.events, key=lambda e: float(e.value.get('packet_rate', 0)))
 
         if len(event_list) > 1:
             event_list.events = event_list.events[:1]
