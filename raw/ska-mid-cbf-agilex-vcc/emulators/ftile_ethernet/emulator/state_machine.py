@@ -41,7 +41,7 @@ class EthernetTransitionTrigger(BaseTransitionTrigger):
     RESET = auto()
     """The Ethernet block is reset."""
 
-    RECEIVE_PULSE = auto()
+    PACKET_RATE_UPDATE = auto()
     """The Ethernet block receives a new pulse."""
 
     UPDATE_BADNESS = auto()
@@ -97,7 +97,7 @@ class EmulatorStateMachine(FiniteStateMachine):
             {
                 'source': [EthernetState.NO_LINK, EthernetState.LINK],
                 'dest': EthernetState.LINK,
-                'trigger': EthernetTransitionTrigger.RECEIVE_PULSE,
+                'trigger': EthernetTransitionTrigger.PACKET_RATE_UPDATE,
                 'conditions': TransitionCondition(
                     'packet rate > 0',
                     self.is_packet_rate_nonzero
@@ -106,7 +106,7 @@ class EmulatorStateMachine(FiniteStateMachine):
             {
                 'source': [EthernetState.NO_LINK, EthernetState.LINK, EthernetState.DEGRADED],
                 'dest': EthernetState.NO_LINK,
-                'trigger': EthernetTransitionTrigger.RECEIVE_PULSE,
+                'trigger': EthernetTransitionTrigger.PACKET_RATE_UPDATE,
                 'conditions': TransitionCondition(
                     'packet rate = 0',
                     self.is_packet_rate_zero
