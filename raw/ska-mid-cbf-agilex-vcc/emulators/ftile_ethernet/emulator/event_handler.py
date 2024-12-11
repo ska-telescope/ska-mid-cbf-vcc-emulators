@@ -20,11 +20,7 @@ class EmulatorEventHandler(BaseEventHandler):
         self.log_trace(f'F-tile Ethernet Signal Update event handler called for {event_list}')
 
         # TODO: temporary, don't know how multiple inputs (band 5) will actually be handled here
-        self.log_debug(f'event_list.events={event_list.events}')
-        z = min(*event_list.events, key=lambda e: float(e.value.get('packet_rate', 0)))
-        self.log_debug(f'min(*event_list.events, key=lambda e: float(e.value.get(\'packet_rate\', 0)))={z}')
-        self.log_debug(f'z.value.get(\'packet_rate\', 0)={z.value.get('packet_rate', 0)}')
-        packet_rate = min(*event_list.events, key=lambda e: float(e.value.get('packet_rate', 0))).value.get('packet_rate', 0)
+        packet_rate = min(event_list.events, key=lambda e: float(e.value.get('packet_rate', 0))).value.get('packet_rate', 0)
         self.subcontroller.trigger_if_allowed(EthernetTransitionTrigger.PACKET_RATE_UPDATE, packet_rate=packet_rate)
 
         return event_list

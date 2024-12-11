@@ -37,7 +37,7 @@ class EmulatorEventHandler(BaseEventHandler):
         self.log_trace(f'Wideband Input Buffer Signal Update event handler called for {event_list}')
 
         # TODO: temporary, don't know how multiple inputs (band 5) will actually be handled here
-        self.packet_rate = min(*event_list.events, key=lambda e: float(e.value.get('packet_rate', 0))).value.get('packet_rate', 0)
+        self.packet_rate = min(event_list.events, key=lambda e: float(e.value.get('packet_rate', 0))).value.get('packet_rate', 0)
 
         if len(event_list) > 1:
             event_list.events = event_list.events[:1]
