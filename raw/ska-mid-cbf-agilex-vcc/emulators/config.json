@@ -1,6 +1,6 @@
 {
   "id": "vcc_processing",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "ip_blocks": [
     {
       "id": "ethernet_200g",
@@ -30,9 +30,7 @@
       "id": "packet_validation_b",
       "display_name": "Packet Validation B",
       "type": "packet_validation",
-      "downstream_block_ids": [
-        "wideband_input_buffer"
-      ],
+      "downstream_block_ids": ["wideband_input_buffer"],
       "constants": {
         "expected_ethertype": 65261
       }
@@ -42,15 +40,235 @@
       "display_name": "Wideband Input Buffer",
       "type": "wideband_input_buffer",
       "downstream_block_ids": [
-        "b123_wideband_power_meter"
+        "b123_wideband_power_meter",
+        "b45a_wideband_power_meter",
+        "b5b_wideband_power_meter"
       ]
     },
     {
       "id": "b123_wideband_power_meter",
       "display_name": "Band123 Wideband Power Meter",
       "type": "wideband_power_meter",
+      "downstream_block_ids": ["wideband_frequency_shifter"]
+    },
+    {
+      "id": "b45a_wideband_power_meter",
+      "display_name": "Band45a Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": []
+    },
+    {
+      "id": "b5b_wideband_power_meter",
+      "display_name": "Band5b Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": []
+    },
+    {
+      "id": "wideband_frequency_shifter",
+      "display_name": "Wideband Frequency Shifter",
+      "type": "frequency_shifter",
+      "downstream_block_ids": ["b123vcc"]
+    },
+    {
+      "id": "b123vcc",
+      "display_name": "B123VCC-OSPPFB Channeliser",
+      "type": "vcc_ch20",
+      "downstream_block_ids": ["fs_selection_26_2_1"]
+    },
+    {
+      "id": "fs_selection_26_2_1",
+      "display_name": "Frequency Slice Selection 26 x 2:1",
+      "type": "vcc_fs_selection",
       "downstream_block_ids": [
+        "fs1_wideband_power_meter",
+        "fs2_wideband_power_meter",
+        "fs3_wideband_power_meter",
+        "fs4_wideband_power_meter",
+        "fs5_wideband_power_meter",
+        "fs6_wideband_power_meter",
+        "fs7_wideband_power_meter",
+        "fs8_wideband_power_meter",
+        "fs9_wideband_power_meter",
+        "fs10_wideband_power_meter",
+        "fs11_wideband_power_meter",
+        "fs12_wideband_power_meter",
+        "fs13_wideband_power_meter",
+        "fs14_wideband_power_meter",
+        "fs15_wideband_power_meter",
+        "fs16_wideband_power_meter",
+        "fs17_wideband_power_meter",
+        "fs18_wideband_power_meter",
+        "fs19_wideband_power_meter",
+        "fs20_wideband_power_meter",
+        "fs21_wideband_power_meter",
+        "fs22_wideband_power_meter",
+        "fs23_wideband_power_meter",
+        "fs24_wideband_power_meter",
+        "fs25_wideband_power_meter",
+        "fs26_wideband_power_meter"
       ]
+    },
+    {
+      "id": "fs1_wideband_power_meter",
+      "display_name": "FS1 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs2_wideband_power_meter",
+      "display_name": "FS2 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs3_wideband_power_meter",
+      "display_name": "FS3 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs4_wideband_power_meter",
+      "display_name": "FS4 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs5_wideband_power_meter",
+      "display_name": "FS5 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs6_wideband_power_meter",
+      "display_name": "FS6 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs7_wideband_power_meter",
+      "display_name": "FS7 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs8_wideband_power_meter",
+      "display_name": "FS8 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs9_wideband_power_meter",
+      "display_name": "FS9 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs10_wideband_power_meter",
+      "display_name": "FS10 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs11_wideband_power_meter",
+      "display_name": "FS11 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs12_wideband_power_meter",
+      "display_name": "FS12 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs13_wideband_power_meter",
+      "display_name": "FS13 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs14_wideband_power_meter",
+      "display_name": "FS14 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs15_wideband_power_meter",
+      "display_name": "FS15 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs16_wideband_power_meter",
+      "display_name": "FS16 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs17_wideband_power_meter",
+      "display_name": "FS17 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs18_wideband_power_meter",
+      "display_name": "FS18 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs19_wideband_power_meter",
+      "display_name": "FS19 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs20_wideband_power_meter",
+      "display_name": "FS20 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs21_wideband_power_meter",
+      "display_name": "FS21 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs22_wideband_power_meter",
+      "display_name": "FS22 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs23_wideband_power_meter",
+      "display_name": "FS23 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs24_wideband_power_meter",
+      "display_name": "FS24 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs25_wideband_power_meter",
+      "display_name": "FS25 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "fs26_wideband_power_meter",
+      "display_name": "FS26 Wideband Power Meter",
+      "type": "wideband_power_meter",
+      "downstream_block_ids": ["packetizer"]
+    },
+    {
+      "id": "packetizer",
+      "display_name": "Packetizer",
+      "type": "packetizer",
+      "downstream_block_ids": []
     }
   ],
   "first": ["ethernet_200g"]
