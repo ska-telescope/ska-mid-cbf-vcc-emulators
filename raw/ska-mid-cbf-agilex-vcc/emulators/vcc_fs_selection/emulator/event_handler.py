@@ -18,7 +18,7 @@ class EmulatorEventHandler(BaseEventHandler):
             :obj:`None | list[ManualEvent]` Optionally, a list of one or more new manual events \
                 to automatically forward downstream.
         """
-        self.log_trace(f'Circuit Switch manual event handler called for {event}')
+        self.log_trace(f'FS Selection manual event handler called for {event}')
 
         match event.subtype:
 
