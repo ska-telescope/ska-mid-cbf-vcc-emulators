@@ -27,7 +27,7 @@ class EmulatorApi(BaseEmulatorApi):
         try:
             jsonschema.validate(config, config_schema)
         except Exception as e:
-            self.subcontroller.log_error(e)
+            self.log_error(e)
             return InternalRestResponse.bad_request(
                 f'Configuration schema validation failed: {str(e)}'
             )

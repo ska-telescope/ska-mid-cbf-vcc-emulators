@@ -83,7 +83,7 @@ class EmulatorEventHandler(BaseEventHandler):
                                 )
 
                             case _:
-                                self.subcontroller.log_warning(f'injection_type not implemented for WIB: {injection_type}')
+                                self.log_warning(f'injection_type not implemented for WIB: {injection_type}')
 
                         if event.severity == EventSeverity.FATAL_ERROR:
                             self.subcontroller.trigger_if_allowed(
