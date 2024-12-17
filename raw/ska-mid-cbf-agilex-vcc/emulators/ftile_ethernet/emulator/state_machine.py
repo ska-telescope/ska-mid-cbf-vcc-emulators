@@ -42,7 +42,7 @@ class EthernetTransitionTrigger(BaseTransitionTrigger):
     """The Ethernet block is reset."""
 
     PACKET_RATE_UPDATE = auto()
-    """The Ethernet block receives a new pulse."""
+    """The Ethernet block receives a new packet rate."""
 
     UPDATE_BADNESS = auto()
     """The Ethernet block receives a new badness score (e.g. from an injected event)."""
