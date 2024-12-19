@@ -4,55 +4,55 @@ from typing import Any, Self, override
 from ska_mid_cbf_emulators.common import BaseState, BaseTransitionTrigger, FiniteStateMachine, RoutingState, TransitionCondition
 
 
-class MacState(BaseState):
-    """Enum containing possible states for the Ethernet MAC module.
+class EthernetState(BaseState):
+    """Enum containing possible states for the F-tile Ethernet IP block emulator.
 
     Implements :obj:`BaseState`.
     """
 
     RESET = 'RESET'
-    """The MAC is in reset state."""
+    """The Ethernet block is in reset state."""
 
     NO_LINK = 'NO_LINK'
-    """The MAC is started but not receiving packets (packet rate == 0)."""
+    """The Ethernet block is started but not receiving packets (packet rate == 0)."""
 
     LINK = 'LINK'
-    """The MAC is receiving packets with no or low badness (packet rate > 0, badness < 0.5)."""
+    """The Ethernet block is receiving packets with no or low badness (packet rate > 0, badness < 0.5)."""
 
     DEGRADED = 'DEGRADED'
-    """The MAC is receiving packets with high badness (packet rate > 0, badness >= 0.5)."""
+    """The Ethernet block is receiving packets with high badness (packet rate > 0, badness >= 0.5)."""
 
     FAULT = 'FAULT'
-    """The MAC has experienced a critical fault."""
+    """The Ethernet block has experienced a critical fault."""
 
 
-class MacTransitionTrigger(BaseTransitionTrigger):
-    """Enum containing transitions for the Ethernet MAC module.
+class EthernetTransitionTrigger(BaseTransitionTrigger):
+    """Enum containing transitions for the F-tile Ethernet IP block emulator.
 
     Implements :obj:`BaseTransitionTrigger`.
     """
 
     START = auto()
-    """The MAC is started."""
+    """The Ethernet block is started."""
 
     STOP = auto()
-    """The MAC is stopped."""
+    """The Ethernet block is stopped."""
 
     RESET = auto()
-    """The MAC is reset."""
+    """The Ethernet block is reset."""
 
-    RECEIVE_PULSE = auto()
-    """The MAC receives a new pulse."""
+    PACKET_RATE_UPDATE = auto()
+    """The Ethernet block receives a new packet rate."""
 
     UPDATE_BADNESS = auto()
-    """The MAC receives a new badness score (e.g. from an injected event)."""
+    """The Ethernet block receives a new badness score (e.g. from an injected event)."""
 
     CRITICAL_FAULT = auto()
-    """The MAC experiences a critical fault."""
+    """The Ethernet block experiences a critical fault."""
 
 
 class EmulatorStateMachine(FiniteStateMachine):
-    """State machine for the Ethernet MAC module.
+    """State machine for the F-tile Ethernet IP block emulator.
 
     Implements :obj:`FiniteStateMachine`.
     """
@@ -71,60 +71,60 @@ class EmulatorStateMachine(FiniteStateMachine):
 
     @override
     @property
-    def _states(self: Self) -> list[MacState]:
+    def _states(self: Self) -> list[EthernetState]:
         return [
-            MacState.RESET,
-            MacState.NO_LINK,
-            MacState.LINK,
-            MacState.DEGRADED,
-            MacState.FAULT
+            EthernetState.RESET,
+            EthernetState.NO_LINK,
+            EthernetState.LINK,
+            EthernetState.DEGRADED,
+            EthernetState.FAULT
         ]
 
     @override
     @property
-    def _initial_state(self: Self) -> MacState:
-        return MacState.RESET
+    def _initial_state(self: Self) -> EthernetState:
+        return EthernetState.RESET
 
     @override
     @property
     def _transitions(self) -> list[dict[str, Any]]:
         return [
             {
-                'source': MacState.RESET,
-                'dest': MacState.NO_LINK,
-                'trigger': MacTransitionTrigger.START
+                'source': EthernetState.RESET,
+                'dest': EthernetState.NO_LINK,
+                'trigger': EthernetTransitionTrigger.START
             },
             {
-                'source': [MacState.NO_LINK, MacState.LINK],
-                'dest': MacState.LINK,
-                'trigger': MacTransitionTrigger.RECEIVE_PULSE,
+                'source': [EthernetState.NO_LINK, EthernetState.LINK],
+                'dest': EthernetState.LINK,
+                'trigger': EthernetTransitionTrigger.PACKET_RATE_UPDATE,
                 'conditions': TransitionCondition(
                     'packet rate > 0',
                     self.is_packet_rate_nonzero
                 )
             },
             {
-                'source': [MacState.NO_LINK, MacState.LINK, MacState.DEGRADED],
-                'dest': MacState.NO_LINK,
-                'trigger': MacTransitionTrigger.RECEIVE_PULSE,
+                'source': [EthernetState.NO_LINK, EthernetState.LINK, EthernetState.DEGRADED],
+                'dest': EthernetState.NO_LINK,
+                'trigger': EthernetTransitionTrigger.PACKET_RATE_UPDATE,
                 'conditions': TransitionCondition(
                     'packet rate = 0',
                     self.is_packet_rate_zero
                 )
             },
             {
-                'source': MacState.LINK,
-                'dest': MacState.DEGRADED,
-                'trigger': MacTransitionTrigger.UPDATE_BADNESS,
+                'source': EthernetState.LINK,
+                'dest': EthernetState.DEGRADED,
+                'trigger': EthernetTransitionTrigger.UPDATE_BADNESS,
                 'conditions': TransitionCondition(
                     '>= 0.5',
                     self.is_badness_unacceptable
                 )
             },
             {
-                'source': MacState.DEGRADED,
-                'dest': MacState.LINK,
-                'trigger': MacTransitionTrigger.UPDATE_BADNESS,
+                'source': EthernetState.DEGRADED,
+                'dest': EthernetState.LINK,
+                'trigger': EthernetTransitionTrigger.UPDATE_BADNESS,
                 'conditions': TransitionCondition(
                     '< 0.5',
                     self.is_badness_acceptable
@@ -132,17 +132,17 @@ class EmulatorStateMachine(FiniteStateMachine):
             },
             {
                 'source': RoutingState.FROM_ANY,
-                'dest': MacState.RESET,
-                'trigger': MacTransitionTrigger.RESET
+                'dest': EthernetState.RESET,
+                'trigger': EthernetTransitionTrigger.RESET
             },
             {
                 'source': RoutingState.FROM_ANY,
-                'dest': MacState.RESET,
-                'trigger': MacTransitionTrigger.STOP
+                'dest': EthernetState.RESET,
+                'trigger': EthernetTransitionTrigger.STOP
             },
             {
                 'source': RoutingState.FROM_ANY,
-                'dest': MacState.FAULT,
-                'trigger': MacTransitionTrigger.CRITICAL_FAULT
+                'dest': EthernetState.FAULT,
+                'trigger': EthernetTransitionTrigger.CRITICAL_FAULT
             }
         ]

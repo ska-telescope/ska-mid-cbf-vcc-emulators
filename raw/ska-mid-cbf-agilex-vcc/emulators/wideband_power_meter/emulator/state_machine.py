@@ -10,7 +10,7 @@ from ska_mid_cbf_emulators.common import (
 
 
 class WidebandPowerMeterState(BaseState):
-    """Enum containing possible states for the Wideband Power Meter module.
+    """Enum containing possible states for the Wideband Power Meter IP block emulator.
 
     Implements :obj:`BaseState`.
     """
@@ -23,7 +23,7 @@ class WidebandPowerMeterState(BaseState):
 
 
 class WidebandPowerMeterTransitionTrigger(BaseTransitionTrigger):
-    """Enum containing transitions for the Wideband Power Meter module.
+    """Enum containing transitions for the Wideband Power Meter IP block emulator.
 
     Implements :obj:`BaseTransitionTrigger`.
     """
@@ -33,7 +33,7 @@ class WidebandPowerMeterTransitionTrigger(BaseTransitionTrigger):
 
 
 class EmulatorStateMachine(FiniteStateMachine):
-    """State machine for the Wideband Power Meter module.
+    """State machine for the Wideband Power Meter IP block emulator.
 
     Implements :obj:`FiniteStateMachine`.
     """

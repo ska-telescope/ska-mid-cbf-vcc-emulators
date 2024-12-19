@@ -5,7 +5,7 @@ from ska_mid_cbf_emulators.common import BaseState, BaseTransitionTrigger, Finit
 
 
 class PacketValidationState(BaseState):
-    """Enum containing possible states for the Packet Validation module.
+    """Enum containing possible states for the Packet Validation IP block emulator.
 
     Implements :obj:`BaseState`.
     """
@@ -27,7 +27,7 @@ class PacketValidationState(BaseState):
 
 
 class PacketValidationTransitionTrigger(BaseTransitionTrigger):
-    """Enum containing transitions for the Packet Validation module.
+    """Enum containing transitions for the Packet Validation IP block emulator.
 
     Implements :obj:`BaseTransitionTrigger`.
     """
@@ -49,7 +49,7 @@ class PacketValidationTransitionTrigger(BaseTransitionTrigger):
 
 
 class EmulatorStateMachine(FiniteStateMachine):
-    """State machine for the Packet Validation module.
+    """State machine for the Packet Validation IP block emulator.
 
     Implements :obj:`FiniteStateMachine`.
     """

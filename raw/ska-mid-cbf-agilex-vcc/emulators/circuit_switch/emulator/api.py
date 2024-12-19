@@ -29,7 +29,7 @@ class EmulatorApi(BaseEmulatorApi):
                 config_schema(self.ip_block.num_inputs, self.ip_block.num_outputs),
             )
         except Exception as e:
-            self.module.log_error(e)
+            self.log_error(e)
             return InternalRestResponse.bad_request(
                 f"Configuration schema validation failed: {str(e)}"
             )
@@ -55,7 +55,7 @@ class EmulatorApi(BaseEmulatorApi):
                 config_schema(self.ip_block.num_inputs, self.ip_block.num_outputs),
             )
         except Exception as e:
-            self.module.log_error(e)
+            self.log_error(e)
             return InternalRestResponse.bad_request(
                 f"Configuration schema validation failed: {str(e)}"
             )

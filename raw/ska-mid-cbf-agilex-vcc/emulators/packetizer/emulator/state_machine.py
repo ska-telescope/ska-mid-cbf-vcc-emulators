@@ -10,7 +10,7 @@ from ska_mid_cbf_emulators.common import (
 
 
 class PacketizerState(BaseState):
-    """Enum containing possible states for the Packetizer module.
+    """Enum containing possible states for the Packetizer IP block emulator.
 
     Implements :obj:`BaseState`.
     """
@@ -23,7 +23,7 @@ class PacketizerState(BaseState):
 
 
 class PacketizerTransitionTrigger(BaseTransitionTrigger):
-    """Enum containing transitions for the Packetizer module.
+    """Enum containing transitions for the Packetizer IP block emulator.
 
     Implements :obj:`BaseTransitionTrigger`.
     """
@@ -33,7 +33,7 @@ class PacketizerTransitionTrigger(BaseTransitionTrigger):
 
 
 class EmulatorStateMachine(FiniteStateMachine):
-    """State machine for the Packetizer module.
+    """State machine for the Packetizer IP block emulator.
 
     Implements :obj:`FiniteStateMachine`.
     """

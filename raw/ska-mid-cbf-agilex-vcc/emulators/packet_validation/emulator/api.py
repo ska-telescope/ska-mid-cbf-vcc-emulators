@@ -46,7 +46,7 @@ class EmulatorApi(BaseEmulatorApi):
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        self.module.trigger(PacketValidationTransitionTrigger.RESET)
+        self.subcontroller.trigger(PacketValidationTransitionTrigger.RESET)
         return InternalRestResponse.ok()
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -56,12 +56,12 @@ class EmulatorApi(BaseEmulatorApi):
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        if self.module.may_trigger(PacketValidationTransitionTrigger.START):
-            self.module.trigger(PacketValidationTransitionTrigger.START)
+        if self.subcontroller.may_trigger(PacketValidationTransitionTrigger.START):
+            self.subcontroller.trigger(PacketValidationTransitionTrigger.START)
             return InternalRestResponse.ok()
 
         return InternalRestResponse.conflict(
-            f'Cannot start the Packet Validation block while in state {self.module.get_state()}.'
+            f'Cannot start the Packet Validation block while in state {self.subcontroller.get_state()}.'
         )
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -71,12 +71,12 @@ class EmulatorApi(BaseEmulatorApi):
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        if self.module.may_trigger(PacketValidationTransitionTrigger.STOP):
-            self.module.trigger(PacketValidationTransitionTrigger.STOP)
+        if self.subcontroller.may_trigger(PacketValidationTransitionTrigger.STOP):
+            self.subcontroller.trigger(PacketValidationTransitionTrigger.STOP)
             return InternalRestResponse.ok()
 
         return InternalRestResponse.conflict(
-            f'Cannot stop the Packet Validation block while in state {self.module.get_state()}.'
+            f'Cannot stop the Packet Validation block while in state {self.subcontroller.get_state()}.'
         )
 
     @BaseEmulatorApi.route(http_method=HttpMethod.GET)

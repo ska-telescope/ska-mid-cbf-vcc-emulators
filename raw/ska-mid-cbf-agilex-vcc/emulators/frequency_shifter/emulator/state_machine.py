@@ -4,47 +4,47 @@ from typing import Any, Self, override
 from ska_mid_cbf_emulators.common import BaseState, BaseTransitionTrigger, FiniteStateMachine, RoutingState
 
 
-class WidebandFrequencyShifterState(BaseState):
-    """Enum containing possible states for the Wideband Frequency Shifter module.
+class FrequencyShifterState(BaseState):
+    """Enum containing possible states for the Frequency Shifter IP block emulator.
 
     Implements :obj:`BaseState`.
     """
 
     ACTIVE = 'ACTIVE'
-    """The Wideband Frequency Shifter is active."""
+    """The Frequency Shifter is active."""
 
     FAULT = 'FAULT'
-    """The Wideband Frequency Shifter has experienced a critical fault."""
+    """The Frequency Shifter has experienced a critical fault."""
 
 
-class WidebandFrequencyShifterTransitionTrigger(BaseTransitionTrigger):
-    """Enum containing transitions for the Wideband Frequency Shifter module.
+class FrequencyShifterTransitionTrigger(BaseTransitionTrigger):
+    """Enum containing transitions for the Frequency Shifter IP block emulator.
 
     Implements :obj:`BaseTransitionTrigger`.
     """
 
     CRITICAL_FAULT = auto()
-    """The Wideband Frequency Shifter experiences a critical fault."""
+    """The Frequency Shifter experiences a critical fault."""
 
 
 class EmulatorStateMachine(FiniteStateMachine):
-    """State machine for the Wideband Frequency Shifter module.
+    """State machine for the Frequency Shifter IP block emulator.
 
     Implements :obj:`FiniteStateMachine`.
     """
 
     @override
     @property
-    def _states(self: Self) -> list[WidebandFrequencyShifterState]:
+    def _states(self: Self) -> list[FrequencyShifterState]:
         return [
-            WidebandFrequencyShifterState.ACTIVE,
-            WidebandFrequencyShifterState.FAULT
+            FrequencyShifterState.ACTIVE,
+            FrequencyShifterState.FAULT
         ]
 
     @override
     @property
-    def _initial_state(self: Self) -> WidebandFrequencyShifterState:
-        return WidebandFrequencyShifterState.ACTIVE
+    def _initial_state(self: Self) -> FrequencyShifterState:
+        return FrequencyShifterState.ACTIVE
 
     @override
     @property
@@ -52,7 +52,7 @@ class EmulatorStateMachine(FiniteStateMachine):
         return [
             {
                 'source': RoutingState.FROM_ANY,
-                'dest': WidebandFrequencyShifterState.FAULT,
-                'trigger': WidebandFrequencyShifterTransitionTrigger.CRITICAL_FAULT
+                'dest': FrequencyShifterState.FAULT,
+                'trigger': FrequencyShifterTransitionTrigger.CRITICAL_FAULT
             }
         ]

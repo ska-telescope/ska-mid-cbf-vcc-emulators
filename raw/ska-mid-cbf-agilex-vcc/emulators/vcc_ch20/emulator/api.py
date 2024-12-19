@@ -27,7 +27,7 @@ class EmulatorApi(BaseEmulatorApi):
         try:
             jsonschema.validate(config, config_schema(self.ip_block.num_channels, self.ip_block.num_polarisations))
         except Exception as e:
-            self.module.log_error(e)
+            self.log_error(e)
             return InternalRestResponse.bad_request(
                 f'Configuration schema validation failed: {str(e)}'
             )
@@ -62,7 +62,7 @@ class EmulatorApi(BaseEmulatorApi):
         try:
             jsonschema.validate(config, config_schema(self.ip_block.num_channels, self.ip_block.num_polarisations))
         except Exception as e:
-            self.module.log_error(e)
+            self.log_error(e)
             return InternalRestResponse.bad_request(
                 f'Configuration schema validation failed: {str(e)}'
             )

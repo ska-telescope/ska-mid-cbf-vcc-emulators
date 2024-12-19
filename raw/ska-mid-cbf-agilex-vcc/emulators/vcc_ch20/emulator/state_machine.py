@@ -5,7 +5,7 @@ from ska_mid_cbf_emulators.common import BaseState, BaseTransitionTrigger, Finit
 
 
 class B123VccOsppfbChanneliserState(BaseState):
-    """Enum containing possible states for the B123VCC-OSPPFB Channeliser module.
+    """Enum containing possible states for the B123VCC-OSPPFB Channeliser IP block emulator.
 
     Implements :obj:`BaseState`.
     """
@@ -18,7 +18,7 @@ class B123VccOsppfbChanneliserState(BaseState):
 
 
 class B123VccOsppfbChanneliserTransitionTrigger(BaseTransitionTrigger):
-    """Enum containing transitions for the B123VCC-OSPPFB Channeliser module.
+    """Enum containing transitions for the B123VCC-OSPPFB Channeliser IP block emulator.
 
     Implements :obj:`BaseTransitionTrigger`.
     """
@@ -28,7 +28,7 @@ class B123VccOsppfbChanneliserTransitionTrigger(BaseTransitionTrigger):
 
 
 class EmulatorStateMachine(FiniteStateMachine):
-    """State machine for the B123VCC-OSPPFB Channeliser module.
+    """State machine for the B123VCC-OSPPFB Channeliser IP block emulator.
 
     Implements :obj:`FiniteStateMachine`.
     """

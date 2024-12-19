@@ -3,7 +3,7 @@ from typing import Any, Self
 from ska_mid_cbf_emulators.common import BaseEmulatorApi, BodyParam, HttpMethod, InternalRestResponse, QueryParam
 
 from .ip_block import EmulatorIPBlock
-from .state_machine import MacTransitionTrigger
+from .state_machine import EthernetTransitionTrigger
 
 
 class EmulatorApi(BaseEmulatorApi):
@@ -14,7 +14,7 @@ class EmulatorApi(BaseEmulatorApi):
         self: Self,
         config: BodyParam[dict[str, Any]]
     ) -> InternalRestResponse:
-        """Configure the Ethernet MAC.
+        """Configure the F-tile Ethernet block.
 
         Args:
             config (:obj:`dict[str, Any]`): Config object
@@ -32,7 +32,7 @@ class EmulatorApi(BaseEmulatorApi):
         self: Self,
         config: BodyParam[dict[str, Any]]
     ) -> InternalRestResponse:
-        """Deconfigure the Ethernet MAC.
+        """Deconfigure the F-tile Ethernet block.
 
         Args:
             config (:obj:`dict[str, Any]`): Config object
@@ -47,38 +47,39 @@ class EmulatorApi(BaseEmulatorApi):
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
     def recover(self: Self) -> InternalRestResponse:
-        """Recover the Ethernet MAC.
+        """Recover the F-tile Ethernet block.
 
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        self.module.trigger(MacTransitionTrigger.RESET)
+        self.subcontroller.trigger(EthernetTransitionTrigger.RESET)
 
         return InternalRestResponse.ok()
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
     def start(self: Self) -> InternalRestResponse:
-        """Start the Ethernet MAC.
+        """Start the F-tile Ethernet block.
 
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        if self.module.may_trigger(MacTransitionTrigger.START):
-            self.module.trigger(MacTransitionTrigger.START)
+        if self.subcontroller.may_trigger(EthernetTransitionTrigger.START):
+            self.subcontroller.trigger(EthernetTransitionTrigger.START)
+            self.subcontroller.force_signal_update()
             return InternalRestResponse.ok()
 
         return InternalRestResponse.conflict(
-            f'Cannot start the Ethernet MAC while in state {self.module.get_state()}.'
+            f'Cannot start the F-tile Ethernet block while in state {self.subcontroller.get_state()}.'
         )
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
     def stop(self: Self) -> InternalRestResponse:
-        """Stop the Ethernet MAC.
+        """Stop the F-tile Ethernet block.
 
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        self.module.trigger(MacTransitionTrigger.STOP)
+        self.subcontroller.trigger(EthernetTransitionTrigger.STOP)
 
         return InternalRestResponse.ok()
 
@@ -87,7 +88,7 @@ class EmulatorApi(BaseEmulatorApi):
         self: Self,
         clear: QueryParam[bool] = False
     ) -> InternalRestResponse:
-        """Update and get the status of the Ethernet MAC.
+        """Update and get the status of the F-tile Ethernet block.
 
         Args:
             clear (:obj:`bool`): set to True to clear the counters. Default False.

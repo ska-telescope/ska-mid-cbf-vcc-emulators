@@ -2,7 +2,7 @@ from typing import Self
 
 
 class EmulatorIPBlock():
-    """IP block simulation for the Ethernet MAC."""
+    """IP block simulation for the F-tile Ethernet."""
 
     def __init__(self: Self) -> None:
         # const defaults

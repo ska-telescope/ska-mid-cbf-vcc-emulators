@@ -1,45 +1,40 @@
+from typing import Self, override
 from ska_mid_cbf_emulators.common import (
-    BaseEvent,
-    BaseModule,
+    BaseEventHandler,
     EventSeverity,
-    ProcessingEventSubType,
-    PulseEventSubType,
+    ManualEvent,
+    ManualEventSubType,
 )
 
 from .state_machine import WidebandPowerMeterTransitionTrigger
 
 
-def handle_event(module: BaseModule, event: BaseEvent, **kwargs) -> None:
-    """Handle an incoming event.
+class EmulatorEventHandler(BaseEventHandler):
 
-    Args:
-        module (:obj:`BaseModule`): The module handling this event.
-        event (:obj:`BaseEvent`): The event to handle.
-        **kwargs: Arbitrary keyword arguments.
-    """
-    module.log_trace(f"Wideband Power Meter event callback called for {event}")
+    @override
+    def handle_manual_event(self: Self, event: ManualEvent, **kwargs) -> None | list[ManualEvent]:
+        """Handle an incoming manual event.
 
-    match event.subtype:
+        Args:
+            event (:obj:`ManualEvent`): The manual event to handle.
+            **kwargs: Arbitrary keyword arguments.
 
-        # PulseEvent types
-        case PulseEventSubType.PULSE:
-            pass
+        Returns:
+            :obj:`None | list[ManualEvent]` Optionally, a list of one or more new manual events \
+                to automatically forward downstream.
+        """
+        self.log_trace(f'Wideband Power Meter manual event handler called for {event}')
 
-        case PulseEventSubType.ERROR:
-            module.log_debug(f"{event.subtype} implementation TBD")
+        match event.subtype:
 
-        # ProcessingEvent types
-        case ProcessingEventSubType.GENERAL:
-            module.log_debug(f"{event.subtype} implementation TBD")
+            case ManualEventSubType.GENERAL:
+                self.log_debug(f'{event.subtype} implementation TBD')
 
-        case ProcessingEventSubType.UPDATE_SELF:
-            module.log_debug(f"{event.subtype} implementation TBD")
+            case ManualEventSubType.INJECTION:
+                if event.severity == EventSeverity.FATAL_ERROR:
+                    self.subcontroller.trigger_if_allowed(
+                        WidebandPowerMeterTransitionTrigger.CRITICAL_FAULT
+                    )
 
-        case ProcessingEventSubType.INJECTION:
-            if event.severity == EventSeverity.FATAL_ERROR:
-                module.trigger_if_allowed(
-                    WidebandPowerMeterTransitionTrigger.CRITICAL_FAULT
-                )
-
-        case _:
-            module.log_debug(f"Unhandled event type {event.subtype}")
+            case _:
+                self.log_debug(f'Unhandled event type {event.subtype}')

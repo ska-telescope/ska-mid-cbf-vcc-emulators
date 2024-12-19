@@ -30,13 +30,13 @@ class EmulatorApi(BaseEmulatorApi):
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        if self.module.may_trigger(WidebandInputBufferTransitionTrigger.CONFIGURE):
-            self.module.trigger(WidebandInputBufferTransitionTrigger.CONFIGURE)
+        if self.subcontroller.may_trigger(WidebandInputBufferTransitionTrigger.CONFIGURE):
+            self.subcontroller.trigger(WidebandInputBufferTransitionTrigger.CONFIGURE)
             try:
                 jsonschema.validate(config, config_schema)
             except Exception as e:
-                self.module.log_error(e)
-                self.module.trigger_if_allowed(
+                self.log_error(e)
+                self.subcontroller.trigger_if_allowed(
                     WidebandInputBufferTransitionTrigger.FAIL_CONFIGURING
                 )
                 return InternalRestResponse.bad_request(
@@ -56,10 +56,10 @@ class EmulatorApi(BaseEmulatorApi):
             ) is not None:
                 self.ip_block.expected_dish_band = expected_dish_band
 
-            self.module.trigger(WidebandInputBufferTransitionTrigger.FINISH_CONFIGURING)
+            self.subcontroller.trigger(WidebandInputBufferTransitionTrigger.FINISH_CONFIGURING)
             return InternalRestResponse.ok()
         return InternalRestResponse.internal_server_error(
-            f"Cannot configure the Wideband Input Buffer while in state {self.module.get_state()}."
+            f"Cannot configure the Wideband Input Buffer while in state {self.subcontroller.get_state()}."
         )
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -83,7 +83,7 @@ class EmulatorApi(BaseEmulatorApi):
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        self.module.trigger(WidebandInputBufferTransitionTrigger.RESET)
+        self.subcontroller.trigger(WidebandInputBufferTransitionTrigger.RESET)
         return InternalRestResponse.ok()
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -93,12 +93,12 @@ class EmulatorApi(BaseEmulatorApi):
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        if self.module.may_trigger(WidebandInputBufferTransitionTrigger.START):
-            self.module.trigger(WidebandInputBufferTransitionTrigger.START)
+        if self.subcontroller.may_trigger(WidebandInputBufferTransitionTrigger.START):
+            self.subcontroller.trigger(WidebandInputBufferTransitionTrigger.START)
             return InternalRestResponse.ok()
 
         return InternalRestResponse.conflict(
-            f"Cannot start the Wideband Input Buffer while in state {self.module.get_state()}."
+            f"Cannot start the Wideband Input Buffer while in state {self.subcontroller.get_state()}."
         )
 
     @BaseEmulatorApi.route(http_method=HttpMethod.POST)
@@ -108,12 +108,12 @@ class EmulatorApi(BaseEmulatorApi):
         Returns:
             :obj:`InternalRestResponse` the response.
         """
-        if self.module.may_trigger(WidebandInputBufferTransitionTrigger.STOP):
-            self.module.trigger(WidebandInputBufferTransitionTrigger.STOP)
+        if self.subcontroller.may_trigger(WidebandInputBufferTransitionTrigger.STOP):
+            self.subcontroller.trigger(WidebandInputBufferTransitionTrigger.STOP)
             return InternalRestResponse.ok()
 
         return InternalRestResponse.conflict(
-            f"Cannot stop the Wideband Input Buffer while in state {self.module.get_state()}."
+            f"Cannot stop the Wideband Input Buffer while in state {self.subcontroller.get_state()}."
         )
 
     @BaseEmulatorApi.route(http_method=HttpMethod.GET)

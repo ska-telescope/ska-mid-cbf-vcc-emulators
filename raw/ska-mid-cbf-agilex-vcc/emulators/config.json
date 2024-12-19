@@ -1,16 +1,10 @@
 {
   "id": "vcc_processing",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "ip_blocks": [
     {
-      "id": "dish",
-      "display_name": "DISH",
-      "type": "dish",
-      "downstream_block_ids": ["ethernet_200g"]
-    },
-    {
       "id": "ethernet_200g",
-      "display_name": "200Gb Ethernet MAC",
+      "display_name": "200Gb Ethernet",
       "type": "ftile_ethernet",
       "downstream_block_ids": ["packet_validation"],
       "constants": {
@@ -263,5 +257,5 @@
       "downstream_block_ids": []
     }
   ],
-  "first": "dish"
+  "first": ["ethernet_200g"]
 }

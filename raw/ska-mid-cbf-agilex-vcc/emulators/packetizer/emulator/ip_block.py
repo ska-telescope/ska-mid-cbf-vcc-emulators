@@ -1,5 +1,4 @@
 from typing import Self
-import numpy as np
 
 
 class EmulatorIPBlock:
@@ -9,6 +8,6 @@ class EmulatorIPBlock:
         # const defaults
 
         # variables
-        vid: int = 0  # VLAN identifier, for unique VLAN identification.
-        vcc_id: int = 0  # Influences the Source MAC address.
-        fs_id: int = 0  # Frequency slice identifier.
+        self.vid: int = 0  # VLAN identifier, for unique VLAN identification.
+        self.vcc_id: int = 0  # Influences the Source MAC address.
+        self.fs_id: int = 0  # Frequency slice identifier.

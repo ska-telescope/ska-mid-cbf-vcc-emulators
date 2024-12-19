@@ -1,50 +1,60 @@
-from ska_mid_cbf_emulators.common import BaseEvent, BaseModule, EventSeverity, ProcessingEventSubType, PulseEventSubType
+from typing import Self, override
+from ska_mid_cbf_emulators.common import EventSeverity, ManualEventSubType, ManualEvent, BaseEventHandler, SignalUpdateEventList
 
-from .state_machine import MacTransitionTrigger
+from .state_machine import EthernetTransitionTrigger
 
 
-def handle_event(module: BaseModule, event: BaseEvent, **kwargs) -> None:
-    """Handle an incoming event.
+class EmulatorEventHandler(BaseEventHandler):
 
-    Args:
-        module (:obj:`BaseModule`): The module handling this event.
-        event (:obj:`BaseEvent`): The event to handle.
-        **kwargs: Arbitrary keyword arguments.
-    """
-    module.log_trace(f'MAC event callback called for {event}')
+    @override
+    def handle_signal_update_events(self: Self, event_list: SignalUpdateEventList, **kwargs) -> SignalUpdateEventList:
+        """Handle an incoming Signal Update event list.
 
-    match event.subtype:
+        Args:
+            event_list (:obj:`SignalUpdateEventList`): The signal update event list to handle.
+            **kwargs: Arbitrary keyword arguments.
 
-        # PulseEvent types
-        case PulseEventSubType.PULSE:
-            if event.value.get('packet_rate') is None:
-                return
-            module.trigger_if_allowed(
-                MacTransitionTrigger.RECEIVE_PULSE,
-                packet_rate=float(event.value.get('packet_rate'))
-            )
+        Returns:
+            :obj:`SignalUpdateEventList` The signal update event list to send to the next block.
+        """
+        self.log_trace(f'F-tile Ethernet Signal Update event handler called for {event_list}')
 
-        case PulseEventSubType.ERROR:
-            module.log_debug(f'{event.subtype} implementation TBD')
+        # TODO: temporary, don't know how multiple inputs (band 5) will actually be handled here
+        packet_rate = min(event_list.events, key=lambda e: float(e.value.get('packet_rate', 0))).value.get('packet_rate', 0)
+        self.subcontroller.trigger_if_allowed(EthernetTransitionTrigger.PACKET_RATE_UPDATE, packet_rate=packet_rate)
 
-        # ProcessingEvent types
-        case ProcessingEventSubType.GENERAL:
-            module.log_debug(f'{event.subtype} implementation TBD')
+        return event_list
 
-        case ProcessingEventSubType.UPDATE_SELF:
-            module.log_debug(f'{event.subtype} implementation TBD')
+    @override
+    def handle_manual_event(self: Self, event: ManualEvent, **kwargs) -> None | list[ManualEvent]:
+        """Handle an incoming manual event.
 
-        case ProcessingEventSubType.INJECTION:
-            if event.value.get('badness') is not None:
-                module.trigger_if_allowed(
-                    MacTransitionTrigger.UPDATE_BADNESS,
-                    badness=float(event.value.get('badness'))
-                )
+        Args:
+            event (:obj:`ManualEvent`): The manual event to handle.
+            **kwargs: Arbitrary keyword arguments.
 
-            if event.severity == EventSeverity.FATAL_ERROR:
-                module.trigger_if_allowed(
-                    MacTransitionTrigger.CRITICAL_FAULT
-                )
+        Returns:
+            :obj:`None | list[ManualEvent]` Optionally, a list of one or more new manual events \
+                to automatically forward downstream.
+        """
+        self.log_trace(f'F-tile Ethernet manual event handler called for {event}')
 
-        case _:
-            module.log_debug(f'Unhandled event type {event.subtype}')
+        match event.subtype:
+
+            case ManualEventSubType.GENERAL:
+                self.log_debug(f'{event.subtype} implementation TBD')
+
+            case ManualEventSubType.INJECTION:
+                if event.value.get('badness') is not None:
+                    self.subcontroller.trigger_if_allowed(
+                        EthernetTransitionTrigger.UPDATE_BADNESS,
+                        badness=float(event.value.get('badness'))
+                    )
+
+                if event.severity == EventSeverity.FATAL_ERROR:
+                    self.subcontroller.trigger_if_allowed(
+                        EthernetTransitionTrigger.CRITICAL_FAULT
+                    )
+
+            case _:
+                self.log_debug(f'Unhandled event type {event.subtype}')
