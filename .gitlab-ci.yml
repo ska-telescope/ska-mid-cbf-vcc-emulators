@@ -25,6 +25,8 @@ variables:
 
 stages:
 - build
+- test
+- scan
 - publish
 - pages
 
